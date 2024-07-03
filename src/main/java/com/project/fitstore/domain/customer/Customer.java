@@ -1,6 +1,6 @@
 package com.project.fitstore.domain.customer;
 
-import com.project.fitstore.dtos.customer.CustomerDto;
+import com.project.fitstore.dtos.customer.CreateCustomerDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,12 +26,12 @@ public class Customer {
     private String email;
     private String password;
 
-    public Customer(CustomerDto customerDto){
-    this.name = customerDto.name();
-    this.phoneNumber = customerDto.phoneNumber();
-    this.address = customerDto.address();
-    this.cpf = customerDto.cpf();
-    this.email = customerDto.email();
-    this.password = customerDto.password();
+    public Customer(CreateCustomerDto createCustomerDto){
+    this.name = createCustomerDto.name();
+    this.phoneNumber = createCustomerDto.phoneNumber();
+    this.address = createCustomerDto.address();
+    this.cpf = createCustomerDto.cpf();
+    this.email = createCustomerDto.email();
+    this.password = createCustomerDto.password();
     }
 }

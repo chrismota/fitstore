@@ -15,7 +15,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-
     @Autowired
     ProductService productService;
 
@@ -31,8 +30,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto createProductDto) {
-        Product newProduct = productService.createProduct(createProductDto);
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.createProduct(createProductDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

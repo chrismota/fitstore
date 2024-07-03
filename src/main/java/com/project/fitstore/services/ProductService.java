@@ -22,8 +22,7 @@ public class ProductService {
 
     public Product createProduct(CreateProductDto createProductDto) {
         Product newProduct = new Product(createProductDto);
-        productRepository.save(newProduct);
-        return newProduct;
+        return productRepository.save(newProduct);
     }
 
     public Product updateProduct(UUID id, UpdateProductDto updateProductDto) {
