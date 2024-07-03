@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -30,12 +32,7 @@ public class Product {
     private SubCategory subCategory;
     private BigDecimal price;
 
-    public Product(CreateProductDto createProductDto) {
-        this.name = createProductDto.name();
-        this.sku = createProductDto.sku();
-        this.brand = createProductDto.brand();
-        this.category = createProductDto.category();
-        this.subCategory = createProductDto.subCategory();
-        this.price = createProductDto.price();
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
 }

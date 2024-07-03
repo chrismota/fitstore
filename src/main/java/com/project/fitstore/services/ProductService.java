@@ -7,6 +7,7 @@ import com.project.fitstore.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,8 +22,7 @@ public class ProductService {
     }
 
     public Product createProduct(CreateProductDto createProductDto) {
-        Product newProduct = new Product(createProductDto);
-        return productRepository.save(newProduct);
+        return productRepository.save(createProductDto.toProduct());
     }
 
     public Product updateProduct(UUID id, UpdateProductDto updateProductDto) {
@@ -33,6 +33,7 @@ public class ProductService {
         product.setCategory(updateProductDto.category());
         product.setSubCategory(updateProductDto.subCategory());
         product.setPrice(updateProductDto.price());
+        product.setUpdatedAt(LocalDateTime.now());
 
         return productRepository.save(product);
     }
