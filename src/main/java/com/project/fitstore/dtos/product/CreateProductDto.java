@@ -6,7 +6,6 @@ import com.project.fitstore.domain.product.SubCategory;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record CreateProductDto(String name, String brand, String sku, Category category, SubCategory subCategory, BigDecimal price){
     public Product toProduct(){
