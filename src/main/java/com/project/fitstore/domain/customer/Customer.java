@@ -1,9 +1,9 @@
 package com.project.fitstore.domain.customer;
 
-import com.project.fitstore.dtos.customer.CreateCustomerDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -26,12 +26,6 @@ public class Customer {
     private String email;
     private String password;
 
-    public Customer(CreateCustomerDto createCustomerDto){
-    this.name = createCustomerDto.name();
-    this.phoneNumber = createCustomerDto.phoneNumber();
-    this.address = createCustomerDto.address();
-    this.cpf = createCustomerDto.cpf();
-    this.email = createCustomerDto.email();
-    this.password = createCustomerDto.password();
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

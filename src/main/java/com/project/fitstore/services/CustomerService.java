@@ -1,13 +1,13 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.customer.CreateCustomerDto;
 import com.project.fitstore.dtos.customer.UpdateCustomerInfoDto;
 import com.project.fitstore.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,8 +22,7 @@ public class CustomerService {
     }
 
     public Customer createCustomer(CreateCustomerDto createCustomerDto){
-        Customer customer = new Customer(createCustomerDto);
-        return customerRepository.save(customer);
+        return customerRepository.save(createCustomerDto.toCustomer());
     }
 
     public Customer updateCustomerInfo(UUID id, UpdateCustomerInfoDto updateCustomerInfoDto){
@@ -34,6 +33,7 @@ public class CustomerService {
         customer.setEmail(updateCustomerInfoDto.email());
         customer.setCpf(updateCustomerInfoDto.cpf());
         customer.setPhoneNumber(updateCustomerInfoDto.phoneNumber());
+        customer.setUpdatedAt(LocalDateTime.now());
 
         return customerRepository.save(customer);
     }
