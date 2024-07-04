@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Builder
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
