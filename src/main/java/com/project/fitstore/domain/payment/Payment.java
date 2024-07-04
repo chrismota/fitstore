@@ -1,6 +1,6 @@
 package com.project.fitstore.domain.payment;
 
-import com.project.fitstore.domain.customer.Customer;
+import com.project.fitstore.domain.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +19,9 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod method;
 
     @ManyToOne
-    private Customer customer;
+    private Order order;
 }
