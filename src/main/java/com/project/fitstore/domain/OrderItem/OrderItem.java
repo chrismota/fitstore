@@ -1,30 +1,36 @@
-package com.project.fitstore.domain.payment;
+package com.project.fitstore.domain.OrderItem;
 
 import com.project.fitstore.domain.order.Order;
+import com.project.fitstore.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "order_item")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Payment {
+public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod method;
+    private Integer quantity;
+    private BigDecimal unityPrice;
+    private BigDecimal total;
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
-    private Order order;
+    private Product product;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

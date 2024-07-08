@@ -1,8 +1,10 @@
 package com.project.fitstore.domain.order;
 
+import com.project.fitstore.domain.OrderItem.OrderItem;
 import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.domain.product.Product;
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,18 +16,18 @@ import java.util.UUID;
 @Table(name = "orders")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private BigDecimal aggregatedValue;
-    private BigDecimal discountValue;
-    private BigDecimal finalValue;
+    private BigDecimal total;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -33,11 +35,8 @@ public class Order {
     @ManyToOne
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "orders_products",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> items;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

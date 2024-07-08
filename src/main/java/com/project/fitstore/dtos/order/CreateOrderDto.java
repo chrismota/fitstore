@@ -12,6 +12,7 @@ public record CreateOrderDto(List<CreateOrderProductsDto> products) {
 
     public Order toOrder(UUID customerId){
         Customer customer = Customer.builder().id(customerId).build();
-        return new Order(null, aggregatedValue, discountValue, finalValue, Status.CREATED, customer, products, LocalDateTime.now(), LocalDateTime.now());
+        return Order.builder().id(null).status(Status.CREATED).customer(customer).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+
     }
 }
