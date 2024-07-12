@@ -3,19 +3,18 @@ package com.project.fitstore.services;
 import com.project.fitstore.domain.OrderItem.OrderItem;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.product.Product;
-import com.project.fitstore.dtos.order.CreateOrderDto;
-import com.project.fitstore.dtos.order.OrderResponseDto;
+import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.repositories.OrderItemRepository;
 import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,6 +25,14 @@ public class OrderService {
     final CustomerService customerService;
     final ProductService productService;
 
+    public OrderListResponseDto getAllOrders() {
+        return OrderListResponseDto.from(orderRepository.findAll());
+    }
+
+    public OrderResponseDto getOrder(UUID id) {
+        return OrderResponseDto.from(findOrderById(id));
+    }
+
     @Transactional
     public OrderResponseDto createOrder(CreateOrderDto createOrderDto, UUID customerId) {
         checkIfCustomerExists(customerId);
@@ -33,38 +40,48 @@ public class OrderService {
 
         Order order = orderRepository.save(createOrderDto.toOrder(customerId));
 
-        var orderItemList = createOrderItem(createOrderDto, order);
+        var orderItemList = createItemsList(createOrderDto, order);
         order.setItems(orderItemList);
         order.setTotal(getTotalPrice(orderItemList));
 
-        return createOrderResponse(orderRepository.save(order));
+        return OrderResponseDto.from(orderRepository.save(order));
     }
 
-    private OrderResponseDto createOrderResponse(Order order) {
-        return new OrderResponseDto(order.getId());
-    }
-
-    public List<OrderItem> createOrderItem(CreateOrderDto createOrderDto, Order order) {
-
-        List<OrderItem> orderItemList = new ArrayList<>();
+    public List<OrderItem> createItemsList(CreateOrderDto createOrderDto, Order order) {
+        List<OrderItem> itemList = new ArrayList<>();
 
         for (var item : createOrderDto.products()) {
-            Product productObj = productService.findProductById(item.id());
-
-            BigDecimal totalPriceProduct = productObj.getPrice().multiply(new BigDecimal(item.quantity()));
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setProduct(productObj);
-            orderItem.setUnityPrice(productObj.getPrice());
-            orderItem.setQuantity(item.quantity());
-            orderItem.setTotal(totalPriceProduct);
-            orderItem.setOrder(order);
-            orderItem.setCreatedAt(LocalDateTime.now());
-            orderItem.setUpdatedAt(LocalDateTime.now());
-
-            orderItemList.add(orderItemRepository.save(orderItem));
+            var orderItem = createItem(item, order);
+            itemList.add(orderItemRepository.save(orderItem));
         }
-        return orderItemList;
+        return itemList;
+    }
+
+    private OrderItem createItem(CreateItemDto itemDto, Order order){
+        Product productObj = productService.findProductById(itemDto.id());
+        BigDecimal totalPriceProduct = productObj.getPrice().multiply(new BigDecimal(itemDto.quantity()));
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(productObj);
+        orderItem.setUnityPrice(productObj.getPrice());
+        orderItem.setQuantity(itemDto.quantity());
+        orderItem.setTotal(totalPriceProduct);
+        orderItem.setOrder(order);
+        orderItem.setCreatedAt(LocalDateTime.now());
+        orderItem.setUpdatedAt(LocalDateTime.now());
+
+        return orderItem;
+    }
+
+    public OrderResponseDto updateOrderStatus(UpdateOrderStatusDto orderStatusDto, UUID id) {
+        Order order = findOrderById(id);
+        order.setStatus(orderStatusDto.status());
+        order.setUpdatedAt(LocalDateTime.now());
+        return OrderResponseDto.from(orderRepository.save(order));
+    }
+
+    public void deleteOrder(UUID id) {
+        orderRepository.delete(this.findOrderById(id));
     }
 
     private void checkIfCustomerExists(UUID customerId) {
@@ -81,6 +98,14 @@ public class OrderService {
         return orderItemList.stream()
                 .map(OrderItem::getTotal)
                 .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
+    public Order findOrderById(UUID id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()) {
+            return order.get();
+        }
+        throw new RuntimeException("Order not found");
     }
 
 }
