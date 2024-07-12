@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,8 @@ public class OrderService {
     final OrderItemRepository orderItemRepository;
     final CustomerService customerService;
     final ProductService productService;
+
+    private static final int ORDER_EXPIRATION_HOURS = 12;
 
     public OrderListResponseDto getAllOrders() {
         return OrderListResponseDto.from(orderRepository.findAll());
@@ -38,7 +41,7 @@ public class OrderService {
         checkIfCustomerExists(customerId);
         checkIfProductExists(createOrderDto);
 
-        Order order = orderRepository.save(createOrderDto.toOrder(customerId));
+        Order order = orderRepository.save(createOrderDto.toOrder(customerId, getExpirationDate()));
 
         var orderItemList = createItemsList(createOrderDto, order);
         order.setItems(orderItemList);
@@ -106,6 +109,10 @@ public class OrderService {
             return order.get();
         }
         throw new RuntimeException("Order not found");
+    }
+
+    private LocalDateTime getExpirationDate(){
+        return LocalDateTime.now().plusHours(ORDER_EXPIRATION_HOURS);
     }
 
 }

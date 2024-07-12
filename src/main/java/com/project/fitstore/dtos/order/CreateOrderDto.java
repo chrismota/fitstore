@@ -10,8 +10,12 @@ import java.util.UUID;
 
 public record CreateOrderDto(List<CreateItemDto> products) {
 
-    public Order toOrder(UUID customerId){
+    public Order toOrder(UUID customerId, LocalDateTime expiresAt){
         Customer customer = Customer.builder().id(customerId).build();
-        return Order.builder().id(null).status(Status.CREATED).customer(customer).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        return Order.builder().id(null).status(Status.CREATED).customer(customer)
+                .expiresAt(expiresAt)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
     }
 }

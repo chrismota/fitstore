@@ -15,7 +15,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;

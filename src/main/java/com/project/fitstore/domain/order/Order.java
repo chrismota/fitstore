@@ -38,6 +38,8 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<OrderItem> items;
 
+    private LocalDateTime expiresAt;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
