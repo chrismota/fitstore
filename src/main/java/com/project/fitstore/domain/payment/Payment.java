@@ -11,6 +11,7 @@ import java.util.UUID;
 @Table(name = "payments")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -21,7 +22,7 @@ public class Payment {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    private PaymentMethod method;
+    private Method method;
 
     @ManyToOne
     private Order order;

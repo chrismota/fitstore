@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -113,6 +112,10 @@ public class OrderService {
 
     private LocalDateTime getExpirationDate(){
         return LocalDateTime.now().plusHours(ORDER_EXPIRATION_HOURS);
+    }
+
+    public void saveOrder(Order order){
+        orderRepository.save(order);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.project.fitstore.domain.payment;
 
-public enum PaymentMethod {
+public enum Method {
     DEBIT_CARD,
     CREDIT_CARD,
     PIX,
