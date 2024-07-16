@@ -2,9 +2,7 @@ package com.project.fitstore.domain.order;
 
 import com.project.fitstore.domain.OrderItem.OrderItem;
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.domain.product.Product;
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.*;
 
 import java.math.BigDecimal;

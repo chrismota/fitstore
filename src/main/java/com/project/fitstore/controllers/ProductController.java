@@ -4,7 +4,7 @@ import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.product.CreateProductDto;
 import com.project.fitstore.dtos.product.UpdateProductDto;
 import com.project.fitstore.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
-    ProductService productService;
+    final ProductService productService;
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {

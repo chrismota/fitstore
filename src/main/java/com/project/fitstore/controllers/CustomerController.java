@@ -4,7 +4,7 @@ import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.CreateCustomerDto;
 import com.project.fitstore.dtos.customer.UpdateCustomerInfoDto;
 import com.project.fitstore.services.CustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/customers")
 public class CustomerController {
-    @Autowired
-    CustomerService customerService;
+    final CustomerService customerService;
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers(){

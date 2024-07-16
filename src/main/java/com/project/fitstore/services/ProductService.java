@@ -1,11 +1,10 @@
 package com.project.fitstore.services;
 
-import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.product.CreateProductDto;
 import com.project.fitstore.dtos.product.UpdateProductDto;
 import com.project.fitstore.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,9 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
+    final ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -55,6 +54,4 @@ public class ProductService {
         }
         throw new RuntimeException("Product not found");
     }
-
-
 }

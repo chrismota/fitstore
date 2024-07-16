@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,13 +59,12 @@ public class PaymentService {
         }
     }
 
-    private Payment findPaymentById(UUID id) {
+    public Payment findPaymentById(UUID id) {
         Optional<Payment> payment = paymentRepository.findById(id);
         if (payment.isPresent()) {
             return payment.get();
         }
         throw new RuntimeException("Payment not found");
     }
-
 
 }

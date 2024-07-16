@@ -1,25 +1,21 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.payment.Payment;
-import com.project.fitstore.dtos.order.OrderResponseDto;
-import com.project.fitstore.dtos.order.UpdateOrderStatusDto;
 import com.project.fitstore.dtos.payment.CreatePaymentDto;
 import com.project.fitstore.dtos.payment.PaymentListResponseDto;
 import com.project.fitstore.dtos.payment.PaymentResponseDto;
 import com.project.fitstore.services.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/payments")
 public class PaymentController {
-    @Autowired
-    PaymentService paymentService;
+    final PaymentService paymentService;
 
     @GetMapping
     public ResponseEntity<PaymentListResponseDto> getAllPayments(){

@@ -4,7 +4,7 @@ import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.CreateCustomerDto;
 import com.project.fitstore.dtos.customer.UpdateCustomerInfoDto;
 import com.project.fitstore.repositories.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +13,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
-    @Autowired
-    CustomerRepository customerRepository;
+    final CustomerRepository customerRepository;
 
     public List<Customer> getAllCustomers(){
         return customerRepository.findAll();
