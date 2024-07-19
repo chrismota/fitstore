@@ -1,5 +1,7 @@
 package com.project.fitstore.controllers;
 
+import com.project.fitstore.domain.coupon.Coupon;
+import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.dtos.payment.CreatePaymentDto;
 import com.project.fitstore.dtos.payment.PaymentListResponseDto;
 import com.project.fitstore.dtos.payment.PaymentResponseDto;
@@ -9,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -32,7 +36,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{paymentId}")
-    public ResponseEntity<Void> deletePayment( @PathVariable("paymentId") UUID paymentId){
+    public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") UUID paymentId){
         paymentService.deletePayment(paymentId);
         return ResponseEntity.noContent().build();
     }

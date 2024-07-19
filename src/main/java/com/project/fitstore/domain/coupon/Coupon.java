@@ -23,13 +23,12 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(unique=true)
     private String name;
     private Double percentage;
     private LocalDateTime startTime;
     private LocalDateTime expirationTime;
     private BigDecimal minValue;
-    @ManyToOne
-    private Payment payment;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

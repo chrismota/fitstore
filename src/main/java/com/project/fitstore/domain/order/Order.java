@@ -27,6 +27,8 @@ public class Order {
 
     private BigDecimal total;
 
+    private BigDecimal discount;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
