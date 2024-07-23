@@ -1,6 +1,5 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.services.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,7 +36,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable("id") UUID id){
-        return ResponseEntity.ok(customerService.deleteCustomer(id));
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") UUID id){
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 }

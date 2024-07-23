@@ -22,9 +22,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @GetMapping("/{orderId}")
-    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable("orderId") UUID orderId) {
-        return ResponseEntity.ok(orderService.getOrder(orderId));
+    @GetMapping("/{id}")
+    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(orderService.getOrder(id));
     }
 
     @PostMapping("/{customerId}")
@@ -32,14 +32,14 @@ public class OrderController {
         return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customerId), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{orderId}")
-    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("orderId") UUID orderId) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, orderId));
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("id") UUID id) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, id));
     }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable("orderId") UUID orderId) {
-        orderService.deleteOrder(orderId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable("id") UUID id) {
+        orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 

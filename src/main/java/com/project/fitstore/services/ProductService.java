@@ -41,9 +41,8 @@ public class ProductService {
         return UpdateProductResponse.from(productRepository.save(product));
     }
 
-    public String deleteProduct(UUID id) {
+    public void deleteProduct(UUID id) {
         productRepository.delete(findProductById(id));
-        return "Product deleted successfully.";
     }
 
     public Product findProductById(UUID id) {

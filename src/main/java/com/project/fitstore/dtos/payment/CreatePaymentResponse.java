@@ -13,10 +13,11 @@ public record CreatePaymentResponse(UUID id,
                                     CreatePaymentOrderResponse order,
                                     List<CreatePaymentCouponResponse> coupons) {
 
-    public static CreatePaymentResponse from(Payment payment, Order order){
+    public static CreatePaymentResponse from(Payment payment, Order order) {
+        var coupons = payment.getCoupons();
         return new CreatePaymentResponse(payment.getId(), payment.getMethod(), payment.getStatus(),
                 CreatePaymentOrderResponse.from(order),
-                payment.getCoupons().stream().map(CreatePaymentCouponResponse::from).toList());
+                coupons != null ? coupons.stream().map(CreatePaymentCouponResponse::from).toList() : null);
     }
 }
 

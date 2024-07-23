@@ -1,17 +1,12 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.coupon.Coupon;
-import com.project.fitstore.dtos.coupon.CreateCouponResponse;
-import com.project.fitstore.dtos.coupon.CreateCouponRequest;
-import com.project.fitstore.dtos.coupon.GetAllCouponsResponse;
-import com.project.fitstore.dtos.coupon.GetCouponResponse;
+import com.project.fitstore.dtos.coupon.*;
 import com.project.fitstore.services.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,4 +29,19 @@ public class CouponController {
     public ResponseEntity<CreateCouponResponse> createCoupon(@RequestBody CreateCouponRequest createCouponRequest) {
         return new ResponseEntity<>(couponService.createCoupon(createCouponRequest), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") UUID id, @RequestBody UpdateCouponRequest updateCouponRequest) {
+        return ResponseEntity.ok(couponService.updateCoupon(id, updateCouponRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> updateCoupon(@PathVariable("id") UUID id) {
+        couponService.deleteCoupon(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
+
+

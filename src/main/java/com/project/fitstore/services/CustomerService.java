@@ -40,9 +40,8 @@ public class CustomerService {
         return UpdateCustomerInfoResponse.from(customerRepository.save(customer));
     }
 
-    public String deleteCustomer(UUID id){
+    public void deleteCustomer(UUID id){
         customerRepository.delete(this.findCustomerById(id));
-        return "Customer deleted successfully.";
     }
 
     public Customer findCustomerById(UUID id){

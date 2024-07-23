@@ -22,9 +22,9 @@ public class PaymentController {
     public ResponseEntity<GetAllPaymentsResponse> getAllPayments(){
         return ResponseEntity.ok(paymentService.getAllPayments());
     }
-    @GetMapping("{paymentId}")
-    public ResponseEntity<GetPaymentResponse> getPayment(@PathVariable("paymentId")UUID paymentId){
-        return ResponseEntity.ok(paymentService.getPayment(paymentId));
+    @GetMapping("{id}")
+    public ResponseEntity<GetPaymentResponse> getPayment(@PathVariable("id")UUID id){
+        return ResponseEntity.ok(paymentService.getPayment(id));
     }
 
     @PostMapping
@@ -32,9 +32,9 @@ public class PaymentController {
         return new ResponseEntity<>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{paymentId}")
-    public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") UUID paymentId){
-        paymentService.deletePayment(paymentId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePayment(@PathVariable("id") UUID id){
+        paymentService.deletePayment(id);
         return ResponseEntity.noContent().build();
     }
 }
