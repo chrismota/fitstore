@@ -27,39 +27,39 @@ public class OrderService {
 
     private static final int ORDER_EXPIRATION_HOURS = 12;
 
-    public OrderListResponseDto getAllOrders() {
-        return OrderListResponseDto.from(orderRepository.findAll());
+    public GetAllOrdersResponse getAllOrders() {
+        return GetAllOrdersResponse.from(orderRepository.findAll());
     }
 
-    public OrderResponseDto getOrder(UUID id) {
-        return OrderResponseDto.from(findOrderById(id));
+    public GetOrderResponse getOrder(UUID id) {
+        return GetOrderResponse.from(findOrderById(id));
     }
 
     @Transactional
-    public OrderResponseDto createOrder(CreateOrderDto createOrderDto, UUID customerId) {
+    public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest, UUID customerId) {
         checkIfCustomerExists(customerId);
-        checkIfProductExists(createOrderDto);
+        checkIfProductExists(createOrderRequest);
 
-        Order order = orderRepository.save(createOrderDto.toOrder(customerId, getExpirationDate()));
+        Order order = orderRepository.save(createOrderRequest.toOrder(customerId, getExpirationDate()));
 
-        var orderItemList = createItemsList(createOrderDto, order);
+        var orderItemList = createItemsList(createOrderRequest, order);
         order.setItems(orderItemList);
         order.setTotal(getTotalPrice(orderItemList));
 
-        return OrderResponseDto.from(orderRepository.save(order));
+        return CreateOrderResponse.from(orderRepository.save(order));
     }
 
-    public List<OrderItem> createItemsList(CreateOrderDto createOrderDto, Order order) {
+    public List<OrderItem> createItemsList(CreateOrderRequest createOrderRequest, Order order) {
         List<OrderItem> itemList = new ArrayList<>();
 
-        for (var item : createOrderDto.products()) {
+        for (var item : createOrderRequest.products()) {
             var orderItem = createItem(item, order);
             itemList.add(orderItemRepository.save(orderItem));
         }
         return itemList;
     }
 
-    private OrderItem createItem(CreateItemDto itemDto, Order order){
+    private OrderItem createItem(CreateItemRequest itemDto, Order order){
         Product productObj = productService.findProductById(itemDto.id());
         BigDecimal totalPriceProduct = productObj.getPrice().multiply(new BigDecimal(itemDto.quantity()));
 
@@ -75,11 +75,11 @@ public class OrderService {
         return orderItem;
     }
 
-    public OrderResponseDto updateOrderStatus(UpdateOrderStatusDto orderStatusDto, UUID id) {
+    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID id) {
         Order order = findOrderById(id);
         order.setStatus(orderStatusDto.status());
         order.setUpdatedAt(LocalDateTime.now());
-        return OrderResponseDto.from(orderRepository.save(order));
+        return UpdateOrderStatusResponse.from(orderRepository.save(order));
     }
 
     public void deleteOrder(UUID id) {
@@ -90,8 +90,8 @@ public class OrderService {
         customerService.findCustomerById(customerId);
     }
 
-    private void checkIfProductExists(CreateOrderDto createOrderDto) {
-        for (var product : createOrderDto.products()) {
+    private void checkIfProductExists(CreateOrderRequest createOrderRequest) {
+        for (var product : createOrderRequest.products()) {
             productService.findProductById(product.id());
         }
     }

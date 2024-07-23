@@ -1,8 +1,10 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.coupon.Coupon;
-import com.project.fitstore.dtos.coupon.CouponResponseDto;
-import com.project.fitstore.dtos.coupon.CreateCouponDto;
+import com.project.fitstore.dtos.coupon.CreateCouponResponse;
+import com.project.fitstore.dtos.coupon.CreateCouponRequest;
+import com.project.fitstore.dtos.coupon.GetAllCouponsResponse;
+import com.project.fitstore.dtos.coupon.GetCouponResponse;
 import com.project.fitstore.services.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,17 +21,17 @@ public class CouponController {
     final CouponService couponService;
 
     @GetMapping
-    public ResponseEntity<List<Coupon>> getAllCoupons() {
+    public ResponseEntity<GetAllCouponsResponse> getAllCoupons() {
         return ResponseEntity.ok(couponService.getAllCoupons());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CouponResponseDto> getCoupon(@PathVariable("id") UUID id) {
+    public ResponseEntity<GetCouponResponse> getCoupon(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(couponService.getCoupon(id));
     }
 
     @PostMapping
-    public ResponseEntity<Coupon> createCoupon(@RequestBody CreateCouponDto createCouponDto) {
-        return new ResponseEntity<>(couponService.createCoupon(createCouponDto), HttpStatus.CREATED);
+    public ResponseEntity<CreateCouponResponse> createCoupon(@RequestBody CreateCouponRequest createCouponRequest) {
+        return new ResponseEntity<>(couponService.createCoupon(createCouponRequest), HttpStatus.CREATED);
     }
 }

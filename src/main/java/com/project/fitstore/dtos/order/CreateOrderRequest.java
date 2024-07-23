@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateOrderDto(List<CreateItemDto> products) {
+public record CreateOrderRequest(List<CreateItemRequest> products) {
 
     public Order toOrder(UUID customerId, LocalDateTime expiresAt){
         Customer customer = Customer.builder().id(customerId).build();

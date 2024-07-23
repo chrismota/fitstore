@@ -1,18 +1,15 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.coupon.Coupon;
-import com.project.fitstore.domain.payment.Payment;
-import com.project.fitstore.dtos.payment.CreatePaymentDto;
-import com.project.fitstore.dtos.payment.PaymentListResponseDto;
-import com.project.fitstore.dtos.payment.PaymentResponseDto;
+import com.project.fitstore.dtos.payment.CreatePaymentRequest;
+import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
+import com.project.fitstore.dtos.payment.CreatePaymentResponse;
+import com.project.fitstore.dtos.payment.GetPaymentResponse;
 import com.project.fitstore.services.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -22,17 +19,17 @@ public class PaymentController {
     final PaymentService paymentService;
 
     @GetMapping
-    public ResponseEntity<PaymentListResponseDto> getAllPayments(){
+    public ResponseEntity<GetAllPaymentsResponse> getAllPayments(){
         return ResponseEntity.ok(paymentService.getAllPayments());
     }
     @GetMapping("{paymentId}")
-    public ResponseEntity<PaymentResponseDto> getPayment(@PathVariable("paymentId")UUID paymentId){
+    public ResponseEntity<GetPaymentResponse> getPayment(@PathVariable("paymentId")UUID paymentId){
         return ResponseEntity.ok(paymentService.getPayment(paymentId));
     }
 
     @PostMapping
-    public ResponseEntity<PaymentResponseDto> createPayment(@RequestBody CreatePaymentDto createPaymentDto){
-        return new ResponseEntity<>(paymentService.createPayment(createPaymentDto), HttpStatus.CREATED);
+    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody CreatePaymentRequest createPaymentRequest){
+        return new ResponseEntity<>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{paymentId}")

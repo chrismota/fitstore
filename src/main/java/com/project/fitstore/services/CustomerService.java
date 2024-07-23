@@ -1,8 +1,7 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.dtos.customer.CreateCustomerDto;
-import com.project.fitstore.dtos.customer.UpdateCustomerInfoDto;
+import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,29 +16,28 @@ import java.util.UUID;
 public class CustomerService {
     final CustomerRepository customerRepository;
 
-    public List<Customer> getAllCustomers(){
-        return customerRepository.findAll();
+    public GetAllCustomersResponse getAllCustomers(){
+        return GetAllCustomersResponse.from(customerRepository.findAll());
     }
 
-    public Customer createCustomer(CreateCustomerDto createCustomerDto){
-        return customerRepository.save(createCustomerDto.toCustomer());
+    public GetCustomerResponse getCustomer(UUID id){
+        return GetCustomerResponse.from(findCustomerById(id));
+    }
+    public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest){
+        return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer()));
     }
 
-    public Customer updateCustomerInfo(UUID id, UpdateCustomerInfoDto updateCustomerInfoDto){
+    public UpdateCustomerInfoResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest){
         Customer customer = this.findCustomerById(id);
 
-        customer.setName(updateCustomerInfoDto.name());
-        customer.setAddress(updateCustomerInfoDto.address());
-        customer.setEmail(updateCustomerInfoDto.email());
-        customer.setCpf(updateCustomerInfoDto.cpf());
-        customer.setPhoneNumber(updateCustomerInfoDto.phoneNumber());
+        customer.setName(updateCustomerInfoRequest.name());
+        customer.setAddress(updateCustomerInfoRequest.address());
+        customer.setEmail(updateCustomerInfoRequest.email());
+        customer.setCpf(updateCustomerInfoRequest.cpf());
+        customer.setPhoneNumber(updateCustomerInfoRequest.phoneNumber());
         customer.setUpdatedAt(LocalDateTime.now());
 
-        return customerRepository.save(customer);
-    }
-
-    public Customer getCustomer(UUID id){
-        return this.findCustomerById(id);
+        return UpdateCustomerInfoResponse.from(customerRepository.save(customer));
     }
 
     public String deleteCustomer(UUID id){

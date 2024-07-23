@@ -4,10 +4,7 @@ import com.project.fitstore.domain.coupon.Coupon;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.payment.Payment;
-import com.project.fitstore.dtos.payment.CreateCouponListForPaymentDto;
-import com.project.fitstore.dtos.payment.CreatePaymentDto;
-import com.project.fitstore.dtos.payment.PaymentListResponseDto;
-import com.project.fitstore.dtos.payment.PaymentResponseDto;
+import com.project.fitstore.dtos.payment.*;
 import com.project.fitstore.repositories.PaymentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,23 +22,23 @@ public class PaymentService {
     final OrderService orderService;
     final CouponService couponService;
 
-    public PaymentListResponseDto getAllPayments(){
-        return PaymentListResponseDto.from(paymentRepository.findAll());
+    public GetAllPaymentsResponse getAllPayments(){
+        return GetAllPaymentsResponse.from(paymentRepository.findAll());
     }
-    public PaymentResponseDto getPayment(UUID id){
-        return PaymentResponseDto.from(findPaymentById(id));
+    public GetPaymentResponse getPayment(UUID id){
+        return GetPaymentResponse.from(findPaymentById(id));
     }
     @Transactional
-    public PaymentResponseDto createPayment(CreatePaymentDto createPaymentDto) {
-        Order order = orderService.findOrderById(createPaymentDto.orderId());
+    public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest) {
+        Order order = orderService.findOrderById(createPaymentRequest.orderId());
         checkIfOrderIsValid(order);
         checkIfOrderIsExpired(order);
 
-        Payment payment = createPaymentDto.toPayment();
+        Payment payment = createPaymentRequest.toPayment();
 
-        if(createPaymentDto.coupons() != null){
-            List<Coupon> couponList = couponService.findCouponsByIds(createPaymentDto.coupons().stream().map(CreateCouponListForPaymentDto::id).toList());
-            checkIfCouponsAreValid(createPaymentDto.coupons(), couponList);
+        if(createPaymentRequest.coupons() != null){
+            List<Coupon> couponList = couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
+            checkIfCouponsAreValid(createPaymentRequest.coupons(), couponList);
             payment.setCoupons(couponList);
         }
 
@@ -49,7 +46,7 @@ public class PaymentService {
         order.setUpdatedAt(LocalDateTime.now());
         orderService.saveOrder(order);
 
-        return PaymentResponseDto.from(paymentRepository.save(payment), order);
+        return CreatePaymentResponse.from(paymentRepository.save(payment), order);
     }
 
     public void deletePayment(UUID id){
@@ -67,7 +64,7 @@ public class PaymentService {
             throw new RuntimeException("This order has already expired.");
         }
     }
-    private void checkIfCouponsAreValid(List<CreateCouponListForPaymentDto> couponsIds, List<Coupon> couponList) {
+    private void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList) {
 
         for (var couponId: couponsIds) {
             var coupon = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();

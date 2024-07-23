@@ -1,8 +1,7 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.product.Product;
-import com.project.fitstore.dtos.product.CreateProductDto;
-import com.project.fitstore.dtos.product.UpdateProductDto;
+import com.project.fitstore.dtos.product.*;
 import com.project.fitstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,23 +18,23 @@ public class ProductController {
     final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<GetAllProductsResponse> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") UUID id) {
+    public ResponseEntity<GetProductResponse> getProduct(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(productService.getProduct(id));
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto createProductDto) {
-        return new ResponseEntity<>(productService.createProduct(createProductDto), HttpStatus.CREATED);
+    public ResponseEntity<CreateProductResponse> createProduct(@RequestBody CreateProductRequest createProductRequest) {
+        return new ResponseEntity<>(productService.createProduct(createProductRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") UUID id, @RequestBody UpdateProductDto updateProductDto) {
-        return ResponseEntity.ok(productService.updateProduct(id, updateProductDto));
+    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable("id") UUID id, @RequestBody UpdateProductRequest updateProductRequest) {
+        return ResponseEntity.ok(productService.updateProduct(id, updateProductRequest));
     }
 
     @DeleteMapping("/{id}")

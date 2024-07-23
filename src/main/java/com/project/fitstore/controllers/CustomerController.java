@@ -1,8 +1,7 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.dtos.customer.CreateCustomerDto;
-import com.project.fitstore.dtos.customer.UpdateCustomerInfoDto;
+import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,23 +18,23 @@ public class CustomerController {
     final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers(){
+    public ResponseEntity<GetAllCustomersResponse> getAllCustomers(){
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable("id")UUID id){
+    public ResponseEntity<GetCustomerResponse> getCustomer(@PathVariable("id")UUID id){
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody CreateCustomerDto createCustomerDto){
-        return new ResponseEntity<>(customerService.createCustomer(createCustomerDto), HttpStatus.CREATED);
+    public ResponseEntity<CreateCustomerResponse> createCustomer(@RequestBody CreateCustomerRequest createCustomerRequest){
+        return new ResponseEntity<>(customerService.createCustomer(createCustomerRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomerInfo(@PathVariable("id") UUID id,@RequestBody UpdateCustomerInfoDto updateCustomerInfoDto){
-        return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoDto));
+    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody UpdateCustomerInfoRequest updateCustomerInfoRequest){
+        return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoRequest));
     }
 
     @DeleteMapping("/{id}")

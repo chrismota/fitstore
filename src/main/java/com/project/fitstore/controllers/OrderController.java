@@ -1,11 +1,6 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.dtos.order.CreateOrderDto;
-import com.project.fitstore.dtos.order.OrderListResponseDto;
-import com.project.fitstore.dtos.order.OrderResponseDto;
-import com.project.fitstore.dtos.order.UpdateOrderStatusDto;
-import com.project.fitstore.dtos.payment.CreatePaymentDto;
-import com.project.fitstore.dtos.payment.PaymentResponseDto;
+import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.services.OrderService;
 import com.project.fitstore.services.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -23,23 +18,23 @@ public class OrderController {
     final PaymentService paymentService;
 
     @GetMapping
-    public ResponseEntity<OrderListResponseDto> getAllOrders() {
+    public ResponseEntity<GetAllOrdersResponse> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable("orderId") UUID orderId) {
+    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable("orderId") UUID orderId) {
         return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody CreateOrderDto createOrderDto, @PathVariable("customerId") UUID customerId) {
-        return new ResponseEntity<>(orderService.createOrder(createOrderDto, customerId), HttpStatus.CREATED);
+    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest createOrderRequest, @PathVariable("customerId") UUID customerId) {
+        return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customerId), HttpStatus.CREATED);
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<OrderResponseDto> updateOrderStatus(@RequestBody UpdateOrderStatusDto updateOrderStatusDto, @PathVariable("orderId") UUID orderId) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusDto, orderId));
+    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("orderId") UUID orderId) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, orderId));
     }
 
     @DeleteMapping("/{orderId}")

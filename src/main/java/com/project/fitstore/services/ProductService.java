@@ -1,8 +1,7 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.product.Product;
-import com.project.fitstore.dtos.product.CreateProductDto;
-import com.project.fitstore.dtos.product.UpdateProductDto;
+import com.project.fitstore.dtos.product.*;
 import com.project.fitstore.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,34 +16,34 @@ import java.util.UUID;
 public class ProductService {
     final ProductRepository productRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public GetAllProductsResponse getAllProducts() {
+        return GetAllProductsResponse.from(productRepository.findAll());
     }
 
-    public Product createProduct(CreateProductDto createProductDto) {
-        return productRepository.save(createProductDto.toProduct());
+    public GetProductResponse getProduct(UUID id) {
+        return GetProductResponse.from(findProductById(id));
     }
 
-    public Product updateProduct(UUID id, UpdateProductDto updateProductDto) {
-        Product product = this.findProductById(id);
+    public CreateProductResponse createProduct(CreateProductRequest createProductRequest) {
+        return CreateProductResponse.from(productRepository.save(createProductRequest.toProduct()));
+    }
 
-        product.setName(updateProductDto.name());
-        product.setBrand(updateProductDto.brand());
-        product.setCategory(updateProductDto.category());
-        product.setSubCategory(updateProductDto.subCategory());
-        product.setPrice(updateProductDto.price());
+    public UpdateProductResponse updateProduct(UUID id, UpdateProductRequest updateProductRequest) {
+        Product product = findProductById(id);
+
+        product.setName(updateProductRequest.name());
+        product.setBrand(updateProductRequest.brand());
+        product.setCategory(updateProductRequest.category());
+        product.setSubCategory(updateProductRequest.subCategory());
+        product.setPrice(updateProductRequest.price());
         product.setUpdatedAt(LocalDateTime.now());
 
-        return productRepository.save(product);
+        return UpdateProductResponse.from(productRepository.save(product));
     }
 
     public String deleteProduct(UUID id) {
-        productRepository.delete(this.findProductById(id));
+        productRepository.delete(findProductById(id));
         return "Product deleted successfully.";
-    }
-
-    public Product getProduct(UUID id) {
-        return this.findProductById(id);
     }
 
     public Product findProductById(UUID id) {

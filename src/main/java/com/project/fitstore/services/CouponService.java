@@ -1,8 +1,10 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.coupon.Coupon;
-import com.project.fitstore.dtos.coupon.CouponResponseDto;
-import com.project.fitstore.dtos.coupon.CreateCouponDto;
+import com.project.fitstore.dtos.coupon.CreateCouponResponse;
+import com.project.fitstore.dtos.coupon.CreateCouponRequest;
+import com.project.fitstore.dtos.coupon.GetAllCouponsResponse;
+import com.project.fitstore.dtos.coupon.GetCouponResponse;
 import com.project.fitstore.repositories.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,15 +18,16 @@ import java.util.UUID;
 public class CouponService {
     final CouponRepository couponRepository;
 
-    public List<Coupon> getAllCoupons(){
-        return couponRepository.findAll();
+    public GetAllCouponsResponse getAllCoupons(){
+        return GetAllCouponsResponse.from(couponRepository.findAll());
     }
 
-    public CouponResponseDto getCoupon(UUID id){
-        return CouponResponseDto.from(findCouponById(id));
+    public GetCouponResponse getCoupon(UUID id){
+        return GetCouponResponse.from(findCouponById(id));
     }
-    public Coupon createCoupon(CreateCouponDto createCouponDto){
-        return couponRepository.save(createCouponDto.toCoupon());
+
+    public CreateCouponResponse createCoupon(CreateCouponRequest createCouponRequest){
+        return CreateCouponResponse.from(couponRepository.save(createCouponRequest.toCoupon()));
     }
 
     public Coupon findCouponById(UUID id) {
