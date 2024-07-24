@@ -2,6 +2,7 @@ package com.project.fitstore.controllers;
 
 import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.services.CustomerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateCustomerResponse> createCustomer(@RequestBody CreateCustomerRequest createCustomerRequest){
+    public ResponseEntity<CreateCustomerResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest createCustomerRequest){
         return new ResponseEntity<>(customerService.createCustomer(createCustomerRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody UpdateCustomerInfoRequest updateCustomerInfoRequest){
+    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest){
         return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoRequest));
     }
 

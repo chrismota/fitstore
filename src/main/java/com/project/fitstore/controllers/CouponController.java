@@ -2,6 +2,7 @@ package com.project.fitstore.controllers;
 
 import com.project.fitstore.dtos.coupon.*;
 import com.project.fitstore.services.CouponService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,12 @@ public class CouponController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateCouponResponse> createCoupon(@RequestBody CreateCouponRequest createCouponRequest) {
+    public ResponseEntity<CreateCouponResponse> createCoupon(@RequestBody @Valid CreateCouponRequest createCouponRequest) {
         return new ResponseEntity<>(couponService.createCoupon(createCouponRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") UUID id, @RequestBody UpdateCouponRequest updateCouponRequest) {
+    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCouponRequest updateCouponRequest) {
         return ResponseEntity.ok(couponService.updateCoupon(id, updateCouponRequest));
     }
 
