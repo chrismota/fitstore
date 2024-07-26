@@ -4,11 +4,17 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.payment.Method;
 import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.domain.payment.Status;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-public record CreatePaymentRequest(UUID orderId, List<CreatePaymentCouponRequest> coupons, Method method, Status status){
+public record CreatePaymentRequest(
+        UUID orderId,
+        @UniqueElements(message = "You cannot add the same coupon twice")
+        List<CreatePaymentCouponRequest> coupons,
+        Method method,
+        Status status){
     public Payment toPayment(){
         Order order = Order.builder().id(orderId).build();
 

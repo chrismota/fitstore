@@ -6,9 +6,9 @@ import com.project.fitstore.domain.order.Status;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record UpdateOrderStatusResponse(UUID id, BigDecimal discount, BigDecimal total, Status status) {
+public record UpdateOrderStatusResponse(UUID id, BigDecimal discount, BigDecimal totalValue, Status status) {
 
     public static UpdateOrderStatusResponse from(Order order) {
-        return new UpdateOrderStatusResponse(order.getId(), order.getDiscount(), order.getTotal(), order.getStatus());
+        return new UpdateOrderStatusResponse(order.getId(), order.getDiscount(), order.getTotalValue(), order.getStatus());
     }
 }

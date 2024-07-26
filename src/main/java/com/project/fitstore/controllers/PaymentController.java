@@ -5,6 +5,7 @@ import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.dtos.payment.CreatePaymentResponse;
 import com.project.fitstore.dtos.payment.GetPaymentResponse;
 import com.project.fitstore.services.PaymentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody CreatePaymentRequest createPaymentRequest){
+    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody @Valid CreatePaymentRequest createPaymentRequest){
         return new ResponseEntity<>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
     }
 

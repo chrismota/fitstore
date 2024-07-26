@@ -3,6 +3,7 @@ package com.project.fitstore.controllers;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.services.OrderService;
 import com.project.fitstore.services.PaymentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class OrderController {
     }
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderRequest createOrderRequest, @PathVariable("customerId") UUID customerId) {
+    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest, @PathVariable("customerId") UUID customerId) {
         return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customerId), HttpStatus.CREATED);
     }
 

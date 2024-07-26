@@ -1,6 +1,5 @@
 package com.project.fitstore.dtos.payment;
 
-import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.payment.Method;
 import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.domain.payment.Status;

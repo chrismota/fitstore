@@ -44,7 +44,8 @@ public class OrderService {
 
         var orderItemList = createItemsList(createOrderRequest, order);
         order.setItems(orderItemList);
-        order.setTotal(getTotalPrice(orderItemList));
+        order.setTotalValue(getTotalPrice(orderItemList));
+        order.setFinalValue(getTotalPrice(orderItemList));
 
         return CreateOrderResponse.from(orderRepository.save(order));
     }
