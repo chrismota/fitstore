@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,30 +34,38 @@ public class PaymentService {
     @Transactional
     public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest) {
         Order order = orderService.findOrderById(createPaymentRequest.orderId());
-        checkIfOrderIsValid(order);
         checkIfOrderIsExpired(order);
+        checkIfOrderIsValid(order);
 
         Payment payment = createPaymentRequest.toPayment();
 
+        List<Coupon> couponList = new ArrayList<>();
+
         if(createPaymentRequest.coupons() != null){
-            List<Coupon> couponList = couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
+            couponList = getCouponList(createPaymentRequest);
             checkIfCouponsAreValid(createPaymentRequest.coupons(), couponList, order);
-
-            var discountValue = getDiscountValue(couponList, order);
-
             payment.setCoupons(couponList);
-            order.setDiscount(discountValue);
-            order.setFinalValue(order.getFinalValue().subtract(discountValue));
         }
 
-        order.setUpdatedAt(LocalDateTime.now());
-        orderService.saveOrder(order);
+        payOrder(order, couponList);
 
         return CreatePaymentResponse.from(paymentRepository.save(payment), order);
     }
 
     public void deletePayment(UUID id){
         paymentRepository.delete(findPaymentById(id));
+    }
+
+    private void payOrder(Order order, List<Coupon> couponList){
+        if(!couponList.isEmpty()){
+            var discountValue = getDiscountValue(couponList, order);
+            order.setDiscount(discountValue);
+            order.setFinalValue(order.getFinalValue().subtract(discountValue));
+        }
+
+        order.setStatus(Status.PAID);
+        order.setUpdatedAt(LocalDateTime.now());
+        orderService.saveOrder(order);
     }
 
     private BigDecimal getDiscountValue(List<Coupon> couponList, Order order){
@@ -67,8 +76,12 @@ public class PaymentService {
         var discountValue = new BigDecimal(totalDiscount).divide(new BigDecimal(100), 2, RoundingMode.CEILING);
         return order.getTotalValue().multiply(discountValue);
     }
+
+    private List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest){
+        return couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
+    }
     private void checkIfOrderIsValid(Order order) {
-        if (order.getStatus() != Status.CREATED) {
+        if (order.getStatus() != Status.PENDING) {
             throw new RuntimeException("The order is not valid anymore.");
         }
     }
@@ -82,6 +95,7 @@ public class PaymentService {
 
         double totalDiscount = 0;
         for (var couponId: couponsIds) {
+
             Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
             if(couponOptional.isEmpty())
                 throw new RuntimeException("coupon does not exist");
@@ -104,6 +118,7 @@ public class PaymentService {
             throw new RuntimeException("Coupon is not valid");
         }
     }
+
 
     private void checkIfCouponAttendsMinValue(Coupon coupon, Order order){
       if (compareTo(order.getTotalValue(), coupon.getMinValue()) < 0) {

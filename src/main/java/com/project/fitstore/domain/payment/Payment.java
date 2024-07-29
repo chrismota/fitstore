@@ -27,6 +27,7 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private Method method;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @ManyToOne

@@ -15,7 +15,7 @@ public record CreateOrderRequest(
 
     public Order toOrder(UUID customerId, LocalDateTime expiresAt){
         Customer customer = Customer.builder().id(customerId).build();
-        return Order.builder().id(null).status(Status.CREATED).customer(customer)
+        return Order.builder().id(null).status(Status.PENDING).customer(customer)
                 .expiresAt(expiresAt)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
