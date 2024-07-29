@@ -1,5 +1,7 @@
 package com.project.fitstore.controllers;
 
+import com.project.fitstore.domain.payment.Payment;
+import com.project.fitstore.domain.payment.Status;
 import com.project.fitstore.dtos.payment.CreatePaymentRequest;
 import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.dtos.payment.CreatePaymentResponse;
@@ -30,7 +32,9 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody @Valid CreatePaymentRequest createPaymentRequest){
-        return new ResponseEntity<>(paymentService.createPayment(createPaymentRequest), HttpStatus.CREATED);
+        CreatePaymentResponse createPaymentResponse = paymentService.createPayment(createPaymentRequest);
+            return new ResponseEntity<>(createPaymentResponse,
+                    createPaymentResponse.status().equals(Status.SUCCESS) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("/{id}")

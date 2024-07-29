@@ -6,6 +6,7 @@ import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.dtos.payment.*;
 import com.project.fitstore.repositories.PaymentRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +23,14 @@ public class PaymentService {
     final OrderService orderService;
     final CouponService couponService;
 
-    public GetAllPaymentsResponse getAllPayments(){
+    public GetAllPaymentsResponse getAllPayments() {
         return GetAllPaymentsResponse.from(paymentRepository.findAll());
     }
-    public GetPaymentResponse getPayment(UUID id){
+
+    public GetPaymentResponse getPayment(UUID id) {
         return GetPaymentResponse.from(findPaymentById(id));
     }
+
     @Transactional
     public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest) {
         Order order = orderService.findOrderById(createPaymentRequest.orderId());
@@ -38,48 +38,66 @@ public class PaymentService {
         checkIfOrderIsValid(order);
 
         Payment payment = createPaymentRequest.toPayment();
+        payment.setStatus(com.project.fitstore.domain.payment.Status.CREATED);
 
         List<Coupon> couponList = new ArrayList<>();
 
-        if(createPaymentRequest.coupons() != null){
+        if (createPaymentRequest.coupons() != null) {
             couponList = getCouponList(createPaymentRequest);
             checkIfCouponsAreValid(createPaymentRequest.coupons(), couponList, order);
             payment.setCoupons(couponList);
         }
 
-        payOrder(order, couponList);
+        try {
+            payOrder(order, couponList, payment);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
 
         return CreatePaymentResponse.from(paymentRepository.save(payment), order);
     }
 
-    public void deletePayment(UUID id){
+    public void deletePayment(UUID id) {
         paymentRepository.delete(findPaymentById(id));
     }
 
-    private void payOrder(Order order, List<Coupon> couponList){
-        if(!couponList.isEmpty()){
-            var discountValue = getDiscountValue(couponList, order);
-            order.setDiscount(discountValue);
-            order.setFinalValue(order.getFinalValue().subtract(discountValue));
-        }
+    private void payOrder(Order order, List<Coupon> couponList, Payment payment) {
+        if (getRandomNumber() < 3) {
+            if (!couponList.isEmpty()) {
+                var discountValue = getDiscountValue(couponList, order);
+                order.setDiscount(discountValue);
+                order.setFinalValue(order.getFinalValue().subtract(discountValue));
+            }
 
-        order.setStatus(Status.PAID);
-        order.setUpdatedAt(LocalDateTime.now());
-        orderService.saveOrder(order);
+            order.setStatus(Status.PAID);
+            order.setUpdatedAt(LocalDateTime.now());
+            orderService.saveOrder(order);
+
+            payment.setStatus(com.project.fitstore.domain.payment.Status.SUCCESS);
+        } else {
+            payment.setStatus(com.project.fitstore.domain.payment.Status.FAILED);
+            throw new RuntimeException("There was an error on payment attempt. Please, try again later.");
+        }
     }
 
-    private BigDecimal getDiscountValue(List<Coupon> couponList, Order order){
+    private int getRandomNumber() {
+        Random r = new Random();
+        return r.nextInt(10);
+    }
+
+    private BigDecimal getDiscountValue(List<Coupon> couponList, Order order) {
         double totalDiscount = 0;
-        for (var coupon: couponList) {
+        for (var coupon : couponList) {
             totalDiscount += coupon.getPercentage();
         }
         var discountValue = new BigDecimal(totalDiscount).divide(new BigDecimal(100), 2, RoundingMode.CEILING);
         return order.getTotalValue().multiply(discountValue);
     }
 
-    private List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest){
+    private List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest) {
         return couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
     }
+
     private void checkIfOrderIsValid(Order order) {
         if (order.getStatus() != Status.PENDING) {
             throw new RuntimeException("The order is not valid anymore.");
@@ -91,13 +109,14 @@ public class PaymentService {
             throw new RuntimeException("This order has already expired.");
         }
     }
+
     private void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
 
         double totalDiscount = 0;
-        for (var couponId: couponsIds) {
+        for (var couponId : couponsIds) {
 
             Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
-            if(couponOptional.isEmpty())
+            if (couponOptional.isEmpty())
                 throw new RuntimeException("coupon does not exist");
 
             var coupon = couponOptional.get();
@@ -108,22 +127,24 @@ public class PaymentService {
         }
         checkIfCouponPercentageIsValid(totalDiscount);
     }
+
     private void checkIfCouponPercentageIsValid(double totalDiscount) {
-        if(totalDiscount >= 100)
+        if (totalDiscount >= 100)
             throw new RuntimeException("Discount cannot be greater than a hundred percent");
     }
-    private void checkIfCouponIsActive(Coupon coupon){
+
+    private void checkIfCouponIsActive(Coupon coupon) {
         var now = LocalDateTime.now();
-        if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)){
+        if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
             throw new RuntimeException("Coupon is not valid");
         }
     }
 
 
-    private void checkIfCouponAttendsMinValue(Coupon coupon, Order order){
-      if (compareTo(order.getTotalValue(), coupon.getMinValue()) < 0) {
+    private void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
+        if (compareTo(order.getTotalValue(), coupon.getMinValue()) < 0) {
             throw new RuntimeException("One or more coupons is not available for this order.");
-      }
+        }
     }
 
     public Payment findPaymentById(UUID id) {
@@ -134,7 +155,7 @@ public class PaymentService {
         throw new RuntimeException("Payment not found");
     }
 
-    private static int compareTo(BigDecimal firstValue, BigDecimal secondValue){
+    private static int compareTo(BigDecimal firstValue, BigDecimal secondValue) {
         return firstValue.compareTo(secondValue);
     }
 
