@@ -38,7 +38,6 @@ public class PaymentService {
         checkIfOrderIsValid(order);
 
         Payment payment = createPaymentRequest.toPayment();
-        payment.setStatus(com.project.fitstore.domain.payment.Status.CREATED);
 
         List<Coupon> couponList = new ArrayList<>();
 
@@ -62,7 +61,7 @@ public class PaymentService {
     }
 
     private void payOrder(Order order, List<Coupon> couponList, Payment payment) {
-        if (getRandomNumber() < 3) {
+        if (attemptIsSuccessful()) {
             if (!couponList.isEmpty()) {
                 var discountValue = getDiscountValue(couponList, order);
                 order.setDiscount(discountValue);
@@ -80,10 +79,12 @@ public class PaymentService {
         }
     }
 
-    private int getRandomNumber() {
+    private boolean attemptIsSuccessful() {
         Random r = new Random();
-        return r.nextInt(10);
+        int number = r.nextInt(10);
+        return number < 3;
     }
+
 
     private BigDecimal getDiscountValue(List<Coupon> couponList, Order order) {
         double totalDiscount = 0;
