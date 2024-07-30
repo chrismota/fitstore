@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -22,8 +23,10 @@ public record CreateCustomerRequest(
         String email,
         @NotNull(message = "password is mandatory")
         @NotBlank(message = "password cannot be blank")
+        @Size(min = 5, message = "Password must have at least 5 characters.")
         String password) {
-    public Customer toCustomer() {
+    public Customer toCustomer(String password) {
+
         return new Customer(null, name, phoneNumber, address, cpf, email, password, LocalDateTime.now(), LocalDateTime.now());
     }
 }

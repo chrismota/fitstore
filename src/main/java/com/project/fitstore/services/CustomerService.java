@@ -4,6 +4,7 @@ import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,20 +16,22 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerService {
     final CustomerRepository customerRepository;
+    final PasswordEncoder passwordEncoder;
 
-    public GetAllCustomersResponse getAllCustomers(){
+    public GetAllCustomersResponse getAllCustomers() {
         return GetAllCustomersResponse.from(customerRepository.findAll());
     }
 
-    public GetCustomerResponse getCustomer(UUID id){
+    public GetCustomerResponse getCustomer(UUID id) {
         return GetCustomerResponse.from(findCustomerById(id));
     }
-    public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest){
 
-        return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer()));
+    public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
+        String encodedPassword = passwordEncoder.encode(createCustomerRequest.password());
+        return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer(encodedPassword)));
     }
 
-    public UpdateCustomerInfoResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest){
+    public UpdateCustomerInfoResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         Customer customer = this.findCustomerById(id);
 
         customer.setName(updateCustomerInfoRequest.name());
@@ -41,13 +44,13 @@ public class CustomerService {
         return UpdateCustomerInfoResponse.from(customerRepository.save(customer));
     }
 
-    public void deleteCustomer(UUID id){
+    public void deleteCustomer(UUID id) {
         customerRepository.delete(this.findCustomerById(id));
     }
 
-    public Customer findCustomerById(UUID id){
+    public Customer findCustomerById(UUID id) {
         Optional<Customer> customer = customerRepository.findById(id);
-        if(customer.isPresent()){
+        if (customer.isPresent()) {
             return customer.get();
         }
         throw new RuntimeException("Customer not found");
