@@ -24,6 +24,7 @@ public class CustomerService {
         return GetCustomerResponse.from(findCustomerById(id));
     }
     public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest){
+
         return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer()));
     }
 
