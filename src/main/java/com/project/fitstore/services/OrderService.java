@@ -1,6 +1,7 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.OrderItem.OrderItem;
+import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
@@ -8,6 +9,7 @@ import com.project.fitstore.repositories.OrderItemRepository;
 import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,8 +29,8 @@ public class OrderService {
 
     private static final int ORDER_EXPIRATION_HOURS = 12;
 
-    public GetAllOrdersResponse getAllOrders() {
-        return GetAllOrdersResponse.from(orderRepository.findAll());
+    public GetAllOrdersResponse getAllOrders(UUID customerId) {
+        return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerId(customerId));
     }
 
     public GetOrderResponse getOrder(UUID id) {

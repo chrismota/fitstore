@@ -1,6 +1,5 @@
 package com.project.fitstore.domain.payment;
 
-import com.project.fitstore.domain.OrderItem.OrderItem;
 import com.project.fitstore.domain.coupon.Coupon;
 import com.project.fitstore.domain.order.Order;
 import jakarta.persistence.*;

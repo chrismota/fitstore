@@ -1,6 +1,5 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.product.*;
 import com.project.fitstore.services.ProductService;
 import jakarta.validation.Valid;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController

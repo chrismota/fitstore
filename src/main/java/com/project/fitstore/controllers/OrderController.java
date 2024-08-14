@@ -1,5 +1,6 @@
 package com.project.fitstore.controllers;
 
+import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.services.OrderService;
 import com.project.fitstore.services.PaymentService;
@@ -7,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,8 +22,9 @@ public class OrderController {
     final PaymentService paymentService;
 
     @GetMapping
-    public ResponseEntity<GetAllOrdersResponse> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+    public ResponseEntity<GetAllOrdersResponse> getAllOrders(Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(orderService.getAllOrders(customer.getId()));
     }
 
     @GetMapping("/{id}")
