@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
-    @Query("select o from Order o where o.customer.id = ?1")
-    List<Order> findOrdersByCustomerId(UUID id);
+    List<Order> findOrdersByCustomerId(UUID customerId);
+
+    Optional<Order> findOrderByIdAndCustomerId(UUID id, UUID customerId);
 }

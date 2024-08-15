@@ -2,6 +2,7 @@ package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.order.*;
+import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.services.OrderService;
 import com.project.fitstore.services.PaymentService;
 import jakarta.validation.Valid;
@@ -9,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,14 +23,21 @@ public class OrderController {
     final PaymentService paymentService;
 
     @GetMapping
-    public ResponseEntity<GetAllOrdersResponse> getAllOrders(Authentication auth) {
+    public ResponseEntity<GetAllOrdersResponse> getAllOrdersFromCustomer(Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
-        return ResponseEntity.ok(orderService.getAllOrders(customer.getId()));
+        return ResponseEntity.ok(orderService.getAllOrdersFromCustomer(customer.getId()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GetOrderResponse> getOrder(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(orderService.getOrder(id));
+    @GetMapping("/{orderId}")
+    public ResponseEntity<GetOrderResponse> getOrderFromCustomer(@PathVariable("orderId") UUID orderId, Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(orderService.getOrderFromCustomer(orderId, customer.getId()));
+    }
+
+    @GetMapping("/{orderId}/payments")
+    public ResponseEntity<GetAllPaymentsResponse> getPaymentFromOrder(@PathVariable("orderId") UUID orderId, Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(paymentService.getAllPaymentsFromOrder(orderId, customer.getId()));
     }
 
     @PostMapping("/{customerId}")

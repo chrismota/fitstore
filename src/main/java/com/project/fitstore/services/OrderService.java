@@ -1,7 +1,6 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.OrderItem.OrderItem;
-import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
@@ -9,7 +8,6 @@ import com.project.fitstore.repositories.OrderItemRepository;
 import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,12 +27,21 @@ public class OrderService {
 
     private static final int ORDER_EXPIRATION_HOURS = 12;
 
-    public GetAllOrdersResponse getAllOrders(UUID customerId) {
+    public GetAllOrdersResponse getAllOrdersFromCustomer(UUID customerId) {
         return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerId(customerId));
     }
 
-    public GetOrderResponse getOrder(UUID id) {
-        return GetOrderResponse.from(findOrderById(id));
+    public GetAllOrdersResponse getAllOrders() {
+        return GetAllOrdersResponse.from(orderRepository.findAll());
+    }
+
+    public GetOrderResponse getOrderFromCustomer(UUID orderId, UUID customerId) {
+        var order = findOrderByIdAndCustomerId(orderId, customerId);
+        return GetOrderResponse.from(order);
+    }
+
+    public GetOrderResponse getOrder(UUID orderId) {
+        return GetOrderResponse.from(findOrderById(orderId));
     }
 
     @Transactional
@@ -107,6 +114,13 @@ public class OrderService {
 
     public Order findOrderById(UUID id) {
         Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()) {
+            return order.get();
+        }
+        throw new RuntimeException("Order not found");
+    }
+    public Order findOrderByIdAndCustomerId(UUID id, UUID customerId) {
+        Optional<Order> order = orderRepository.findOrderByIdAndCustomerId(id, customerId);
         if (order.isPresent()) {
             return order.get();
         }

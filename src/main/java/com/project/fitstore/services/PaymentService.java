@@ -23,11 +23,14 @@ public class PaymentService {
     final OrderService orderService;
     final CouponService couponService;
 
+    public GetAllPaymentsResponse getAllPaymentsFromOrder(UUID orderId, UUID customerId) {
+        return GetAllPaymentsResponse.from(paymentRepository.findPaymentsByOrderId(orderId, customerId));
+    }
     public GetAllPaymentsResponse getAllPayments() {
         return GetAllPaymentsResponse.from(paymentRepository.findAll());
     }
 
-    public GetPaymentResponse getPayment(UUID id) {
+  public GetPaymentResponse getPayment(UUID id) {
         return GetPaymentResponse.from(findPaymentById(id));
     }
 

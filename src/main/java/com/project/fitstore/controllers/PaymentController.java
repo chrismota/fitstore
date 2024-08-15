@@ -1,10 +1,9 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.domain.payment.Status;
 import com.project.fitstore.dtos.payment.CreatePaymentRequest;
-import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.dtos.payment.CreatePaymentResponse;
+import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.dtos.payment.GetPaymentResponse;
 import com.project.fitstore.services.PaymentService;
 import jakarta.validation.Valid;
