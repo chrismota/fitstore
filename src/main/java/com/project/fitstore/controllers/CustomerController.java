@@ -1,11 +1,14 @@
 package com.project.fitstore.controllers;
 
+import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
+import com.project.fitstore.dtos.order.GetAllOrdersResponse;
 import com.project.fitstore.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -17,13 +20,9 @@ public class CustomerController {
     final CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<GetAllCustomersResponse> getAllCustomers(){
-        return ResponseEntity.ok(customerService.getAllCustomers());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<GetCustomerResponse> getCustomer(@PathVariable("id")UUID id){
-        return ResponseEntity.ok(customerService.getCustomer(id));
+    public ResponseEntity<GetCustomerResponse> getCustomer(Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(customerService.getCustomer(customer.getId()));
     }
 
     @PostMapping
@@ -31,14 +30,9 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.createCustomer(createCustomerRequest), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest){
-        return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoRequest));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") UUID id){
-        customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
+    @PutMapping
+    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(Authentication auth, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(customerService.updateCustomerInfo(customer.getId(), updateCustomerInfoRequest));
     }
 }

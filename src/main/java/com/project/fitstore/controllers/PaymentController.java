@@ -1,5 +1,6 @@
 package com.project.fitstore.controllers;
 
+import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.domain.payment.Status;
 import com.project.fitstore.dtos.payment.CreatePaymentRequest;
 import com.project.fitstore.dtos.payment.CreatePaymentResponse;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,25 +22,12 @@ import java.util.UUID;
 public class PaymentController {
     final PaymentService paymentService;
 
-    @GetMapping
-    public ResponseEntity<GetAllPaymentsResponse> getAllPayments(){
-        return ResponseEntity.ok(paymentService.getAllPayments());
-    }
-    @GetMapping("{id}")
-    public ResponseEntity<GetPaymentResponse> getPayment(@PathVariable("id")UUID id){
-        return ResponseEntity.ok(paymentService.getPayment(id));
-    }
-
     @PostMapping
-    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody @Valid CreatePaymentRequest createPaymentRequest){
-        CreatePaymentResponse createPaymentResponse = paymentService.createPayment(createPaymentRequest);
+    public ResponseEntity<CreatePaymentResponse> createPayment(@RequestBody @Valid CreatePaymentRequest createPaymentRequest, Authentication auth){
+        var customer = (Customer) auth.getPrincipal();
+        CreatePaymentResponse createPaymentResponse = paymentService.createPayment(createPaymentRequest, customer.getId());
             return new ResponseEntity<>(createPaymentResponse,
                     createPaymentResponse.status().equals(Status.SUCCESS) ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePayment(@PathVariable("id") UUID id){
-        paymentService.deletePayment(id);
-        return ResponseEntity.noContent().build();
-    }
 }

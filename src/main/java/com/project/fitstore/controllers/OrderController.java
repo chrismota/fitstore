@@ -40,20 +40,15 @@ public class OrderController {
         return ResponseEntity.ok(paymentService.getAllPaymentsFromOrder(orderId, customer.getId()));
     }
 
-    @PostMapping("/{customerId}")
-    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest, @PathVariable("customerId") UUID customerId) {
-        return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customerId), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest, Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customer.getId()), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("id") UUID id) {
-        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, id));
+    @PutMapping("/{orderId}")
+    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(@RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("orderId") UUID orderId, Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, orderId, customer.getId()));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable("id") UUID id) {
-        orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
-    }
-
 }

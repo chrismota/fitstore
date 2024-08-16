@@ -2,6 +2,7 @@ package com.project.fitstore.services;
 
 import com.project.fitstore.domain.OrderItem.OrderItem;
 import com.project.fitstore.domain.order.Order;
+import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.repositories.OrderItemRepository;
@@ -85,8 +86,13 @@ public class OrderService {
         return orderItem;
     }
 
-    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID id) {
-        Order order = findOrderById(id);
+    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID orderId, UUID customerId) {
+        Order order = findOrderByIdAndCustomerId(orderId, customerId);
+
+        if(order.getStatus() != Status.PENDING){
+            throw new RuntimeException("The order is not available anymore.");
+        }
+
         order.setStatus(orderStatusDto.status());
         order.setUpdatedAt(LocalDateTime.now());
         return UpdateOrderStatusResponse.from(orderRepository.save(order));

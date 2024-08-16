@@ -23,32 +23,22 @@ public class SecurityConfig {
     final UserDetailsServiceImpl userDetailsService;
     final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         req -> req
-                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/customers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
-                                .requestMatchers(HttpMethod.DELETE, "/customers/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/customers/**").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/orders/**").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/orders/**").authenticated()
-                                .requestMatchers(HttpMethod.DELETE, "/orders/**").authenticated()
-                                .requestMatchers(HttpMethod.GET, "/payments/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/orders/**").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/payments/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/coupons/**").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/customers/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/products/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/products/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.GET, "/orders/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/products/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/orders/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/orders/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/payments/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.POST, "/coupons/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/coupons/**").hasAuthority("ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/coupons/**").hasAuthority("ADMIN")
+                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
                                 .anyRequest().denyAll()
                 ).userDetailsService(userDetailsService)
                 .sessionManagement(session -> session

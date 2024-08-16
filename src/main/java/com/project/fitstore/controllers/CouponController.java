@@ -25,24 +25,6 @@ public class CouponController {
     public ResponseEntity<GetCouponResponse> getCoupon(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(couponService.getCoupon(id));
     }
-
-    @PostMapping
-    public ResponseEntity<CreateCouponResponse> createCoupon(@RequestBody @Valid CreateCouponRequest createCouponRequest) {
-        return new ResponseEntity<>(couponService.createCoupon(createCouponRequest), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCouponRequest updateCouponRequest) {
-        return ResponseEntity.ok(couponService.updateCoupon(id, updateCouponRequest));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> updateCoupon(@PathVariable("id") UUID id) {
-        couponService.deleteCoupon(id);
-        return ResponseEntity.noContent().build();
-    }
-
-
 }
 
 

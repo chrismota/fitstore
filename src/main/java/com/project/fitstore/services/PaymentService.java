@@ -35,8 +35,8 @@ public class PaymentService {
     }
 
     @Transactional
-    public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest) {
-        Order order = orderService.findOrderById(createPaymentRequest.orderId());
+    public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest, UUID customerId) {
+        Order order = orderService.findOrderByIdAndCustomerId(createPaymentRequest.orderId(), customerId);
         checkIfOrderIsExpired(order);
         checkIfOrderIsValid(order);
 

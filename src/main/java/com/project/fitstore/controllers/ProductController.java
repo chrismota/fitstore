@@ -26,19 +26,4 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProduct(id));
     }
 
-    @PostMapping
-    public ResponseEntity<CreateProductResponse> createProduct(@RequestBody @Valid CreateProductRequest createProductRequest) {
-        return new ResponseEntity<>(productService.createProduct(createProductRequest), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable("id") UUID id, @RequestBody @Valid UpdateProductRequest updateProductRequest) {
-        return ResponseEntity.ok(productService.updateProduct(id, updateProductRequest));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") UUID id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
-    }
 }
