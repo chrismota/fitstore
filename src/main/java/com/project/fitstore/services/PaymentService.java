@@ -68,7 +68,7 @@ public class PaymentService {
             if (!couponList.isEmpty()) {
                 var discountValue = getDiscountValue(couponList, order);
                 order.setDiscount(discountValue);
-                order.setFinalValue(order.getFinalValue().subtract(discountValue));
+                order.setValueAfterDiscount(order.getValueAfterDiscount().subtract(discountValue));
             }
 
             order.setStatus(Status.PAID);
@@ -95,7 +95,7 @@ public class PaymentService {
             totalDiscount += coupon.getPercentage();
         }
         var discountValue = new BigDecimal(totalDiscount).divide(new BigDecimal(100), 2, RoundingMode.CEILING);
-        return order.getTotalValue().multiply(discountValue);
+        return order.getFullValue().multiply(discountValue);
     }
 
     private List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest) {
@@ -146,7 +146,7 @@ public class PaymentService {
 
 
     private void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
-        if (compareTo(order.getTotalValue(), coupon.getMinValue()) < 0) {
+        if (compareTo(order.getFullValue(), coupon.getMinValue()) < 0) {
             throw new RuntimeException("One or more coupons is not available for this order.");
         }
     }

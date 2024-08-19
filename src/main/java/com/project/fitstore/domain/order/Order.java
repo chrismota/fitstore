@@ -25,12 +25,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    private BigDecimal totalValue;
+    private BigDecimal fullValue;
 
     private BigDecimal discount;
 
-    private BigDecimal finalValue;
-
+    private BigDecimal valueAfterDiscount;
 
     @Enumerated(EnumType.STRING)
     private Status status;

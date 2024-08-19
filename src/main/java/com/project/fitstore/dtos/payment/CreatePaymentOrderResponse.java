@@ -8,6 +8,6 @@ import java.util.UUID;
 public record CreatePaymentOrderResponse(UUID id, BigDecimal totalValue, BigDecimal discount, BigDecimal finalValue) {
 
     public static CreatePaymentOrderResponse from(Order order){
-        return new CreatePaymentOrderResponse(order.getId(), order.getTotalValue(), order.getDiscount(), order.getFinalValue());
+        return new CreatePaymentOrderResponse(order.getId(), order.getFullValue(), order.getDiscount(), order.getValueAfterDiscount());
     }
 }
