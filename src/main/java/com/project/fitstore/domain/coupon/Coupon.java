@@ -20,8 +20,9 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(unique=true)
     private String name;
+    @Column(unique=true)
+    private String code;
     private Double percentage;
     private LocalDateTime startTime;
     private LocalDateTime expirationTime;
