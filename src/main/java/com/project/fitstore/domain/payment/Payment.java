@@ -11,12 +11,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "payments")
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Data
 public class Payment {
 
     @Id

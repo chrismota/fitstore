@@ -21,15 +21,4 @@ public enum SubCategory {
     CANELEIRA(Category.PESOS);
 
     private final Category category;
-
-    public static List<SubCategory> getByCategory(Category category) {
-        List<SubCategory> categories = new ArrayList<>();
-
-        for (SubCategory value : SubCategory.values()) {
-            if (value.category.equals(category)) {
-                categories.add(value);
-            }
-        }
-        return categories;
-    }
 }

@@ -13,12 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customers")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Builder
+@Data
 public class Customer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

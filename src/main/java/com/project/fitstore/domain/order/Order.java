@@ -12,13 +12,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
-@Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
-
+@Data
 public class Order {
 
     @Id

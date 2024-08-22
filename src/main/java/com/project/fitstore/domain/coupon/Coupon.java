@@ -9,12 +9,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "coupons")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Builder
+@Data
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

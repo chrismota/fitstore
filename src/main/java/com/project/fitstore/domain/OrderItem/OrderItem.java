@@ -11,11 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "order_item")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Data
 public class OrderItem {
 
     @Id
