@@ -12,5 +12,12 @@ services:
       - POSTGRES_PASSWORD=1234
     ports:
       - 5432:5432
+  s3mock:
+    image: adobe/s3mock:latest
+    environment:
+      - initialBuckets=fitstorebucket
+    ports:
+      - 9090:9090
+
 volumes:
   fitstore:

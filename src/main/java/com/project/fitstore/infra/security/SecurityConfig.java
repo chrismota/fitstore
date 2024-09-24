@@ -28,11 +28,13 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         req -> req
-                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/customers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                                 .requestMatchers(HttpMethod.PUT, "/customers/**").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/image/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/image/**").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/orders/**").authenticated()
                                 .requestMatchers(HttpMethod.POST, "/orders/**").authenticated()
                                 .requestMatchers(HttpMethod.PUT, "/orders/**").authenticated()

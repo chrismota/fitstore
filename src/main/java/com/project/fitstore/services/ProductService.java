@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,5 +50,14 @@ public class ProductService {
             return product.get();
         }
         throw new RuntimeException("Product not found");
+    }
+
+    public Product findProductByImage(String image) {
+        Optional<Product> product = productRepository.findProductByImagePath(image);
+        return product.orElse(null);
+    }
+
+    public void saveProduct(Product product){
+        productRepository.save(product);
     }
 }

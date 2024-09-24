@@ -27,6 +27,6 @@ public record CreateCustomerRequest(
         String password,
         Role role) {
     public Customer toCustomer(String password) {
-        return new Customer(null, name, phoneNumber, address, cpf, email, password, role, LocalDateTime.now(), LocalDateTime.now());
+        return new Customer(null, name, phoneNumber, address, cpf, email, password, role, null, LocalDateTime.now(), LocalDateTime.now());
     }
 }

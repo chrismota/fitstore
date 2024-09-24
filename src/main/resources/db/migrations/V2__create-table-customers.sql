@@ -8,6 +8,7 @@ CREATE TABLE public.customers (
 	"password" varchar(255) NULL,
 	phone_number varchar(255) NULL,
 	"role" varchar(255) NULL,
+	image_path varchar(255) NULL,
 	updated_at timestamp(6) NULL,
 	CONSTRAINT customers_pkey PRIMARY KEY (id),
 	CONSTRAINT customers_role_check CHECK (((role)::text = ANY ((ARRAY['CUSTOMER'::character varying, 'ADMIN'::character varying])::text[]))),

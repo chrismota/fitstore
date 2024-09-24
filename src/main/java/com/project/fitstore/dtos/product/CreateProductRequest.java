@@ -21,10 +21,9 @@ public record CreateProductRequest(
         String sku,
         Category category,
         SubCategory subCategory,
-
         @NotNull(message = "price is mandatory")
         BigDecimal price){
     public Product toProduct(){
-        return new Product(null, name, brand, sku, category, subCategory, price, LocalDateTime.now(), LocalDateTime.now());
+        return new Product(null, name, brand, sku, category, subCategory, price, null, LocalDateTime.now(), LocalDateTime.now());
     }
 }

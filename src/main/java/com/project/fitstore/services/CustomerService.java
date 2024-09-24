@@ -1,16 +1,23 @@
 package com.project.fitstore.services;
 
-import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.dtos.customer.*;
-import com.project.fitstore.repositories.CustomerRepository;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import com.project.fitstore.domain.product.Product;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import com.project.fitstore.domain.customer.Customer;
+import com.project.fitstore.dtos.customer.CreateCustomerRequest;
+import com.project.fitstore.dtos.customer.CreateCustomerResponse;
+import com.project.fitstore.dtos.customer.GetAllCustomersResponse;
+import com.project.fitstore.dtos.customer.GetCustomerResponse;
+import com.project.fitstore.dtos.customer.UpdateCustomerInfoRequest;
+import com.project.fitstore.dtos.customer.UpdateCustomerInfoResponse;
+import com.project.fitstore.repositories.CustomerRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +61,14 @@ public class CustomerService {
             return customer.get();
         }
         throw new RuntimeException("Customer not found");
+    }
+
+    public Customer findCustomerByImage(String image) {
+        Optional<Customer> customer = customerRepository.findCustomerByImagePath(image);
+        return customer.orElse(null);
+    }
+
+    public void saveCustomer(Customer customer) {
+        customerRepository.save(customer);
     }
 }

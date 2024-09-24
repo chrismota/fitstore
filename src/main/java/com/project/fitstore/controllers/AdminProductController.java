@@ -1,7 +1,9 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.dtos.product.*;
+import com.project.fitstore.repositories.ProductRepository;
 import com.project.fitstore.services.ProductService;
+import com.project.fitstore.services.ImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ import java.util.UUID;
 @RequestMapping("/admin")
 public class AdminProductController {
     final ProductService productService;
+    final ProductRepository productRepository;
+    final ImageService imageService;
+
 
     @PostMapping("/products")
     public ResponseEntity<CreateProductResponse> createProduct(@RequestBody @Valid CreateProductRequest createProductRequest) {

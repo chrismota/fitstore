@@ -27,6 +27,8 @@ public class Product {
     private SubCategory subCategory;
     private BigDecimal price;
 
+    private String imagePath;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
