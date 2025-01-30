@@ -13,6 +13,8 @@ public record CreateProductRequest(
         @NotNull(message = "name is mandatory")
         @NotBlank(message = "name cannot be blank")
         String name,
+        @NotNull(message = "description is mandatory")
+        String description,
         @NotNull(message = "brand is mandatory")
         @NotBlank(message = "brand cannot be blank")
         String brand,
@@ -24,6 +26,6 @@ public record CreateProductRequest(
         @NotNull(message = "price is mandatory")
         BigDecimal price){
     public Product toProduct(){
-        return new Product(null, name, brand, sku, category, subCategory, price, null, LocalDateTime.now(), LocalDateTime.now());
+        return new Product(null, name, description, brand, sku, category, subCategory, price, null, LocalDateTime.now(), LocalDateTime.now());
     }
 }

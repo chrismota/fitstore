@@ -12,9 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,117 +20,8 @@ public class ImageService {
     @Value("${application.bucket.name}")
     private String bucketName;
     final AmazonS3 s3Client;
-    final ProductService productService;
-    final CustomerService customerService;
 
-    public String uploadProductImage(MultipartFile file, UUID id) {
-        var product = productService.findProductById(id);
-
-        String imageName = uploadImage(file);
-
-        product.setImagePath(imageName);
-        product.setUpdatedAt(LocalDateTime.now());
-        productService.saveProduct(product);
-
-        return "Image uploaded successfully: " + imageName;
-    }
-
-    public String uploadCustomerImage(MultipartFile imageFile, UUID id) {
-        var customer = customerService.findCustomerById(id);
-
-        String imageName = uploadImage(imageFile);
-
-        customer.setImagePath(imageName);
-        customer.setUpdatedAt(LocalDateTime.now());
-        customerService.saveCustomer(customer);
-
-        return "Image uploaded successfully: " + imageName;
-    }
-
-    public String updateProductImage(MultipartFile imageFile, UUID id) {
-        var product = productService.findProductById(id);
-        String oldImage = product.getImagePath();
-
-        var newImage = uploadImage(imageFile);
-
-        if(oldImage != null)
-            deleteOldImage(oldImage);
-
-        product.setImagePath(newImage);
-        product.setUpdatedAt(LocalDateTime.now());
-        productService.saveProduct(product);
-
-        return newImage + " added.";
-    }
-
-    public String updateCustomerImage(MultipartFile imageFile, UUID id) {
-        var customer = customerService.findCustomerById(id);
-        String oldImage = customer.getImagePath();
-
-        var newImage = uploadImage(imageFile);
-
-        if(oldImage != null)
-            deleteOldImage(oldImage);
-
-        customer.setImagePath(newImage);
-        customer.setUpdatedAt(LocalDateTime.now());
-        customerService.saveCustomer(customer);
-
-        return newImage + " added.";
-    }
-
-    public List<S3ObjectSummary> listObjects() {
-        ObjectListing objectListing = s3Client.listObjects(bucketName);
-        return objectListing.getObjectSummaries();
-    }
-
-    public String deleteImage(String fileName) {
-        try {
-            s3Client.getObject(bucketName, fileName);
-            s3Client.deleteObject(bucketName, fileName);
-        } catch (AmazonServiceException e) {
-            throw new AmazonServiceException("There was an error on the delete attempt of the image.");
-        }
-
-        var product = productService.findProductByImage(fileName);
-
-        if(product != null) {
-            product.setImagePath(null);
-            product.setUpdatedAt(LocalDateTime.now());
-            productService.saveProduct(product);
-        }
-
-        var customer = customerService.findCustomerByImage(fileName);
-
-        if(customer != null) {
-            customer.setImagePath(null);
-            customer.setUpdatedAt(LocalDateTime.now());
-            customerService.saveCustomer(customer);
-        }
-
-        return fileName + " successfully deleted.";
-    }
-
-    public String deleteCustomerImage(String fileName) {
-        try {
-            s3Client.getObject(bucketName, fileName);
-            s3Client.deleteObject(bucketName, fileName);
-        } catch (AmazonServiceException e) {
-            throw new AmazonServiceException("There was an error on the delete attempt of the image.");
-        }
-
-        var customer = customerService.findCustomerByImage(fileName);
-
-        if(customer != null) {
-            customer.setImagePath(null);
-            customer.setUpdatedAt(LocalDateTime.now());
-            customerService.saveCustomer(customer);
-        }
-
-        return fileName + " successfully deleted.";
-    }
-
-    private String uploadImage(MultipartFile imageFile) {
+    public String uploadImage(MultipartFile imageFile) {
         File imageObj = convertMultiPartFileToFile(imageFile);
         String imageName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
         try {
@@ -143,6 +32,26 @@ public class ImageService {
 
         imageObj.delete();
         return imageName;
+    }
+
+    public String updateImage(MultipartFile imageFile, String oldImage) {
+        if (oldImage != null)
+            deleteOldImage(oldImage);
+        return uploadImage(imageFile);
+    }
+
+    public List<S3ObjectSummary> listImages() {
+        ObjectListing objectListing = s3Client.listObjects(bucketName);
+        return objectListing.getObjectSummaries();
+    }
+
+    public void deleteImage(String fileName) {
+        try {
+            s3Client.getObject(bucketName, fileName);
+            s3Client.deleteObject(bucketName, fileName);
+        } catch (AmazonServiceException e) {
+            throw new AmazonServiceException("There was an error on the delete attempt of the image.");
+        }
     }
 
     private void deleteOldImage(String oldImage) {

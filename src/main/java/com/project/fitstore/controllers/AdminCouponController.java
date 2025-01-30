@@ -27,7 +27,7 @@ public class AdminCouponController {
     }
 
     @DeleteMapping("/coupons/{id}")
-    public ResponseEntity<Void> updateCoupon(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> deleteCoupon(@PathVariable("id") UUID id) {
         couponService.deleteCoupon(id);
         return ResponseEntity.noContent().build();
     }

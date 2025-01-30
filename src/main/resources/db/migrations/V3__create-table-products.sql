@@ -3,6 +3,7 @@ CREATE TABLE public.products (
 	brand varchar(255) NULL,
 	category varchar(255) NULL,
 	created_at timestamp(6) NULL,
+	description text NULL,
 	"name" varchar(255) NULL,
 	price numeric(38, 2) NULL,
 	sku varchar(255) NULL,
