@@ -5,6 +5,8 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
+import com.project.fitstore.exceptions.order.OrderNotFoundException;
+import com.project.fitstore.exceptions.order.OrderNotValidException;
 import com.project.fitstore.repositories.OrderItemRepository;
 import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -70,7 +72,7 @@ public class OrderService {
         return itemList;
     }
 
-    private OrderItem createItem(CreateItemRequest itemDto, Order order){
+    private OrderItem createItem(CreateItemRequest itemDto, Order order) {
         Product productObj = productService.findProductById(itemDto.id());
         BigDecimal totalPriceProduct = productObj.getPrice().multiply(new BigDecimal(itemDto.quantity()));
 
@@ -88,10 +90,7 @@ public class OrderService {
 
     public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID orderId, UUID customerId) {
         Order order = findOrderByIdAndCustomerId(orderId, customerId);
-
-        if(order.getStatus() != Status.PENDING){
-            throw new RuntimeException("The order is not available anymore.");
-        }
+        checkIfOrderIsValid(order);
 
         order.setStatus(orderStatusDto.status());
         order.setUpdatedAt(LocalDateTime.now());
@@ -100,6 +99,12 @@ public class OrderService {
 
     public void deleteOrder(UUID id) {
         orderRepository.delete(this.findOrderById(id));
+    }
+
+    public void checkIfOrderIsValid(Order order) {
+        if (order.getStatus() != Status.PENDING) {
+            throw new OrderNotValidException();
+        }
     }
 
     private void checkIfCustomerExists(UUID customerId) {
@@ -123,21 +128,22 @@ public class OrderService {
         if (order.isPresent()) {
             return order.get();
         }
-        throw new RuntimeException("Order not found");
+        throw new OrderNotFoundException();
     }
+
     public Order findOrderByIdAndCustomerId(UUID id, UUID customerId) {
         Optional<Order> order = orderRepository.findOrderByIdAndCustomerId(id, customerId);
         if (order.isPresent()) {
             return order.get();
         }
-        throw new RuntimeException("Order not found");
+        throw new OrderNotFoundException();
     }
 
-    private LocalDateTime getExpirationDate(){
+    private LocalDateTime getExpirationDate() {
         return LocalDateTime.now().plusHours(ORDER_EXPIRATION_HOURS);
     }
 
-    public void saveOrder(Order order){
+    public void saveOrder(Order order) {
         orderRepository.save(order);
     }
 

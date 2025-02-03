@@ -19,7 +19,7 @@ public class AdminCustomerController {
     final CustomerService customerService;
 
     @GetMapping("/customers")
-    public ResponseEntity<GetAllCustomersResponse> getAllCustomers(){
+    public ResponseEntity<GetAllCustomersResponse> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
@@ -34,7 +34,7 @@ public class AdminCustomerController {
     }
 
     @DeleteMapping("/customers/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") UUID id){
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") UUID id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }

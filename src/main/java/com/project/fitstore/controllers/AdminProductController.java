@@ -1,9 +1,12 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.dtos.product.*;
+import com.project.fitstore.dtos.product.CreateProductRequest;
+import com.project.fitstore.dtos.product.CreateProductResponse;
+import com.project.fitstore.dtos.product.UpdateProductRequest;
+import com.project.fitstore.dtos.product.UpdateProductResponse;
 import com.project.fitstore.repositories.ProductRepository;
-import com.project.fitstore.services.ProductService;
 import com.project.fitstore.services.ImageService;
+import com.project.fitstore.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

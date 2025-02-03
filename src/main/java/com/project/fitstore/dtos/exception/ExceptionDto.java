@@ -1,4 +1,6 @@
 package com.project.fitstore.dtos.exception;
 
-public record ExceptionDto(String message, String statusCode) {
+import org.springframework.http.HttpStatus;
+
+public record ExceptionDto(String message, HttpStatus status) {
 }

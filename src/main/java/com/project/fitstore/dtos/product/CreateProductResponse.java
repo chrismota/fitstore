@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public record CreateProductResponse(UUID id, String name, String description, String brand, Category category,
                                     SubCategory subCategory, BigDecimal price) {
-    public static CreateProductResponse from(Product product){
+    public static CreateProductResponse from(Product product) {
         return new CreateProductResponse(product.getId(), product.getName(), product.getDescription(),
                 product.getBrand(), product.getCategory(), product.getSubCategory(), product.getPrice());
     }

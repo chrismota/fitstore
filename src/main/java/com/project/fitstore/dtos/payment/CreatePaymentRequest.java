@@ -9,13 +9,14 @@ import org.hibernate.validator.constraints.UniqueElements;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 public record CreatePaymentRequest(
         UUID orderId,
         @UniqueElements(message = "You cannot add the same coupon twice")
         List<CreatePaymentCouponRequest> coupons,
         Method method,
-        Status status){
-    public Payment toPayment(){
+        Status status) {
+    public Payment toPayment() {
         Order order = Order.builder().id(orderId).build();
 
         return Payment.builder().id(null)

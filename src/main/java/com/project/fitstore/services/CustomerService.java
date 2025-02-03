@@ -2,6 +2,8 @@ package com.project.fitstore.services;
 
 import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
+import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
+import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
 import com.project.fitstore.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -84,13 +86,18 @@ public class CustomerService {
     public String deleteCustomerImage(String fileName, UUID id) {
         var customer = findCustomerById(id);
 
+        if(customer.getImagePath() == null) {
+            throw new CustomerImageNotFoundException();
+        }
+
         if (customer.getImagePath().equals(fileName)) {
             imageService.deleteImage(fileName);
             customer.setImagePath(null);
             customer.setUpdatedAt(LocalDateTime.now());
             saveCustomer(customer);
-        } else {
-            throw new RuntimeException("The image you are trying to delete is not your account current image.");
+        }
+        else {
+            throw new CustomerImageNotFoundException("The image you are trying to delete is not your account current image.");
         }
         return fileName + " successfully deleted.";
     }
@@ -100,12 +107,7 @@ public class CustomerService {
         if (customer.isPresent()) {
             return customer.get();
         }
-        throw new RuntimeException("Customer not found");
-    }
-
-    public Customer findCustomerByImage(String image) {
-        Optional<Customer> customer = customerRepository.findCustomerByImagePath(image);
-        return customer.orElse(null);
+        throw new CustomerNotFoundException();
     }
 
     public void saveCustomer(Customer customer) {

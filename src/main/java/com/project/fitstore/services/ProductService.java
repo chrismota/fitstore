@@ -2,6 +2,8 @@ package com.project.fitstore.services;
 
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.product.*;
+import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
+import com.project.fitstore.exceptions.product.ProductNotFoundException;
 import com.project.fitstore.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -80,7 +82,7 @@ public class ProductService {
         var product = findProductByImage(fileName);
 
         if (product == null) {
-            throw new RuntimeException("Image does not belong to any product or does not exist.");
+            throw new ProductImageNotFoundException("Image does not belong to any product or does not exist.");
         }
 
         imageService.deleteImage(fileName);
@@ -96,7 +98,7 @@ public class ProductService {
         if (product.isPresent()) {
             return product.get();
         }
-        throw new RuntimeException("Product not found");
+        throw new ProductNotFoundException();
     }
 
     public Product findProductByImage(String image) {

@@ -5,8 +5,15 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.payment.Payment;
 import com.project.fitstore.dtos.payment.*;
+import com.project.fitstore.exceptions.coupon.CouponExpiredException;
+import com.project.fitstore.exceptions.coupon.CouponNotAttendsMinValueException;
+import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
+import com.project.fitstore.exceptions.coupon.CouponUnexpectedPercentageException;
+import com.project.fitstore.exceptions.order.OrderExpiredException;
+import com.project.fitstore.exceptions.order.OrderNotValidException;
+import com.project.fitstore.exceptions.payment.PaymentAttemptFailedException;
+import com.project.fitstore.exceptions.payment.PaymentNotFoundException;
 import com.project.fitstore.repositories.PaymentRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,11 +33,12 @@ public class PaymentService {
     public GetAllPaymentsResponse getAllPaymentsFromOrder(UUID orderId, UUID customerId) {
         return GetAllPaymentsResponse.from(paymentRepository.findPaymentsByOrderId(orderId, customerId));
     }
+
     public GetAllPaymentsResponse getAllPayments() {
         return GetAllPaymentsResponse.from(paymentRepository.findAll());
     }
 
-  public GetPaymentResponse getPayment(UUID id) {
+    public GetPaymentResponse getPayment(UUID id) {
         return GetPaymentResponse.from(findPaymentById(id));
     }
 
@@ -38,7 +46,7 @@ public class PaymentService {
     public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest, UUID customerId) {
         Order order = orderService.findOrderByIdAndCustomerId(createPaymentRequest.orderId(), customerId);
         checkIfOrderIsExpired(order);
-        checkIfOrderIsValid(order);
+        orderService.checkIfOrderIsValid(order);
 
         Payment payment = createPaymentRequest.toPayment();
 
@@ -64,6 +72,7 @@ public class PaymentService {
     }
 
     private void payOrder(Order order, List<Coupon> couponList, Payment payment) {
+        // Tirar isso dps e jogar o erro na chamada do metodo
         if (attemptIsSuccessful()) {
             if (!couponList.isEmpty()) {
                 var discountValue = getDiscountValue(couponList, order);
@@ -78,7 +87,7 @@ public class PaymentService {
             payment.setStatus(com.project.fitstore.domain.payment.Status.SUCCESS);
         } else {
             payment.setStatus(com.project.fitstore.domain.payment.Status.FAILED);
-            throw new RuntimeException("There was an error on payment attempt. Please, try again later.");
+            throw new PaymentAttemptFailedException();
         }
     }
 
@@ -102,30 +111,23 @@ public class PaymentService {
         return couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
     }
 
-    private void checkIfOrderIsValid(Order order) {
-        if (order.getStatus() != Status.PENDING) {
-            throw new RuntimeException("The order is not valid anymore.");
-        }
-    }
-
     private void checkIfOrderIsExpired(Order order) {
         if (order.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("This order has already expired.");
+            throw new OrderExpiredException();
         }
     }
 
     private void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
-
         double totalDiscount = 0;
         for (var couponId : couponsIds) {
 
             Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
             if (couponOptional.isEmpty())
-                throw new RuntimeException("coupon does not exist");
+                throw new CouponNotFoundException("One or more coupons were not found.");
 
             var coupon = couponOptional.get();
 
-            checkIfCouponIsActive(coupon);
+            checkIfCouponIsExpired(coupon);
             checkIfCouponAttendsMinValue(coupon, order);
             totalDiscount += coupon.getPercentage();
         }
@@ -134,20 +136,19 @@ public class PaymentService {
 
     private void checkIfCouponPercentageIsValid(double totalDiscount) {
         if (totalDiscount >= 100)
-            throw new RuntimeException("Discount cannot be greater than a hundred percent");
+            throw new CouponUnexpectedPercentageException("Discount cannot be greater than a hundred percent");
     }
 
-    private void checkIfCouponIsActive(Coupon coupon) {
+    private void checkIfCouponIsExpired(Coupon coupon) {
         var now = LocalDateTime.now();
         if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
-            throw new RuntimeException("Coupon is not valid");
+            throw new CouponExpiredException("One or more coupons is expired.");
         }
     }
 
-
     private void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
         if (compareTo(order.getFullValue(), coupon.getMinValue()) < 0) {
-            throw new RuntimeException("One or more coupons is not available for this order.");
+            throw new CouponNotAttendsMinValueException("One or more coupons does not attend the minimum value for this order.");
         }
     }
 
@@ -156,7 +157,7 @@ public class PaymentService {
         if (payment.isPresent()) {
             return payment.get();
         }
-        throw new RuntimeException("Payment not found");
+        throw new PaymentNotFoundException();
     }
 
     private static int compareTo(BigDecimal firstValue, BigDecimal secondValue) {

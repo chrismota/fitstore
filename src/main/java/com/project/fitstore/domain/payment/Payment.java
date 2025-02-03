@@ -3,7 +3,10 @@ package com.project.fitstore.domain.payment;
 import com.project.fitstore.domain.coupon.Coupon;
 import com.project.fitstore.domain.order.Order;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;

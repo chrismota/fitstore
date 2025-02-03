@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record GetPaymentOrderResponse(UUID id, BigDecimal totalValue, BigDecimal discount, BigDecimal finalValue) {
 
-    public static GetPaymentOrderResponse from(Order order){
+    public static GetPaymentOrderResponse from(Order order) {
         return new GetPaymentOrderResponse(order.getId(), order.getFullValue(), order.getDiscount(), order.getValueAfterDiscount());
     }
 }

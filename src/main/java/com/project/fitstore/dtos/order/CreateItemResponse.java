@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record CreateItemResponse(UUID id, String productName, Integer quantity, BigDecimal unityPrice) {
-    public static CreateItemResponse from(OrderItem orderItem){
+    public static CreateItemResponse from(OrderItem orderItem) {
         return new CreateItemResponse(orderItem.getProduct().getId(), orderItem.getProduct().getName(),
                 orderItem.getQuantity(), orderItem.getUnityPrice());
     }

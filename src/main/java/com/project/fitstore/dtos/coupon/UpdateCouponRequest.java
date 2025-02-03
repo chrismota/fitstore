@@ -14,5 +14,4 @@ public record UpdateCouponRequest(
         LocalDateTime startTime,
         LocalDateTime expirationTime,
         BigDecimal minValue) {
-
 }

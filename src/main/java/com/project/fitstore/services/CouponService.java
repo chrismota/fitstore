@@ -2,6 +2,7 @@ package com.project.fitstore.services;
 
 import com.project.fitstore.domain.coupon.Coupon;
 import com.project.fitstore.dtos.coupon.*;
+import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
 import com.project.fitstore.repositories.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,19 +17,19 @@ import java.util.UUID;
 public class CouponService {
     final CouponRepository couponRepository;
 
-    public GetAllCouponsResponse getAllCoupons(){
+    public GetAllCouponsResponse getAllCoupons() {
         return GetAllCouponsResponse.from(couponRepository.findAll());
     }
 
-    public GetCouponResponse getCoupon(UUID id){
+    public GetCouponResponse getCoupon(UUID id) {
         return GetCouponResponse.from(findCouponById(id));
     }
 
-    public CreateCouponResponse createCoupon(CreateCouponRequest createCouponRequest){
+    public CreateCouponResponse createCoupon(CreateCouponRequest createCouponRequest) {
         return CreateCouponResponse.from(couponRepository.save(createCouponRequest.toCoupon()));
     }
 
-    public UpdateCouponResponse updateCoupon(UUID id, UpdateCouponRequest updateCouponRequest){
+    public UpdateCouponResponse updateCoupon(UUID id, UpdateCouponRequest updateCouponRequest) {
         Coupon coupon = findCouponById(id);
 
         coupon.setName(updateCouponRequest.name());
@@ -41,7 +42,7 @@ public class CouponService {
         return UpdateCouponResponse.from(couponRepository.save(coupon));
     }
 
-    public void deleteCoupon(UUID id){
+    public void deleteCoupon(UUID id) {
         couponRepository.delete(findCouponById(id));
     }
 
@@ -50,8 +51,9 @@ public class CouponService {
         if (coupon.isPresent()) {
             return coupon.get();
         }
-        throw new RuntimeException("Coupon not found");
+        throw new CouponNotFoundException();
     }
+
     public List<Coupon> findCouponsByIds(List<UUID> ids) {
         return couponRepository.findByIdIn(ids);
     }

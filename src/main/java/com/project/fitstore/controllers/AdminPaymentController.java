@@ -26,7 +26,7 @@ public class AdminPaymentController {
     }
 
     @DeleteMapping("/payments/{paymentId}")
-    public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") UUID paymentId){
+    public ResponseEntity<Void> deletePayment(@PathVariable("paymentId") UUID paymentId) {
         paymentService.deletePayment(paymentId);
         return ResponseEntity.noContent().build();
     }

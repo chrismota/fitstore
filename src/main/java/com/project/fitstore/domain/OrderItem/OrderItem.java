@@ -3,7 +3,9 @@ package com.project.fitstore.domain.OrderItem;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.product.Product;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -18,7 +18,6 @@ public record UpdateProductRequest(
         String brand,
         Category category,
         SubCategory subCategory,
-
         @NotNull(message = "price is mandatory")
-        BigDecimal price){
+        BigDecimal price) {
 }

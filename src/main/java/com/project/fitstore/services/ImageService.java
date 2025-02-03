@@ -4,6 +4,10 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
+import com.project.fitstore.exceptions.image.ImageConvertionException;
+import com.project.fitstore.exceptions.image.ImageDeleteException;
+import com.project.fitstore.exceptions.image.ImageDownloadException;
+import com.project.fitstore.exceptions.image.ImageUploadException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,7 +31,7 @@ public class ImageService {
         try {
             s3Client.putObject(new PutObjectRequest(bucketName, imageName, imageObj));
         } catch (AmazonServiceException e) {
-            throw new AmazonServiceException(e.getMessage());
+            throw new ImageUploadException();
         }
 
         imageObj.delete();
@@ -50,7 +54,7 @@ public class ImageService {
             s3Client.getObject(bucketName, fileName);
             s3Client.deleteObject(bucketName, fileName);
         } catch (AmazonServiceException e) {
-            throw new AmazonServiceException("There was an error on the delete attempt of the image.");
+            throw new ImageDeleteException();
         }
     }
 
@@ -58,7 +62,7 @@ public class ImageService {
         try {
             s3Client.deleteObject(bucketName, oldImage);
         } catch (AmazonServiceException e) {
-            throw new AmazonServiceException(e.getMessage());
+            throw new ImageDeleteException();
         }
     }
 
@@ -68,7 +72,7 @@ public class ImageService {
         try {
             return IOUtils.toByteArray(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ImageDownloadException();
         }
     }
 
@@ -77,7 +81,7 @@ public class ImageService {
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
             fos.write(file.getBytes());
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new ImageConvertionException();
         }
         return convertedFile;
     }

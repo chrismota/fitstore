@@ -17,8 +17,8 @@ public record CreateCouponRequest(
         Double percentage,
         LocalDateTime startTime,
         LocalDateTime expirationTime,
-    BigDecimal minValue) {
-    public Coupon toCoupon(){
+        BigDecimal minValue) {
+    public Coupon toCoupon() {
         return Coupon.builder().id(null).name(name).code(code).percentage(percentage).startTime(startTime)
                 .expirationTime(expirationTime)
                 .minValue(minValue)
