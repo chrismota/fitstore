@@ -5,6 +5,7 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
+import com.project.fitstore.exceptions.order.OrderExpiredException;
 import com.project.fitstore.exceptions.order.OrderNotFoundException;
 import com.project.fitstore.exceptions.order.OrderNotValidException;
 import com.project.fitstore.repositories.OrderItemRepository;
@@ -49,8 +50,8 @@ public class OrderService {
 
     @Transactional
     public CreateOrderResponse createOrder(CreateOrderRequest createOrderRequest, UUID customerId) {
-        checkIfCustomerExists(customerId);
-        checkIfProductExists(createOrderRequest);
+        customerService.checkIfCustomerExists(customerId);
+        productService.checkIfProductsExists(createOrderRequest);
 
         Order order = orderRepository.save(createOrderRequest.toOrder(customerId, getExpirationDate()));
 
@@ -107,13 +108,9 @@ public class OrderService {
         }
     }
 
-    private void checkIfCustomerExists(UUID customerId) {
-        customerService.findCustomerById(customerId);
-    }
-
-    private void checkIfProductExists(CreateOrderRequest createOrderRequest) {
-        for (var product : createOrderRequest.products()) {
-            productService.findProductById(product.id());
+    public void checkIfOrderIsExpired(Order order) {
+        if (order.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new OrderExpiredException();
         }
     }
 

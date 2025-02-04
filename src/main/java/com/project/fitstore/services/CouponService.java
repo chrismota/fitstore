@@ -1,12 +1,19 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.coupon.Coupon;
+import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.dtos.coupon.*;
+import com.project.fitstore.dtos.payment.CreatePaymentCouponRequest;
+import com.project.fitstore.dtos.payment.CreatePaymentRequest;
+import com.project.fitstore.exceptions.coupon.CouponExpiredException;
+import com.project.fitstore.exceptions.coupon.CouponNotAttendsMinValueException;
 import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
+import com.project.fitstore.exceptions.coupon.CouponUnexpectedPercentageException;
 import com.project.fitstore.repositories.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -57,4 +64,49 @@ public class CouponService {
     public List<Coupon> findCouponsByIds(List<UUID> ids) {
         return couponRepository.findByIdIn(ids);
     }
+
+    public void checkIfCouponIsExpired(Coupon coupon) {
+        var now = LocalDateTime.now();
+        if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
+            throw new CouponExpiredException("One or more coupons is expired.");
+        }
+    }
+
+    public void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
+        if (compareTo(order.getFullValue(), coupon.getMinValue()) < 0) {
+            throw new CouponNotAttendsMinValueException("One or more coupons does not attend the minimum value for this order.");
+        }
+    }
+
+    private static int compareTo(BigDecimal firstValue, BigDecimal secondValue) {
+        return firstValue.compareTo(secondValue);
+    }
+
+    public void checkIfCouponPercentageIsValid(double totalDiscount) {
+        if (totalDiscount >= 100)
+            throw new CouponUnexpectedPercentageException("Discount cannot be greater than a hundred percent");
+    }
+
+    public void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
+        double totalDiscount = 0;
+        for (var couponId : couponsIds) {
+
+            Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
+            if (couponOptional.isEmpty())
+                throw new CouponNotFoundException("One or more coupons were not found.");
+
+            var coupon = couponOptional.get();
+
+            checkIfCouponIsExpired(coupon);
+            checkIfCouponAttendsMinValue(coupon, order);
+            totalDiscount += coupon.getPercentage();
+        }
+        checkIfCouponPercentageIsValid(totalDiscount);
+    }
+
+
+    public List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest) {
+        return findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
+    }
+
 }

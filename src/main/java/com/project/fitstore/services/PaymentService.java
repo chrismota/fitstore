@@ -45,7 +45,7 @@ public class PaymentService {
     @Transactional
     public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest, UUID customerId) {
         Order order = orderService.findOrderByIdAndCustomerId(createPaymentRequest.orderId(), customerId);
-        checkIfOrderIsExpired(order);
+        orderService.checkIfOrderIsExpired(order);
         orderService.checkIfOrderIsValid(order);
 
         Payment payment = createPaymentRequest.toPayment();
@@ -53,8 +53,8 @@ public class PaymentService {
         List<Coupon> couponList = new ArrayList<>();
 
         if (createPaymentRequest.coupons() != null) {
-            couponList = getCouponList(createPaymentRequest);
-            checkIfCouponsAreValid(createPaymentRequest.coupons(), couponList, order);
+            couponList = couponService.getCouponList(createPaymentRequest);
+            couponService.checkIfCouponsAreValid(createPaymentRequest.coupons(), couponList, order);
             payment.setCoupons(couponList);
         }
 
@@ -97,7 +97,6 @@ public class PaymentService {
         return number < 3;
     }
 
-
     private BigDecimal getDiscountValue(List<Coupon> couponList, Order order) {
         double totalDiscount = 0;
         for (var coupon : couponList) {
@@ -107,50 +106,6 @@ public class PaymentService {
         return order.getFullValue().multiply(discountValue);
     }
 
-    private List<Coupon> getCouponList(CreatePaymentRequest createPaymentRequest) {
-        return couponService.findCouponsByIds(createPaymentRequest.coupons().stream().map(CreatePaymentCouponRequest::id).toList());
-    }
-
-    private void checkIfOrderIsExpired(Order order) {
-        if (order.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new OrderExpiredException();
-        }
-    }
-
-    private void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
-        double totalDiscount = 0;
-        for (var couponId : couponsIds) {
-
-            Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
-            if (couponOptional.isEmpty())
-                throw new CouponNotFoundException("One or more coupons were not found.");
-
-            var coupon = couponOptional.get();
-
-            checkIfCouponIsExpired(coupon);
-            checkIfCouponAttendsMinValue(coupon, order);
-            totalDiscount += coupon.getPercentage();
-        }
-        checkIfCouponPercentageIsValid(totalDiscount);
-    }
-
-    private void checkIfCouponPercentageIsValid(double totalDiscount) {
-        if (totalDiscount >= 100)
-            throw new CouponUnexpectedPercentageException("Discount cannot be greater than a hundred percent");
-    }
-
-    private void checkIfCouponIsExpired(Coupon coupon) {
-        var now = LocalDateTime.now();
-        if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
-            throw new CouponExpiredException("One or more coupons is expired.");
-        }
-    }
-
-    private void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
-        if (compareTo(order.getFullValue(), coupon.getMinValue()) < 0) {
-            throw new CouponNotAttendsMinValueException("One or more coupons does not attend the minimum value for this order.");
-        }
-    }
 
     public Payment findPaymentById(UUID id) {
         Optional<Payment> payment = paymentRepository.findById(id);
@@ -158,10 +113,6 @@ public class PaymentService {
             return payment.get();
         }
         throw new PaymentNotFoundException();
-    }
-
-    private static int compareTo(BigDecimal firstValue, BigDecimal secondValue) {
-        return firstValue.compareTo(secondValue);
     }
 
 }

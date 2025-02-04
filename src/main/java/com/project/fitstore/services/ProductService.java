@@ -1,6 +1,8 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.product.Product;
+import com.project.fitstore.dtos.order.CreateItemRequest;
+import com.project.fitstore.dtos.order.CreateOrderRequest;
 import com.project.fitstore.dtos.product.*;
 import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
 import com.project.fitstore.exceptions.product.ProductNotFoundException;
@@ -11,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -55,7 +59,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public String uploadImage(MultipartFile file, UUID id) {
+    public String uploadProductImage(MultipartFile file, UUID id) {
         var product = findProductById(id);
         String imageName = imageService.uploadImage(file);
 
@@ -65,7 +69,7 @@ public class ProductService {
         return "Image uploaded successfully: " + imageName;
     }
 
-    public String updateImage(MultipartFile imageFile, UUID id) {
+    public String updateProductImage(MultipartFile imageFile, UUID id) {
         var product = findProductById(id);
         String oldImage = product.getImagePath();
 
@@ -108,5 +112,14 @@ public class ProductService {
 
     public void saveProduct(Product product) {
         productRepository.save(product);
+    }
+
+
+    public void checkIfProductsExists(CreateOrderRequest createOrderRequest) {
+        List<UUID> productIds = createOrderRequest.products().stream().map(CreateItemRequest::id).toList();
+        var products = productRepository.findByIdIn(productIds);
+        if (products.size() != productIds.size()) {
+            throw new ProductNotFoundException("One or more products were not found.");
+        }
     }
 }

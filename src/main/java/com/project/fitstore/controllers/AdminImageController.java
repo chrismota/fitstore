@@ -28,12 +28,12 @@ public class AdminImageController {
 
     @PostMapping("/product/{id}/upload")
     public ResponseEntity<String> uploadProductImage(@RequestParam("image") MultipartFile imageFile, @PathVariable("id") UUID productId) {
-        return new ResponseEntity<>(productService.uploadImage(imageFile, productId), HttpStatus.OK);
+        return new ResponseEntity<>(productService.uploadProductImage(imageFile, productId), HttpStatus.OK);
     }
 
     @PutMapping("/product/{id}/update")
     public ResponseEntity<String> updateProductImage(@RequestParam("image") MultipartFile imageFile, @PathVariable("id") UUID productId) {
-        return new ResponseEntity<>(productService.updateImage(imageFile, productId), HttpStatus.OK);
+        return new ResponseEntity<>(productService.updateProductImage(imageFile, productId), HttpStatus.OK);
     }
 
     @GetMapping("/download/{fileName}")

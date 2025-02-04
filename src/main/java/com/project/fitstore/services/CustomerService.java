@@ -110,6 +110,10 @@ public class CustomerService {
         throw new CustomerNotFoundException();
     }
 
+    public void checkIfCustomerExists(UUID customerId) {
+        findCustomerById(customerId);
+    }
+
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
     }
