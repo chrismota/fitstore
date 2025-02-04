@@ -67,12 +67,14 @@ public class ImageService {
     }
 
     public byte[] downloadImage(String fileName) {
-        S3Object s3Object = s3Client.getObject(bucketName, fileName);
-        S3ObjectInputStream inputStream = s3Object.getObjectContent();
         try {
+            S3Object s3Object = s3Client.getObject(bucketName, fileName);
+            S3ObjectInputStream inputStream = s3Object.getObjectContent();
             return IOUtils.toByteArray(inputStream);
         } catch (IOException e) {
             throw new ImageDownloadException();
+        } catch (AmazonServiceException e) {
+            throw new ImageDownloadException("Image not found");
         }
     }
 

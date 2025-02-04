@@ -36,18 +36,6 @@ public class AdminImageController {
         return new ResponseEntity<>(productService.updateProductImage(imageFile, productId), HttpStatus.OK);
     }
 
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable String fileName) {
-        byte[] data = imageService.downloadImage(fileName);
-        ByteArrayResource resource = new ByteArrayResource(data);
-        return ResponseEntity
-                .ok()
-                .contentLength(data.length)
-                .header("Content-type", "application/octet-stream")
-                .header("Content-disposition", "attachment; filename=\"" + fileName + "\"")
-                .body(resource);
-    }
-
     @DeleteMapping("/product/{fileName}/delete")
     public ResponseEntity<String> deleteProductImage(@PathVariable String fileName) {
         return new ResponseEntity<>(productService.deleteProductImage(fileName), HttpStatus.OK);

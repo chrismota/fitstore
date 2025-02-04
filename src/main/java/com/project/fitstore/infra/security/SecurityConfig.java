@@ -30,6 +30,7 @@ public class SecurityConfig {
                         req -> req
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/image/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/customers/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/customers/**").authenticated()
                                 .requestMatchers(HttpMethod.PUT, "/customers/**").authenticated()

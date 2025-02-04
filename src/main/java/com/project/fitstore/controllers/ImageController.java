@@ -2,7 +2,9 @@ package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.services.CustomerService;
+import com.project.fitstore.services.ImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     private final CustomerService customerService;
+    private final ImageService imageService;
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<ByteArrayResource> downloadImage(@PathVariable String fileName) {
+        byte[] data = imageService.downloadImage(fileName);
+        ByteArrayResource resource = new ByteArrayResource(data);
+        return ResponseEntity
+                .ok()
+                .contentLength(data.length)
+                .header("Content-type", "application/octet-stream")
+                .header("Content-disposition", "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
+    }
 
     @PostMapping("/customer/upload")
     public ResponseEntity<String> uploadCustomerImage(@RequestParam("image") MultipartFile imageFile, Authentication auth) {
