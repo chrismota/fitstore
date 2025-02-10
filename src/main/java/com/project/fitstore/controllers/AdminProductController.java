@@ -30,12 +30,12 @@ public class AdminProductController {
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable("id") UUID id, @RequestBody @Valid UpdateProductRequest updateProductRequest) {
+    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable("id") Long id, @RequestBody @Valid UpdateProductRequest updateProductRequest) {
         return ResponseEntity.ok(productService.updateProduct(id, updateProductRequest));
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }

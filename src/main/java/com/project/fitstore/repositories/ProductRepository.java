@@ -10,12 +10,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findProductByName(String name);
 
     Optional<Product> findProductBySku(String sku);
 
     Optional<Product> findProductByImagePath(String image);
 
-    List<Product> findByIdIn(List<UUID> productIds);
+    List<Product> findByIdIn(List<Long> productIds);
 }

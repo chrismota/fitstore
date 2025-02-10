@@ -1,5 +1,5 @@
 CREATE TABLE public.products (
-	id uuid NOT NULL,
+	id SERIAL NOT NULL,
 	brand varchar(255) NULL,
 	category varchar(255) NULL,
 	created_at timestamp(6) NULL,
@@ -15,3 +15,5 @@ CREATE TABLE public.products (
 	CONSTRAINT products_sub_category_check CHECK (((sub_category)::text = ANY ((ARRAY['BICICLETA'::character varying, 'ESTEIRA'::character varying, 'ELIPTICO'::character varying, 'BARRA'::character varying, 'SUPORTE'::character varying, 'PUXADOR'::character varying, 'BOLA'::character varying, 'COLCHONETE'::character varying, 'CANELEIRA'::character varying,'CORDA'::character varying, 'HALTER'::character varying, 'ANILHA'::character varying, 'KETLEBELL'::character varying])::text[]))),
 	CONSTRAINT products_unique_sku UNIQUE (sku)
 );
+
+CREATE SEQUENCE products_seq START WITH 1 INCREMENT BY 1;

@@ -28,7 +28,7 @@ public class CouponService {
         return GetAllCouponsResponse.from(couponRepository.findAll());
     }
 
-    public GetCouponResponse getCoupon(UUID id) {
+    public GetCouponResponse getCoupon(Long id) {
         return GetCouponResponse.from(findCouponById(id));
     }
 
@@ -36,7 +36,7 @@ public class CouponService {
         return CreateCouponResponse.from(couponRepository.save(createCouponRequest.toCoupon()));
     }
 
-    public UpdateCouponResponse updateCoupon(UUID id, UpdateCouponRequest updateCouponRequest) {
+    public UpdateCouponResponse updateCoupon(Long id, UpdateCouponRequest updateCouponRequest) {
         Coupon coupon = findCouponById(id);
 
         coupon.setName(updateCouponRequest.name());
@@ -49,11 +49,11 @@ public class CouponService {
         return UpdateCouponResponse.from(couponRepository.save(coupon));
     }
 
-    public void deleteCoupon(UUID id) {
+    public void deleteCoupon(Long id) {
         couponRepository.delete(findCouponById(id));
     }
 
-    public Coupon findCouponById(UUID id) {
+    public Coupon findCouponById(Long id) {
         Optional<Coupon> coupon = couponRepository.findById(id);
         if (coupon.isPresent()) {
             return coupon.get();
@@ -61,7 +61,7 @@ public class CouponService {
         throw new CouponNotFoundException();
     }
 
-    public List<Coupon> findCouponsByIds(List<UUID> ids) {
+    public List<Coupon> findCouponsByIds(List<Long> ids) {
         return couponRepository.findByIdIn(ids);
     }
 

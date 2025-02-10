@@ -24,7 +24,7 @@ public class CouponController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetCouponResponse> getCoupon(@PathVariable("id") UUID id) {
+    public ResponseEntity<GetCouponResponse> getCoupon(@PathVariable("id") Long id) {
         return ResponseEntity.ok(couponService.getCoupon(id));
     }
 }

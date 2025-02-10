@@ -29,19 +29,20 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ControllerAdvice
+@RestControllerAdvice
 @RequiredArgsConstructor
 public class ControllerExceptionHandler {
     final MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionDto> threatGeneralException(RuntimeException exception) {
+    public ResponseEntity<ExceptionDto> threatGeneralException(Exception exception) {
         ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        return ResponseEntity.internalServerError().body(exceptionDTO);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)

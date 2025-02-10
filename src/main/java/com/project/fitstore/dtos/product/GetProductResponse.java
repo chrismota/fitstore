@@ -5,9 +5,8 @@ import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.domain.product.SubCategory;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
-public record GetProductResponse(UUID id, String name, String description, String brand, Category category,
+public record GetProductResponse(Long id, String name, String description, String brand, Category category,
                                  SubCategory subCategory, BigDecimal price) {
     public static GetProductResponse from(Product product) {
         return new GetProductResponse(product.getId(), product.getName(), product.getDescription(), product.getBrand(),

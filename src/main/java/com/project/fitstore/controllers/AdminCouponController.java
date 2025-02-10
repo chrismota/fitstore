@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin")
@@ -25,12 +23,12 @@ public class AdminCouponController {
     }
 
     @PutMapping("/coupons/{id}")
-    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCouponRequest updateCouponRequest) {
+    public ResponseEntity<UpdateCouponResponse> updateCoupon(@PathVariable("id") Long id, @RequestBody @Valid UpdateCouponRequest updateCouponRequest) {
         return ResponseEntity.ok(couponService.updateCoupon(id, updateCouponRequest));
     }
 
     @DeleteMapping("/coupons/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> deleteCoupon(@PathVariable("id") Long id) {
         couponService.deleteCoupon(id);
         return ResponseEntity.noContent().build();
     }

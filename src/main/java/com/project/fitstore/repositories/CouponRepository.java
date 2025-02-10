@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface CouponRepository extends JpaRepository<Coupon, UUID> {
-    List<Coupon> findByIdIn(List<UUID> couponIds);
+public interface CouponRepository extends JpaRepository<Coupon, Long> {
+    List<Coupon> findByIdIn(List<Long> couponIds);
 }

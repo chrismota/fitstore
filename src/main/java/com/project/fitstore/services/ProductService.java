@@ -28,7 +28,7 @@ public class ProductService {
         return GetAllProductsResponse.from(productRepository.findAll());
     }
 
-    public GetProductResponse getProduct(UUID id) {
+    public GetProductResponse getProduct(Long id) {
         return GetProductResponse.from(findProductById(id));
     }
 
@@ -36,7 +36,7 @@ public class ProductService {
         return CreateProductResponse.from(productRepository.save(createProductRequest.toProduct()));
     }
 
-    public UpdateProductResponse updateProduct(UUID id, UpdateProductRequest updateProductRequest) {
+    public UpdateProductResponse updateProduct(Long id, UpdateProductRequest updateProductRequest) {
         Product product = findProductById(id);
 
         product.setName(updateProductRequest.name());
@@ -51,7 +51,7 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProduct(UUID id) {
+    public void deleteProduct(Long id) {
         var product = findProductById(id);
         if (product.getImagePath() != null) {
             imageService.deleteImage(product.getImagePath());
@@ -59,7 +59,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public String uploadProductImage(MultipartFile file, UUID id) {
+    public String uploadProductImage(MultipartFile file, Long id) {
         var product = findProductById(id);
         String imageName = imageService.uploadImage(file);
 
@@ -69,7 +69,7 @@ public class ProductService {
         return "Image uploaded successfully: " + imageName;
     }
 
-    public String updateProductImage(MultipartFile imageFile, UUID id) {
+    public String updateProductImage(MultipartFile imageFile, Long id) {
         var product = findProductById(id);
         String oldImage = product.getImagePath();
 
@@ -97,7 +97,7 @@ public class ProductService {
         return fileName + " successfully deleted.";
     }
 
-    public Product findProductById(UUID id) {
+    public Product findProductById(Long id) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
             return product.get();
@@ -116,7 +116,7 @@ public class ProductService {
 
 
     public void checkIfProductsExists(CreateOrderRequest createOrderRequest) {
-        List<UUID> productIds = createOrderRequest.products().stream().map(CreateItemRequest::id).toList();
+        List<Long> productIds = createOrderRequest.products().stream().map(CreateItemRequest::id).toList();
         var products = productRepository.findByIdIn(productIds);
         if (products.size() != productIds.size()) {
             throw new ProductNotFoundException("One or more products were not found.");

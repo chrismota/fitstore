@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "coupons")
@@ -18,8 +17,9 @@ import java.util.UUID;
 @Data
 public class Coupon {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coupons_seq")
+    @SequenceGenerator(name = "coupons_seq", sequenceName = "coupons_seq", allocationSize = 1)
+    private Long id;
 
     private String name;
     @Column(unique = true)

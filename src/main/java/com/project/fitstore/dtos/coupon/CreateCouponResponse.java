@@ -4,9 +4,8 @@ import com.project.fitstore.domain.coupon.Coupon;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public record CreateCouponResponse(UUID id, String name, String code, Double percentage, LocalDateTime startTime,
+public record CreateCouponResponse(Long id, String name, String code, Double percentage, LocalDateTime startTime,
                                    LocalDateTime expirationTime,
                                    BigDecimal minValue) {
     public static CreateCouponResponse from(Coupon coupon) {

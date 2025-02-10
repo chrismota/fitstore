@@ -1,5 +1,5 @@
-CREATE TABLE public.coupons (
-	id uuid NOT NULL,
+CREATE TABLE "coupons" (
+	id SERIAL NOT NULL,
 	code varchar(255) NULL,
 	created_at timestamp(6) NULL,
 	expiration_time timestamp(6) NULL,
@@ -11,3 +11,5 @@ CREATE TABLE public.coupons (
 	CONSTRAINT coupons_pkey PRIMARY KEY (id),
 	CONSTRAINT coupons_code_unique UNIQUE (code)
 );
+
+CREATE SEQUENCE coupons_seq START WITH 1 INCREMENT BY 1;
