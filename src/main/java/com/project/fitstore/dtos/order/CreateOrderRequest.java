@@ -13,7 +13,7 @@ public record CreateOrderRequest(
         @UniqueElements(message = "You cannot add the same product twice")
         List<CreateItemRequest> products) {
 
-    public Order toOrder(UUID customerId, LocalDateTime expiresAt){
+    public Order toOrder(UUID customerId, LocalDateTime expiresAt) {
         Customer customer = Customer.builder().id(customerId).build();
         return Order.builder().id(null).status(Status.PENDING).customer(customer)
                 .expiresAt(expiresAt)

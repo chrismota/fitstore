@@ -86,7 +86,7 @@ public class CustomerService {
     public String deleteCustomerImage(String fileName, UUID id) {
         var customer = findCustomerById(id);
 
-        if(customer.getImagePath() == null) {
+        if (customer.getImagePath() == null) {
             throw new CustomerImageNotFoundException();
         }
 
@@ -95,8 +95,7 @@ public class CustomerService {
             customer.setImagePath(null);
             customer.setUpdatedAt(LocalDateTime.now());
             saveCustomer(customer);
-        }
-        else {
+        } else {
             throw new CustomerImageNotFoundException("The image you are trying to delete is not your account current image.");
         }
         return fileName + " successfully deleted.";

@@ -4,6 +4,7 @@ public class ImageDownloadException extends RuntimeException {
     public ImageDownloadException() {
         super("There was an error while downloading the image.");
     }
+
     public ImageDownloadException(String message) {
         super(message);
     }

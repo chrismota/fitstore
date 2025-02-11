@@ -7,6 +7,7 @@ public class ImageDeleteException extends AmazonServiceException {
 
         super("There was an error on while deleting the image.");
     }
+
     public ImageDeleteException(String message) {
         super(message);
     }
