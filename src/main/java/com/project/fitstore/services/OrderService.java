@@ -6,12 +6,14 @@ import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.exceptions.order.OrderExpiredException;
+import com.project.fitstore.exceptions.order.OrderHasPaymentRecordException;
 import com.project.fitstore.exceptions.order.OrderNotFoundException;
 import com.project.fitstore.exceptions.order.OrderNotValidException;
 import com.project.fitstore.repositories.OrderItemRepository;
 import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -99,7 +101,11 @@ public class OrderService {
     }
 
     public void deleteOrder(UUID id) {
-        orderRepository.delete(this.findOrderById(id));
+        try {
+            orderRepository.delete(this.findOrderById(id));
+        } catch (DataIntegrityViolationException e) {
+            throw new OrderHasPaymentRecordException();
+        }
     }
 
     public void checkIfOrderIsValid(Order order) {
