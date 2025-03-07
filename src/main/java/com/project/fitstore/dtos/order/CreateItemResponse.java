@@ -4,9 +4,9 @@ import com.project.fitstore.domain.OrderItem.OrderItem;
 
 import java.math.BigDecimal;
 
-public record CreateItemResponse(Long id, String productName, Integer quantity, BigDecimal unityPrice) {
+public record CreateItemResponse(Long id, String productName, Integer quantity, BigDecimal unityPrice, String imagePath) {
     public static CreateItemResponse from(OrderItem orderItem) {
         return new CreateItemResponse(orderItem.getProduct().getId(), orderItem.getProduct().getName(),
-                orderItem.getQuantity(), orderItem.getUnityPrice());
+                orderItem.getQuantity(), orderItem.getUnityPrice(), orderItem.getProduct().getImagePath());
     }
 }
