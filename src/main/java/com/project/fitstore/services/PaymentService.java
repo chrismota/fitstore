@@ -58,7 +58,8 @@ public class PaymentService {
         try {
             payOrder(order, couponList, payment);
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
+            payment.setStatus(com.project.fitstore.domain.payment.Status.FAILED);
+            throw new PaymentAttemptFailedException();
         }
 
         return CreatePaymentResponse.from(paymentRepository.save(payment), order);
@@ -69,29 +70,17 @@ public class PaymentService {
     }
 
     private void payOrder(Order order, List<Coupon> couponList, Payment payment) {
-        // Tirar isso dps e jogar o erro na chamada do metodo
-        if (attemptIsSuccessful()) {
-            if (!couponList.isEmpty()) {
-                var discountValue = getDiscountValue(couponList, order);
-                order.setDiscount(discountValue);
-                order.setValueAfterDiscount(order.getValueAfterDiscount().subtract(discountValue));
-            }
-
-            order.setStatus(Status.PAID);
-            order.setUpdatedAt(LocalDateTime.now());
-            orderService.saveOrder(order);
-
-            payment.setStatus(com.project.fitstore.domain.payment.Status.SUCCESS);
-        } else {
-            payment.setStatus(com.project.fitstore.domain.payment.Status.FAILED);
-            throw new PaymentAttemptFailedException();
+        if (!couponList.isEmpty()) {
+            var discountValue = getDiscountValue(couponList, order);
+            order.setDiscount(discountValue);
+            order.setValueAfterDiscount(order.getValueAfterDiscount().subtract(discountValue));
         }
-    }
 
-    private boolean attemptIsSuccessful() {
-        Random r = new Random();
-        int number = r.nextInt(10);
-        return number < 3;
+        order.setStatus(Status.PAID);
+        order.setUpdatedAt(LocalDateTime.now());
+        orderService.saveOrder(order);
+
+        payment.setStatus(com.project.fitstore.domain.payment.Status.SUCCESS);
     }
 
     private BigDecimal getDiscountValue(List<Coupon> couponList, Order order) {
