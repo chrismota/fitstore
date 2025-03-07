@@ -14,10 +14,17 @@ public enum SubCategory {
     COLCHONETE(Category.ACESSORIOS),
     CANELEIRA(Category.ACESSORIOS),
     CORDA(Category.ACESSORIOS),
+    LUVA(Category.ACESSORIOS),
     HALTER(Category.PESOS),
     ANILHA(Category.PESOS),
-    KETLEBELL(Category.PESOS),
-    PRESILHA(Category.PESOS);
+    KETTLEBELL(Category.PESOS),
+    PRESILHA(Category.PESOS),
+    WHEY(Category.SUPLEMENTOS),
+    CREATINA(Category.SUPLEMENTOS),
+    PRE_TREINO(Category.SUPLEMENTOS),
+    CAMISA(Category.ROUPAS),
+    SHORT(Category.ROUPAS),
+    LEGGING(Category.ROUPAS);
 
-    private final Category category;
+    private final Category category; 
 }
