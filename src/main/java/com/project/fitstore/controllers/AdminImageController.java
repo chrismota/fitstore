@@ -1,6 +1,7 @@
 package com.project.fitstore.controllers;
 
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.project.fitstore.dtos.product.UpdateProductResponse;
 import com.project.fitstore.services.ImageService;
 import com.project.fitstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,9 @@ public class AdminImageController {
     }
 
     @PostMapping("/product/{id}/upload")
-    public ResponseEntity<String> uploadProductImage(@RequestParam("image") MultipartFile imageFile, @PathVariable("id") Long productId) {
+    public ResponseEntity<UpdateProductResponse> uploadProductImage(@RequestParam("image") MultipartFile imageFile,
+                                                                    @PathVariable("id") Long productId) {
         return new ResponseEntity<>(productService.uploadProductImage(imageFile, productId), HttpStatus.OK);
-    }
-
-    @PutMapping("/product/{id}/update")
-    public ResponseEntity<String> updateProductImage(@RequestParam("image") MultipartFile imageFile, @PathVariable("id") Long productId) {
-        return new ResponseEntity<>(productService.updateProductImage(imageFile, productId), HttpStatus.OK);
     }
 
     @DeleteMapping("/product/{fileName}/delete")

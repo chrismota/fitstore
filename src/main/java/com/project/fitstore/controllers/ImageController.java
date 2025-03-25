@@ -1,6 +1,7 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
+import com.project.fitstore.dtos.customer.UpdateCustomerResponse;
 import com.project.fitstore.services.CustomerService;
 import com.project.fitstore.services.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -32,16 +33,10 @@ public class ImageController {
     }
 
     @PostMapping("/customer/upload")
-    public ResponseEntity<String> uploadCustomerImage(@RequestParam("image") MultipartFile imageFile, Authentication auth) {
+    public ResponseEntity<UpdateCustomerResponse> uploadCustomerImage(@RequestParam("image") MultipartFile imageFile, Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
 
         return new ResponseEntity<>(customerService.uploadCustomerImage(imageFile, customer.getId()), HttpStatus.OK);
-    }
-
-    @PutMapping("/customer/update")
-    public ResponseEntity<String> updateCustomerImage(@RequestParam("image") MultipartFile imageFile, Authentication auth) {
-        var customer = (Customer) auth.getPrincipal();
-        return new ResponseEntity<>(customerService.updateCustomerImage(imageFile, customer.getId()), HttpStatus.OK);
     }
 
     @DeleteMapping("/customer/{fileName}/delete")

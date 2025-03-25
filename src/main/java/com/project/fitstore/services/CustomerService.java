@@ -68,19 +68,7 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
-    public String uploadCustomerImage(MultipartFile imageFile, UUID id) {
-        var customer = findCustomerById(id);
-
-        String imageName = imageService.uploadImage(imageFile);
-
-        customer.setImagePath(imageName);
-        customer.setUpdatedAt(LocalDateTime.now());
-        saveCustomer(customer);
-
-        return "Image uploaded successfully: " + imageName;
-    }
-
-    public String updateCustomerImage(MultipartFile imageFile, UUID id) {
+    public UpdateCustomerResponse uploadCustomerImage(MultipartFile imageFile, UUID id) {
         var customer = findCustomerById(id);
         String oldImage = customer.getImagePath();
 
@@ -88,9 +76,8 @@ public class CustomerService {
 
         customer.setImagePath(newImage);
         customer.setUpdatedAt(LocalDateTime.now());
-        saveCustomer(customer);
 
-        return newImage + " added.";
+        return UpdateCustomerResponse.from(customerRepository.save(customer));
     }
 
     @Transactional
