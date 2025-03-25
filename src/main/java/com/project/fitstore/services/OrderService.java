@@ -37,6 +37,10 @@ public class OrderService {
         return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerId(customerId));
     }
 
+    public GetAllOrdersResponse getOrdersByStatusFromCustomer(Status status, UUID customerId) {
+        return GetAllOrdersResponse.from(orderRepository.findOrdersByStatusAndCustomerId(status, customerId));
+    }
+
     public GetAllOrdersResponse getAllOrders() {
         return GetAllOrdersResponse.from(orderRepository.findAll());
     }

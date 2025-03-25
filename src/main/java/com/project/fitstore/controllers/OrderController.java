@@ -1,6 +1,7 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
+import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.services.OrderService;
@@ -32,6 +33,13 @@ public class OrderController {
                                                                  Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
         return ResponseEntity.ok(orderService.getOrderFromCustomer(orderId, customer.getId()));
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<GetAllOrdersResponse> getOrdersByStatusFromCustomer(@RequestParam Status status,
+                                                                 Authentication auth) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(orderService.getOrdersByStatusFromCustomer(status, customer.getId()));
     }
 
     @GetMapping("/{orderId}/payments")
