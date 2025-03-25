@@ -3,7 +3,7 @@ package com.project.fitstore.controllers;
 import com.project.fitstore.dtos.customer.GetAllCustomersResponse;
 import com.project.fitstore.dtos.customer.GetCustomerResponse;
 import com.project.fitstore.dtos.customer.UpdateCustomerInfoRequest;
-import com.project.fitstore.dtos.customer.UpdateCustomerInfoResponse;
+import com.project.fitstore.dtos.customer.UpdateCustomerResponse;
 import com.project.fitstore.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class AdminCustomerController {
     }
 
     @PutMapping("/customers/{id}")
-    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+    public ResponseEntity<UpdateCustomerResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoRequest));
     }
 
