@@ -14,6 +14,7 @@ import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -93,6 +94,17 @@ public class OrderService {
         orderItem.setUpdatedAt(LocalDateTime.now());
 
         return orderItem;
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    @Transactional
+    public void orderScheduler() {
+        List<Order> orders = orderRepository.findOrdersByStatusAndExpiresAtBefore(Status.PENDING, LocalDateTime.now());
+        for (Order order : orders) {
+            order.setStatus(Status.FAILED);
+            order.setUpdatedAt(LocalDateTime.now());
+        }
+        orderRepository.saveAll(orders);
     }
 
     public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID orderId, UUID customerId) {
