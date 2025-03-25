@@ -35,7 +35,7 @@ public class CustomerService {
         return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer(encodedPassword)));
     }
 
-    public UpdateCustomerInfoResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+    public UpdateCustomerResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         Customer customer = this.findCustomerById(id);
 
         customer.setName(updateCustomerInfoRequest.name());
@@ -45,7 +45,9 @@ public class CustomerService {
         customer.setPhoneNumber(updateCustomerInfoRequest.phoneNumber());
         customer.setUpdatedAt(LocalDateTime.now());
 
-        return UpdateCustomerInfoResponse.from(customerRepository.save(customer));
+        return UpdateCustomerResponse.from(customerRepository.save(customer));
+    }
+
     public UpdateCustomerResponse updateCustomerPassword(UUID id, UpdateCustomerPasswordRequest
             updateCustomerPasswordRequest) {
         Customer customer = this.findCustomerById(id);

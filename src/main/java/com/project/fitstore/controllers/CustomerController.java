@@ -28,9 +28,9 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.createCustomer(createCustomerRequest), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<UpdateCustomerInfoResponse> updateCustomerInfo(Authentication auth,
-                                                                         @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+    @PutMapping("/info")
+    public ResponseEntity<UpdateCustomerResponse> updateCustomerInfo(
+            Authentication auth, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         var customer = (Customer) auth.getPrincipal();
         return ResponseEntity.ok(customerService.updateCustomerInfo(customer.getId(), updateCustomerInfoRequest));
     }
