@@ -1,6 +1,8 @@
 package com.project.fitstore.services;
 
+import com.project.fitstore.domain.product.Category;
 import com.project.fitstore.domain.product.Product;
+import com.project.fitstore.domain.product.SubCategory;
 import com.project.fitstore.dtos.order.CreateItemRequest;
 import com.project.fitstore.dtos.order.CreateOrderRequest;
 import com.project.fitstore.dtos.product.*;
@@ -24,6 +26,18 @@ public class ProductService {
 
     public GetAllProductsResponse getAllProducts() {
         return GetAllProductsResponse.from(productRepository.findAll());
+    }
+
+    public GetAllProductsResponse getProductsByCategory(Category category) {
+        return GetAllProductsResponse.from(productRepository.findProductsByCategory(category));
+    }
+
+    public GetAllProductsResponse getProductsBySubCategory(SubCategory subCategory) {
+        return GetAllProductsResponse.from(productRepository.findProductsBySubCategory(subCategory));
+    }
+
+    public GetAllProductsResponse getProductsBySearchName(String name) {
+        return GetAllProductsResponse.from(productRepository.findProductsByNameContainingIgnoreCase(name));
     }
 
     public GetProductResponse getProduct(Long id) {
@@ -57,17 +71,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public String uploadProductImage(MultipartFile file, Long id) {
-        var product = findProductById(id);
-        String imageName = imageService.uploadImage(file);
-
-        product.setImagePath(imageName);
-        product.setUpdatedAt(LocalDateTime.now());
-        saveProduct(product);
-        return "Image uploaded successfully: " + imageName;
-    }
-
-    public String updateProductImage(MultipartFile imageFile, Long id) {
+    public UpdateProductResponse uploadProductImage(MultipartFile imageFile, Long id) {
         var product = findProductById(id);
         String oldImage = product.getImagePath();
 
@@ -75,9 +79,9 @@ public class ProductService {
 
         product.setImagePath(newImage);
         product.setUpdatedAt(LocalDateTime.now());
-        saveProduct(product);
 
-        return newImage + " added.";
+        return UpdateProductResponse.from(productRepository.save(product));
+
     }
 
     public String deleteProductImage(String fileName) {
