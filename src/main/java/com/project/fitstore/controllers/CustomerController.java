@@ -34,4 +34,11 @@ public class CustomerController {
         var customer = (Customer) auth.getPrincipal();
         return ResponseEntity.ok(customerService.updateCustomerInfo(customer.getId(), updateCustomerInfoRequest));
     }
+
+    @PutMapping("/password")
+    public ResponseEntity<UpdateCustomerResponse> updateCustomerPassword(
+            Authentication auth, @RequestBody @Valid UpdateCustomerPasswordRequest updateCustomerPasswordRequest) {
+        var customer = (Customer) auth.getPrincipal();
+        return ResponseEntity.ok(customerService.updateCustomerPassword(customer.getId(), updateCustomerPasswordRequest));
+    }
 }

@@ -46,6 +46,15 @@ public class CustomerService {
         customer.setUpdatedAt(LocalDateTime.now());
 
         return UpdateCustomerInfoResponse.from(customerRepository.save(customer));
+    public UpdateCustomerResponse updateCustomerPassword(UUID id, UpdateCustomerPasswordRequest
+            updateCustomerPasswordRequest) {
+        Customer customer = this.findCustomerById(id);
+
+        String encodedPassword = passwordEncoder.encode(updateCustomerPasswordRequest.password());
+        customer.setPassword(encodedPassword);
+        customer.setUpdatedAt(LocalDateTime.now());
+
+        return UpdateCustomerResponse.from(customerRepository.save(customer));
     }
 
     @Transactional
