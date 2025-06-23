@@ -4,9 +4,11 @@ import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
 import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
+import com.project.fitstore.exceptions.customer.DuplicateFieldException;
 import com.project.fitstore.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +34,14 @@ public class CustomerService {
 
     public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
         String encodedPassword = passwordEncoder.encode(createCustomerRequest.password());
-        return CreateCustomerResponse.from(customerRepository.save(createCustomerRequest.toCustomer(encodedPassword)));
+        Customer customer;
+        try{
+            customer = customerRepository.save(createCustomerRequest.toCustomer(encodedPassword));
+        }catch (DataIntegrityViolationException e) {
+            throw new DuplicateFieldException("One or more fields are already in use. Please check your data and try again.");
+        }
+
+        return CreateCustomerResponse.from(customer);
     }
 
     public UpdateCustomerResponse updateCustomerInfo(UUID id, UpdateCustomerInfoRequest updateCustomerInfoRequest) {
@@ -45,7 +54,12 @@ public class CustomerService {
         customer.setPhoneNumber(updateCustomerInfoRequest.phoneNumber());
         customer.setUpdatedAt(LocalDateTime.now());
 
-        return UpdateCustomerResponse.from(customerRepository.save(customer));
+        try {
+            customerRepository.save(customer);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateFieldException("One or more fields are already in use. Please check your data and try again.");
+        }
+        return UpdateCustomerResponse.from(customer);
     }
 
     public UpdateCustomerResponse updateCustomerPassword(UUID id, UpdateCustomerPasswordRequest
@@ -61,7 +75,7 @@ public class CustomerService {
 
     @Transactional
     public void deleteCustomer(UUID id) {
-        var customer = this.findCustomerById(id);
+        Customer customer = this.findCustomerById(id);
         if (customer.getImagePath() != null) {
             imageService.deleteImage(customer.getImagePath());
         }
@@ -69,7 +83,7 @@ public class CustomerService {
     }
 
     public UpdateCustomerResponse uploadCustomerImage(MultipartFile imageFile, UUID id) {
-        var customer = findCustomerById(id);
+        Customer customer = findCustomerById(id);
         String oldImage = customer.getImagePath();
 
         String newImage = imageService.updateImage(imageFile, oldImage);
@@ -82,7 +96,7 @@ public class CustomerService {
 
     @Transactional
     public String deleteCustomerImage(String fileName, UUID id) {
-        var customer = findCustomerById(id);
+        Customer customer = findCustomerById(id);
 
         if (customer.getImagePath() == null) {
             throw new CustomerImageNotFoundException();
