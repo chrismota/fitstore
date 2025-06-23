@@ -5,6 +5,7 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.domain.product.Product;
 import com.project.fitstore.dtos.order.*;
+import com.project.fitstore.exceptions.general.InvalidStatusException;
 import com.project.fitstore.exceptions.order.OrderExpiredException;
 import com.project.fitstore.exceptions.order.OrderHasPaymentRecordException;
 import com.project.fitstore.exceptions.order.OrderNotFoundException;
@@ -14,6 +15,7 @@ import com.project.fitstore.repositories.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +36,13 @@ public class OrderService {
 
     private static final int ORDER_EXPIRATION_HOURS = 12;
 
+    public GetAllOrdersResponse getAllOrders() {
+        return GetAllOrdersResponse.from(orderRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt")));
+    }
+
     public GetAllOrdersResponse getAllOrdersFromCustomer(UUID customerId) {
-        return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerId(customerId));
+        customerService.checkIfCustomerExists(customerId);
+        return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerIdOrderByCreatedAtDesc(customerId));
     }
 
     public GetAllOrdersResponse getOrdersFromCustomerByStatus(String statusParam, UUID customerId) {
@@ -66,7 +73,6 @@ public class OrderService {
         productService.checkIfProductsExists(createOrderRequest);
 
         Order order = orderRepository.save(createOrderRequest.toOrder(customerId, getExpirationDate()));
-
         var orderItemList = createItemsList(createOrderRequest, order);
         order.setItems(orderItemList);
         order.setFullValue(getTotalPrice(orderItemList));
