@@ -5,10 +5,7 @@ import com.project.fitstore.dtos.coupon.GetCouponResponse;
 import com.project.fitstore.services.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +16,11 @@ public class CouponController {
     @GetMapping
     public ResponseEntity<GetAllCouponsResponse> getAllCoupons() {
         return ResponseEntity.ok(couponService.getAllCoupons());
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<GetAllCouponsResponse> getCouponsByStatus(@RequestParam String status) {
+        return ResponseEntity.ok(couponService.getCouponsByStatus(status));
     }
 
     @GetMapping("/{id}")

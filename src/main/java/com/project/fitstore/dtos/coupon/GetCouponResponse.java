@@ -1,16 +1,17 @@
 package com.project.fitstore.dtos.coupon;
 
 import com.project.fitstore.domain.coupon.Coupon;
+import com.project.fitstore.domain.coupon.Status;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record GetCouponResponse(Long id, String name, String code,
+public record GetCouponResponse(Long id, String name, Status status, String code,
                                 Double percentage, LocalDateTime startTime,
                                 LocalDateTime expirationTime,
                                 BigDecimal minValue) {
     public static GetCouponResponse from(Coupon coupon) {
-        return new GetCouponResponse(coupon.getId(), coupon.getName(), coupon.getCode(),
+        return new GetCouponResponse(coupon.getId(), coupon.getName(), coupon.getStatus(), coupon.getCode(),
                 coupon.getPercentage(), coupon.getStartTime(),
                 coupon.getExpirationTime(), coupon.getMinValue()
         );

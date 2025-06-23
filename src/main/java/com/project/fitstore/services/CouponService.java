@@ -1,6 +1,7 @@
 package com.project.fitstore.services;
 
 import com.project.fitstore.domain.coupon.Coupon;
+import com.project.fitstore.domain.coupon.Status;
 import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.dtos.coupon.*;
 import com.project.fitstore.dtos.payment.CreatePaymentCouponRequest;
@@ -27,6 +28,16 @@ public class CouponService {
         return GetAllCouponsResponse.from(couponRepository.findAll());
     }
 
+    public GetAllCouponsResponse getCouponsByStatus(String statusParam) {
+        Status status;
+        try {
+            status = Status.valueOf(statusParam.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidStatusException("Invalid parameter value for status: " + statusParam);
+        }
+        return GetAllCouponsResponse.from(couponRepository.findCouponsByStatusOrderByCreatedAtDesc(status));
+    }
+
     public GetCouponResponse getCoupon(Long id) {
         return GetCouponResponse.from(findCouponById(id));
     }
@@ -39,10 +50,27 @@ public class CouponService {
         Coupon coupon = findCouponById(id);
 
         coupon.setName(updateCouponRequest.name());
+        coupon.setCode(updateCouponRequest.code());
         coupon.setStartTime(updateCouponRequest.startTime());
         coupon.setExpirationTime(updateCouponRequest.expirationTime());
         coupon.setPercentage(updateCouponRequest.percentage());
         coupon.setMinValue(updateCouponRequest.minValue());
+        coupon.setUpdatedAt(LocalDateTime.now());
+
+        return UpdateCouponResponse.from(couponRepository.save(coupon));
+    }
+
+    public UpdateCouponResponse updateCouponStatus(UpdateCouponStatusRequest updateCouponStatusRequest, Long id) {
+        Status status;
+        try {
+            status = Status.valueOf(updateCouponStatusRequest.status().toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidStatusException("Invalid field value for status: " + updateCouponStatusRequest.status());
+        }
+
+        Coupon coupon = findCouponById(id);
+
+        coupon.setStatus(status);
         coupon.setUpdatedAt(LocalDateTime.now());
 
         return UpdateCouponResponse.from(couponRepository.save(coupon));

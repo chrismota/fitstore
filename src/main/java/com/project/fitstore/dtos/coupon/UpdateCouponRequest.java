@@ -10,6 +10,7 @@ public record UpdateCouponRequest(
         @NotNull(message = "name is mandatory")
         @NotBlank(message = "name cannot be blank")
         String name,
+        String code,
         Double percentage,
         LocalDateTime startTime,
         LocalDateTime expirationTime,
