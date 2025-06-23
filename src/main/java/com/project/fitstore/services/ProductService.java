@@ -6,8 +6,10 @@ import com.project.fitstore.domain.product.SubCategory;
 import com.project.fitstore.dtos.order.CreateItemRequest;
 import com.project.fitstore.dtos.order.CreateOrderRequest;
 import com.project.fitstore.dtos.product.*;
+import com.project.fitstore.exceptions.product.ProductCategoryNotFoundException;
 import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
 import com.project.fitstore.exceptions.product.ProductNotFoundException;
+import com.project.fitstore.exceptions.product.ProductSubCategoryNotFoundException;
 import com.project.fitstore.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +30,24 @@ public class ProductService {
         return GetAllProductsResponse.from(productRepository.findAll());
     }
 
-    public GetAllProductsResponse getProductsByCategory(Category category) {
+    public GetAllProductsResponse getProductsByCategory(String categoryParam) {
+        Category category;
+        try {
+            category = Category.valueOf(categoryParam.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new ProductCategoryNotFoundException("Invalid parameter value for category: " + categoryParam);
+        }
         return GetAllProductsResponse.from(productRepository.findProductsByCategory(category));
     }
 
-    public GetAllProductsResponse getProductsBySubCategory(SubCategory subCategory) {
+    public GetAllProductsResponse getProductsBySubCategory(String subCategoryParam) {
+        SubCategory subCategory;
+        try {
+            subCategory = SubCategory.valueOf(subCategoryParam.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new ProductSubCategoryNotFoundException("Invalid parameter value for subcategory: " + subCategoryParam);
+        }
+
         return GetAllProductsResponse.from(productRepository.findProductsBySubCategory(subCategory));
     }
 

@@ -1,16 +1,11 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.domain.product.Category;
-import com.project.fitstore.domain.product.Product;
-import com.project.fitstore.domain.product.SubCategory;
 import com.project.fitstore.dtos.product.GetAllProductsResponse;
 import com.project.fitstore.dtos.product.GetProductResponse;
 import com.project.fitstore.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,12 +19,12 @@ public class ProductController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<GetAllProductsResponse> getProductsByCategory(@RequestParam Category category){
+    public ResponseEntity<GetAllProductsResponse> getProductsByCategory(@RequestParam String category){
         return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 
     @GetMapping("/subcategory")
-    public ResponseEntity<GetAllProductsResponse> getProductsBySubCategory(@RequestParam SubCategory subcategory){
+    public ResponseEntity<GetAllProductsResponse> getProductsBySubCategory(@RequestParam String subcategory){
         return ResponseEntity.ok(productService.getProductsBySubCategory(subcategory));
     }
 
