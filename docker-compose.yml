@@ -14,10 +14,15 @@ services:
       - 5432:5432
   s3mock:
     image: adobe/s3mock:latest
+    container_name: s3mock
     environment:
       - initialBuckets=fitstorebucket
+      - root=/data
+      - retainFilesOnExit=true
     ports:
       - 9090:9090
+    volumes:
+      - ./s3mock-data:/data
 
 volumes:
   fitstore:
