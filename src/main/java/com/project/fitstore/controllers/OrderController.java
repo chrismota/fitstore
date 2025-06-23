@@ -55,12 +55,4 @@ public class OrderController {
         var customer = (Customer) auth.getPrincipal();
         return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customer.getId()), HttpStatus.CREATED);
     }
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity<UpdateOrderStatusResponse> updateOrderStatus(
-            @RequestBody UpdateOrderStatusRequest updateOrderStatusRequest, @PathVariable("orderId") UUID orderId,
-            Authentication auth) {
-        var customer = (Customer) auth.getPrincipal();
-        return ResponseEntity.ok(orderService.updateOrderStatus(updateOrderStatusRequest, orderId, customer.getId()));
-    }
 }

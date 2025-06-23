@@ -107,15 +107,6 @@ public class OrderService {
         orderRepository.saveAll(orders);
     }
 
-    public UpdateOrderStatusResponse updateOrderStatus(UpdateOrderStatusRequest orderStatusDto, UUID orderId, UUID customerId) {
-        Order order = findOrderByIdAndCustomerId(orderId, customerId);
-        checkIfOrderIsValid(order);
-
-        order.setStatus(orderStatusDto.status());
-        order.setUpdatedAt(LocalDateTime.now());
-        return UpdateOrderStatusResponse.from(orderRepository.save(order));
-    }
-
     public void deleteOrder(UUID id) {
         try {
             orderRepository.delete(this.findOrderById(id));
