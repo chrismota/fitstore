@@ -38,12 +38,17 @@ public class OrderService {
         return GetAllOrdersResponse.from(orderRepository.findOrdersByCustomerId(customerId));
     }
 
-    public GetAllOrdersResponse getOrdersByStatusFromCustomer(Status status, UUID customerId) {
-        return GetAllOrdersResponse.from(orderRepository.findOrdersByStatusAndCustomerId(status, customerId));
-    }
+    public GetAllOrdersResponse getOrdersFromCustomerByStatus(String statusParam, UUID customerId) {
+        Status status;
+        try {
+            status = Status.valueOf(statusParam.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidStatusException("Invalid parameter value for status: " + statusParam);
+        }
 
-    public GetAllOrdersResponse getAllOrders() {
-        return GetAllOrdersResponse.from(orderRepository.findAll());
+        customerService.checkIfCustomerExists(customerId);
+
+        return GetAllOrdersResponse.from(orderRepository.findOrdersByStatusAndCustomerIdOrderByCreatedAtDesc(status, customerId));
     }
 
     public GetOrderResponse getOrderFromCustomer(UUID orderId, UUID customerId) {

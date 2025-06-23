@@ -36,10 +36,10 @@ public class OrderController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<GetAllOrdersResponse> getOrdersByStatusFromCustomer(@RequestParam Status status,
-                                                                 Authentication auth) {
+    public ResponseEntity<GetAllOrdersResponse> getOrdersFromCustomerByStatus(@RequestParam String status,
+                                                                              Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
-        return ResponseEntity.ok(orderService.getOrdersByStatusFromCustomer(status, customer.getId()));
+        return ResponseEntity.ok(orderService.getOrdersFromCustomerByStatus(status, customer.getId()));
     }
 
     @GetMapping("/{orderId}/payments")
