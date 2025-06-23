@@ -1,7 +1,6 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.domain.order.Status;
 import com.project.fitstore.dtos.order.*;
 import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.services.OrderService;
@@ -50,8 +49,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest,
-                                                           Authentication auth) {
+    public ResponseEntity<CreateOrderResponse> createOrder(
+            @Valid @RequestBody CreateOrderRequest createOrderRequest, Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
         return new ResponseEntity<>(orderService.createOrder(createOrderRequest, customer.getId()), HttpStatus.CREATED);
     }
