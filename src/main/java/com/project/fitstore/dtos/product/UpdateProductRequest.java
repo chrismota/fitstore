@@ -16,7 +16,9 @@ public record UpdateProductRequest(
         @NotNull(message = "brand is mandatory")
         @NotBlank(message = "brand cannot be blank")
         String brand,
+        @NotNull(message = "category is mandatory")
         Category category,
+        @NotNull(message = "subCategory is mandatory")
         SubCategory subCategory,
         @NotNull(message = "price is mandatory")
         BigDecimal price) {

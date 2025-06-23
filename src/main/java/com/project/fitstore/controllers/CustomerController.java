@@ -24,20 +24,20 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CreateCustomerResponse> createCustomer(
-            @RequestBody @Valid CreateCustomerRequest createCustomerRequest) {
+            @Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
         return new ResponseEntity<>(customerService.createCustomer(createCustomerRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/info")
     public ResponseEntity<UpdateCustomerResponse> updateCustomerInfo(
-            Authentication auth, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+            Authentication auth, @Valid @RequestBody UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         var customer = (Customer) auth.getPrincipal();
         return ResponseEntity.ok(customerService.updateCustomerInfo(customer.getId(), updateCustomerInfoRequest));
     }
 
     @PutMapping("/password")
     public ResponseEntity<UpdateCustomerResponse> updateCustomerPassword(
-            Authentication auth, @RequestBody @Valid UpdateCustomerPasswordRequest updateCustomerPasswordRequest) {
+            Authentication auth, @Valid @RequestBody UpdateCustomerPasswordRequest updateCustomerPasswordRequest) {
         var customer = (Customer) auth.getPrincipal();
         return ResponseEntity.ok(customerService.updateCustomerPassword(customer.getId(), updateCustomerPasswordRequest));
     }

@@ -29,7 +29,7 @@ public class AdminCustomerController {
     }
 
     @PutMapping("/customers/{id}")
-    public ResponseEntity<UpdateCustomerResponse> updateCustomerInfo(@PathVariable("id") UUID id, @RequestBody @Valid UpdateCustomerInfoRequest updateCustomerInfoRequest) {
+    public ResponseEntity<UpdateCustomerResponse> updateCustomerInfo(@PathVariable("id") UUID id, @Valid @RequestBody UpdateCustomerInfoRequest updateCustomerInfoRequest) {
         return ResponseEntity.ok(customerService.updateCustomerInfo(id, updateCustomerInfoRequest));
     }
 

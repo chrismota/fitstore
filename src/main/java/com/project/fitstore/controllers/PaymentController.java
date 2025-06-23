@@ -23,7 +23,7 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<CreatePaymentResponse> createPayment(
-            @RequestBody @Valid CreatePaymentRequest createPaymentRequest, Authentication auth) {
+            @Valid @RequestBody CreatePaymentRequest createPaymentRequest, Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
         CreatePaymentResponse createPaymentResponse = paymentService.createPayment(createPaymentRequest,
                 customer.getId());

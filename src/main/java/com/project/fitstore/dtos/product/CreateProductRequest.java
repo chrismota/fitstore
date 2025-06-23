@@ -21,7 +21,9 @@ public record CreateProductRequest(
         @NotNull(message = "sku is mandatory")
         @NotBlank(message = "sku cannot be blank")
         String sku,
+        @NotNull(message = "category is mandatory")
         Category category,
+        @NotNull(message = "subCategory is mandatory")
         SubCategory subCategory,
         @NotNull(message = "price is mandatory")
         BigDecimal price) {
