@@ -3,6 +3,7 @@ package com.project.fitstore.controllers;
 import com.project.fitstore.dtos.token.JwtTokenResponse;
 import com.project.fitstore.dtos.token.LoginCustomerRequest;
 import com.project.fitstore.services.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class AuthController {
     final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtTokenResponse> authenticateCustomer(@RequestBody LoginCustomerRequest loginCustomerRequest) {
+    public ResponseEntity<JwtTokenResponse> authenticateCustomer(@Valid @RequestBody LoginCustomerRequest loginCustomerRequest) {
         JwtTokenResponse token = authService.authenticateCustomer(loginCustomerRequest);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
