@@ -26,6 +26,7 @@ public class PaymentService {
     final PaymentRepository paymentRepository;
     final OrderService orderService;
     final CouponService couponService;
+    final CustomerService customerService;
 
     public GetAllPaymentsResponse getAllPaymentsFromOrder(UUID orderId, UUID customerId) {
         return GetAllPaymentsResponse.from(paymentRepository.findPaymentsByOrderId(orderId, customerId));
@@ -41,6 +42,7 @@ public class PaymentService {
 
     @Transactional
     public CreatePaymentResponse createPayment(CreatePaymentRequest createPaymentRequest, UUID customerId) {
+        customerService.checkIfCustomerExists(customerId);
         Order order = orderService.findOrderByIdAndCustomerId(createPaymentRequest.orderId(), customerId);
         orderService.checkIfOrderIsExpired(order);
         orderService.checkIfOrderIsValid(order);
