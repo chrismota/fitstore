@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,8 +46,17 @@ public class ImageService {
     }
 
     public List<S3ObjectSummary> listImages() {
-        ObjectListing objectListing = s3Client.listObjects(bucketName);
-        return objectListing.getObjectSummaries();
+        List<S3ObjectSummary> summaries = new ArrayList<>();
+        ListObjectsV2Request request = new ListObjectsV2Request().withBucketName(bucketName);
+        ListObjectsV2Result result;
+
+        do {
+            result = s3Client.listObjectsV2(request);
+            summaries.addAll(result.getObjectSummaries());
+            request.setContinuationToken(result.getNextContinuationToken());
+        } while (result.isTruncated());
+
+        return summaries;
     }
 
     public void deleteImage(String fileName) {
