@@ -6,10 +6,8 @@ import com.project.fitstore.domain.order.Order;
 import com.project.fitstore.dtos.coupon.*;
 import com.project.fitstore.dtos.payment.CreatePaymentCouponRequest;
 import com.project.fitstore.dtos.payment.CreatePaymentRequest;
-import com.project.fitstore.exceptions.coupon.CouponExpiredException;
-import com.project.fitstore.exceptions.coupon.CouponNotAttendsMinValueException;
-import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
-import com.project.fitstore.exceptions.coupon.CouponUnexpectedPercentageException;
+import com.project.fitstore.exceptions.coupon.*;
+import com.project.fitstore.exceptions.general.InvalidStatusException;
 import com.project.fitstore.repositories.CouponRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +106,7 @@ public class CouponService {
     public void checkIfCouponIsExpired(Coupon coupon) {
         var now = LocalDateTime.now();
         if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
-            throw new CouponExpiredException("One or more coupons is expired.");
+            throw new CouponExpiredException("One or more coupons are expired.");
         }
     }
 
