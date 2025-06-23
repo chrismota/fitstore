@@ -12,13 +12,11 @@ import java.util.UUID;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
-    List<Order> findOrdersByCustomerId(UUID customerId);
-
     List<Order> findOrdersByStatusAndExpiresAtBefore(Status status, LocalDateTime dateNow);
 
-    List<Order> findOrdersByStatusAndCustomerId(Status status, UUID customerId);
     List<Order> findOrdersByCustomerIdOrderByCreatedAtDesc(UUID customerId);
 
+    List<Order> findOrdersByStatusAndCustomerIdOrderByCreatedAtDesc(Status status, UUID customerId);
 
     Optional<Order> findOrderByIdAndCustomerId(UUID id, UUID customerId);
 }
