@@ -135,6 +135,11 @@ public class ProductService {
     public void checkIfProductsExists(CreateOrderRequest createOrderRequest) {
         List<Long> productIds = createOrderRequest.products().stream().map(CreateItemRequest::id).toList();
         var products = productRepository.findByIdIn(productIds);
+
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("No products found for the provided IDs.");
+        }
+
         if (products.size() != productIds.size()) {
             throw new ProductNotFoundException("One or more products were not found.");
         }
