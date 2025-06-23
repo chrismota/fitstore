@@ -61,6 +61,7 @@ public class PaymentService {
             payOrder(order, couponList, payment);
         } catch (RuntimeException e) {
             payment.setStatus(com.project.fitstore.domain.payment.Status.FAILED);
+            paymentRepository.save(payment);
             throw new PaymentAttemptFailedException();
         }
 
