@@ -11,7 +11,9 @@ import com.project.fitstore.exceptions.coupon.CouponNotAttendsMinValueException;
 import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
 import com.project.fitstore.exceptions.coupon.CouponUnexpectedPercentageException;
 import com.project.fitstore.repositories.CouponRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -78,6 +80,17 @@ public class CouponService {
 
     public void deleteCoupon(Long id) {
         couponRepository.delete(findCouponById(id));
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    @Transactional
+    public void couponScheduler() {
+        List<Coupon> coupons = couponRepository.findCouponsByStatusAndExpirationTimeBefore(Status.VALID, LocalDateTime.now());
+        for (Coupon coupon : coupons) {
+            coupon.setStatus(Status.INVALID);
+            coupon.setUpdatedAt(LocalDateTime.now());
+        }
+        couponRepository.saveAll(coupons);
     }
 
     public Coupon findCouponById(Long id) {
