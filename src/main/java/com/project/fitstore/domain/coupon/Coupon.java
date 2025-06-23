@@ -28,6 +28,8 @@ public class Coupon {
     private LocalDateTime startTime;
     private LocalDateTime expirationTime;
     private BigDecimal minValue;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
