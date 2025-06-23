@@ -2,12 +2,13 @@ package com.project.fitstore.infra;
 
 import com.project.fitstore.dtos.exception.ExceptionDto;
 import com.project.fitstore.dtos.exception.MethodArgumentNotValidExceptionDto;
-import com.project.fitstore.exceptions.coupon.CouponExpiredException;
-import com.project.fitstore.exceptions.coupon.CouponNotAttendsMinValueException;
-import com.project.fitstore.exceptions.coupon.CouponNotFoundException;
-import com.project.fitstore.exceptions.coupon.CouponUnexpectedPercentageException;
+import com.project.fitstore.exceptions.ErrorCode;
+import com.project.fitstore.exceptions.auth.InvalidCredentialsException;
+import com.project.fitstore.exceptions.coupon.*;
 import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
 import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
+import com.project.fitstore.exceptions.customer.DuplicateFieldException;
+import com.project.fitstore.exceptions.general.InvalidStatusException;
 import com.project.fitstore.exceptions.image.ImageConvertionException;
 import com.project.fitstore.exceptions.image.ImageDeleteException;
 import com.project.fitstore.exceptions.image.ImageDownloadException;
@@ -17,8 +18,10 @@ import com.project.fitstore.exceptions.order.OrderNotFoundException;
 import com.project.fitstore.exceptions.order.OrderNotValidException;
 import com.project.fitstore.exceptions.payment.PaymentAttemptFailedException;
 import com.project.fitstore.exceptions.payment.PaymentNotFoundException;
+import com.project.fitstore.exceptions.product.ProductCategoryNotFoundException;
 import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
 import com.project.fitstore.exceptions.product.ProductNotFoundException;
+import com.project.fitstore.exceptions.product.ProductSubCategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -40,7 +43,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> threatGeneralException(Exception exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.INTERNAL_ERROR.name());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
@@ -59,108 +62,137 @@ public class ControllerExceptionHandler {
             errorList.add(error);
         }
         return errorList;
+    }
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ExceptionDto> threatInvalidCredentialsException(InvalidCredentialsException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.INVALID_CREDENTIALS.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(InvalidStatusException.class)
+    public ResponseEntity<ExceptionDto> threatStatusNotFoundException(InvalidStatusException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.INVALID_STATUS_VALUE.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatProductNotFoundException(ProductNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.RESOURCE_NOT_FOUND.name());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(ProductCategoryNotFoundException.class)
+    public ResponseEntity<ExceptionDto> threatProductCategoryNotFoundException(ProductCategoryNotFoundException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.CATEGORY_NOT_FOUND.name());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(ProductSubCategoryNotFoundException.class)
+    public ResponseEntity<ExceptionDto> threatProductSubCategoryNotFoundException(ProductSubCategoryNotFoundException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.SUB_CATEGORY_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(ProductImageNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatProductImageNotFoundException(ProductImageNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.RESOURCE_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(PaymentNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatPaymentNotFoundException(PaymentNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.RESOURCE_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(PaymentAttemptFailedException.class)
     public ResponseEntity<ExceptionDto> threatPaymentAttemptFailedException(PaymentAttemptFailedException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.SERVICE_UNAVAILABLE, ErrorCode.INTERNAL_ERROR.name());
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(exceptionDTO);
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatOrderNotFoundException(OrderNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.ORDER_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(OrderNotValidException.class)
     public ResponseEntity<ExceptionDto> threatOrderNotValidException(OrderNotValidException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.INVALID_ORDER.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
     @ExceptionHandler(OrderExpiredException.class)
     public ResponseEntity<ExceptionDto> threatOrderExpiredException(OrderExpiredException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.ORDER_EXPIRED.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
+    }
+
+    @ExceptionHandler(DuplicateFieldException.class)
+    public ResponseEntity<ExceptionDto> threatDuplicateFieldException(DuplicateFieldException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.CONFLICT, ErrorCode.DUPLICATE_FIELD.name());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exceptionDTO);
     }
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatCustomerNotFoundException(CustomerNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.CUSTOMER_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(CustomerImageNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatCustomerImageNotFoundException(CustomerImageNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.RESOURCE_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(CouponNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatCouponNotFoundException(CouponNotFoundException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.COUPON_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
     @ExceptionHandler(CouponExpiredException.class)
     public ResponseEntity<ExceptionDto> threatCouponExpiredException(CouponExpiredException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_EXPIRED.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
     @ExceptionHandler(CouponNotAttendsMinValueException.class)
     public ResponseEntity<ExceptionDto> threatCouponNotAttendsMinValueException(CouponNotAttendsMinValueException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_NOT_APPLICABLE.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
     @ExceptionHandler(CouponUnexpectedPercentageException.class)
     public ResponseEntity<ExceptionDto> threatCouponUnexpectedPercentageException(CouponUnexpectedPercentageException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_LIMIT_EXCEEDED.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
     @ExceptionHandler(ImageUploadException.class)
     public ResponseEntity<ExceptionDto> threatImageUploadException(ImageUploadException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.IMAGE_UPLOAD_ERROR.name());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
     @ExceptionHandler(ImageDeleteException.class)
     public ResponseEntity<ExceptionDto> threatImageDeleteException(ImageDeleteException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.INTERNAL_ERROR.name());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
     @ExceptionHandler(ImageDownloadException.class)
     public ResponseEntity<ExceptionDto> threatImageDownloadException(ImageDownloadException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.INTERNAL_ERROR.name());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
     @ExceptionHandler(ImageConvertionException.class)
     public ResponseEntity<ExceptionDto> threatImageConvertionException(ImageConvertionException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.INTERNAL_ERROR.name());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionDTO);
     }
 
