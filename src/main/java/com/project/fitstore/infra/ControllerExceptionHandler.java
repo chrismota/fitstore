@@ -18,10 +18,7 @@ import com.project.fitstore.exceptions.order.OrderNotFoundException;
 import com.project.fitstore.exceptions.order.OrderNotValidException;
 import com.project.fitstore.exceptions.payment.PaymentAttemptFailedException;
 import com.project.fitstore.exceptions.payment.PaymentNotFoundException;
-import com.project.fitstore.exceptions.product.ProductCategoryNotFoundException;
-import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
-import com.project.fitstore.exceptions.product.ProductNotFoundException;
-import com.project.fitstore.exceptions.product.ProductSubCategoryNotFoundException;
+import com.project.fitstore.exceptions.product.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -107,6 +104,14 @@ public class ControllerExceptionHandler {
                 exception.getMessage(), HttpStatus.NOT_FOUND, ErrorCode.RESOURCE_NOT_FOUND.name());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
+
+    @ExceptionHandler(DuplicateProductSkuException.class)
+    public ResponseEntity<ExceptionDto> threatDuplicateProductSkuException(DuplicateProductSkuException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(
+                exception.getMessage(), HttpStatus.CONFLICT, ErrorCode.DUPLICATE_FIELD.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
+    }
+
 
     @ExceptionHandler(PaymentNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatPaymentNotFoundException(PaymentNotFoundException exception) {

@@ -6,13 +6,11 @@ import com.project.fitstore.domain.product.SubCategory;
 import com.project.fitstore.dtos.order.CreateItemRequest;
 import com.project.fitstore.dtos.order.CreateOrderRequest;
 import com.project.fitstore.dtos.product.*;
-import com.project.fitstore.exceptions.product.ProductCategoryNotFoundException;
-import com.project.fitstore.exceptions.product.ProductImageNotFoundException;
-import com.project.fitstore.exceptions.product.ProductNotFoundException;
-import com.project.fitstore.exceptions.product.ProductSubCategoryNotFoundException;
+import com.project.fitstore.exceptions.product.*;
 import com.project.fitstore.repositories.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,7 +58,13 @@ public class ProductService {
     }
 
     public CreateProductResponse createProduct(CreateProductRequest createProductRequest) {
-        return CreateProductResponse.from(productRepository.save(createProductRequest.toProduct()));
+        Product product;
+        try {
+            product = productRepository.save(createProductRequest.toProduct());
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateProductSkuException("Product with sku " + createProductRequest.sku() + " already exists.");
+        }
+        return CreateProductResponse.from(product);
     }
 
     public UpdateProductResponse updateProduct(Long id, UpdateProductRequest updateProductRequest) {
