@@ -48,7 +48,13 @@ public class CustomerService {
         Customer customer = this.findCustomerById(id);
 
         customer.setName(updateCustomerInfoRequest.name());
-        customer.setAddress(updateCustomerInfoRequest.address());
+        customer.setStreet(updateCustomerInfoRequest.street());
+        customer.setHouseNumber(updateCustomerInfoRequest.houseNumber());
+        customer.setComplement(updateCustomerInfoRequest.complement());
+        customer.setNeighborhood(updateCustomerInfoRequest.neighborhood());
+        customer.setCity(updateCustomerInfoRequest.city());
+        customer.setState(updateCustomerInfoRequest.state());
+        customer.setCep(updateCustomerInfoRequest.cep());
         customer.setEmail(updateCustomerInfoRequest.email());
         customer.setCpf(updateCustomerInfoRequest.cpf());
         customer.setPhoneNumber(updateCustomerInfoRequest.phoneNumber());

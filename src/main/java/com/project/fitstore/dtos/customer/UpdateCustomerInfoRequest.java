@@ -10,11 +10,28 @@ public record UpdateCustomerInfoRequest(
         @NotBlank(message = "name cannot be blank")
         @Size(min = 5, max = 255, message = "Name must be between 5 to 255 characters")
         String name,
+        @NotNull(message = "phone number is mandatory")
+        @NotBlank(message = "phone number cannot be blank")
         String phoneNumber,
-        @NotNull(message = "address is mandatory")
-        @NotBlank(message = "address cannot be blank")
-        @Size(min = 20, message = "Address must have at least 20 characters.")
-        String address,
+        @NotNull(message = "street is mandatory")
+        @NotBlank(message = "street cannot be blank")
+        String street,
+        @NotNull(message = "houseNumber is mandatory")
+        @NotBlank(message = "houseNumber cannot be blank")
+        String houseNumber,
+        String complement,
+        @NotNull(message = "neighborhood is mandatory")
+        @NotBlank(message = "neighborhood cannot be blank")
+        String neighborhood,
+        @NotNull(message = "city is mandatory")
+        @NotBlank(message = "city cannot be blank")
+        String city,
+        @NotNull(message = "state is mandatory")
+        @NotBlank(message = "state cannot be blank")
+        String state,
+        @NotNull(message = "cep is mandatory")
+        @NotBlank(message = "cep cannot be blank")
+        String cep,
         @NotNull(message = "cpf is mandatory")
         @NotBlank(message = "cpf cannot be blank")
         String cpf,

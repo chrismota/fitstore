@@ -26,7 +26,13 @@ public class Customer implements UserDetails {
     private UUID id;
     private String name;
     private String phoneNumber;
-    private String address;
+    private String street;
+    private String houseNumber;
+    private String complement;
+    private String neighborhood;
+    private String city;
+    private String state;
+    private String cep;
     @Column(unique = true)
     private String cpf;
     @Column(unique = true)
