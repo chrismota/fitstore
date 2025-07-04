@@ -11,6 +11,7 @@ import com.project.fitstore.exceptions.general.InvalidStatusException;
 import com.project.fitstore.repositories.CouponRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,14 @@ public class CouponService {
     }
 
     public CreateCouponResponse createCoupon(CreateCouponRequest createCouponRequest) {
-        return CreateCouponResponse.from(couponRepository.save(createCouponRequest.toCoupon()));
+        Coupon coupon;
+        try {
+            coupon = couponRepository.save(createCouponRequest.toCoupon());
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateCouponCodeException("Coupon with code " + createCouponRequest.code() + " already exists.");
+        }
+
+        return CreateCouponResponse.from(coupon);
     }
 
     public UpdateCouponResponse updateCoupon(Long id, UpdateCouponRequest updateCouponRequest) {
@@ -58,7 +66,13 @@ public class CouponService {
         coupon.setMinValue(updateCouponRequest.minValue());
         coupon.setUpdatedAt(LocalDateTime.now());
 
-        return UpdateCouponResponse.from(couponRepository.save(coupon));
+        try {
+            coupon = couponRepository.save(coupon);
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateCouponCodeException("Coupon with code " + updateCouponRequest.code() + " already exists.");
+        }
+
+        return UpdateCouponResponse.from(coupon);
     }
 
     public UpdateCouponResponse updateCouponStatus(UpdateCouponStatusRequest updateCouponStatusRequest, Long id) {

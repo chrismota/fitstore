@@ -192,6 +192,11 @@ public class ControllerExceptionHandler {
                 exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_LIMIT_EXCEEDED.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
+
+    @ExceptionHandler(DuplicateCouponCodeException.class)
+    public ResponseEntity<ExceptionDto> threatDuplicateCouponCodeException(DuplicateCouponCodeException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(
+                exception.getMessage(), HttpStatus.CONFLICT, ErrorCode.DUPLICATE_FIELD.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
