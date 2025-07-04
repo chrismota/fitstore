@@ -24,8 +24,8 @@ public class AuthService {
 
     public JwtTokenResponse authenticateCustomer(LoginCustomerRequest loginCustomerRequest) {
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginCustomerRequest.email(), loginCustomerRequest.password()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginCustomerRequest.email(), loginCustomerRequest.password()));
         } catch (BadCredentialsException e) {
             throw new InvalidCredentialsException();
         }

@@ -20,7 +20,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -33,13 +32,10 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
     @ManyToOne
     private Customer customer;
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
     private List<OrderItem> items;
-
     private LocalDateTime expiresAt;
 
     private LocalDateTime createdAt;

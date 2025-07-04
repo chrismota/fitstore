@@ -16,19 +16,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class OrderItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_item_seq")
     @SequenceGenerator(name = "order_item_seq", sequenceName = "order_item_seq", allocationSize = 1)
     private Long id;
-
     private Integer quantity;
     private BigDecimal unityPrice;
     private BigDecimal total;
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
-
     @ManyToOne
     private Product product;
 

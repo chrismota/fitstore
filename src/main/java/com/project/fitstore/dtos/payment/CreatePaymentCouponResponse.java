@@ -2,7 +2,8 @@ package com.project.fitstore.dtos.payment;
 
 import com.project.fitstore.domain.coupon.Coupon;
 
-public record CreatePaymentCouponResponse(Long id, String name, Double percentage) {
+public record CreatePaymentCouponResponse(
+        Long id, String name, Double percentage) {
     public static CreatePaymentCouponResponse from(Coupon coupon) {
         return new CreatePaymentCouponResponse(coupon.getId(), coupon.getName(), coupon.getPercentage());
     }

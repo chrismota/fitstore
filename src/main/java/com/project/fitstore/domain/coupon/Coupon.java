@@ -20,7 +20,6 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "coupons_seq")
     @SequenceGenerator(name = "coupons_seq", sequenceName = "coupons_seq", allocationSize = 1)
     private Long id;
-
     private String name;
     @Column(unique = true)
     private String code;

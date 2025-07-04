@@ -19,12 +19,12 @@ public class ProductController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<GetAllProductsResponse> getProductsByCategory(@RequestParam String category){
+    public ResponseEntity<GetAllProductsResponse> getProductsByCategory(@RequestParam String category) {
         return ResponseEntity.ok(productService.getProductsByCategory(category));
     }
 
     @GetMapping("/subcategory")
-    public ResponseEntity<GetAllProductsResponse> getProductsBySubCategory(@RequestParam String subcategory){
+    public ResponseEntity<GetAllProductsResponse> getProductsBySubCategory(@RequestParam String subcategory) {
         return ResponseEntity.ok(productService.getProductsBySubCategory(subcategory));
     }
 

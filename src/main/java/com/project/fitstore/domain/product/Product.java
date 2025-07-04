@@ -18,7 +18,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_seq")
     @SequenceGenerator(name = "products_seq", sequenceName = "products_seq", allocationSize = 1)
     private Long id;
-
     private String name;
     private String description;
     private String brand;
@@ -29,10 +28,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private SubCategory subCategory;
     private BigDecimal price;
-
     private String imagePath;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
 }

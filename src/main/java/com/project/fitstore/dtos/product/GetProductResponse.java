@@ -6,10 +6,16 @@ import com.project.fitstore.domain.product.SubCategory;
 
 import java.math.BigDecimal;
 
-public record GetProductResponse(Long id, String name, String description, String brand, Category category,
-                                 SubCategory subCategory, BigDecimal price, String imagePath) {
+public record GetProductResponse(
+        Long id, String name,
+        String description,String brand,
+        Category category, SubCategory subCategory,
+        BigDecimal price, String imagePath) {
     public static GetProductResponse from(Product product) {
-        return new GetProductResponse(product.getId(), product.getName(), product.getDescription(), product.getBrand(),
-                product.getCategory(), product.getSubCategory(), product.getPrice(), product.getImagePath());
+        return new GetProductResponse(
+                product.getId(), product.getName(),
+                product.getDescription(), product.getBrand(),
+                product.getCategory(), product.getSubCategory(),
+                product.getPrice(), product.getImagePath());
     }
 }

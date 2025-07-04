@@ -24,7 +24,6 @@ public class Customer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
     private String name;
     private String phoneNumber;
     private String address;
@@ -35,7 +34,6 @@ public class Customer implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-
     private String imagePath;
 
     private LocalDateTime createdAt;

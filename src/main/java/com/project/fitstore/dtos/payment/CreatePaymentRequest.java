@@ -20,7 +20,6 @@ public record CreatePaymentRequest(
         Method method) {
     public Payment toPayment() {
         Order order = Order.builder().id(orderId).build();
-
         return Payment.builder().id(null)
                 .method(method)
                 .order(order)

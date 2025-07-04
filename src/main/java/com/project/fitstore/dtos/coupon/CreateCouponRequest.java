@@ -24,11 +24,10 @@ public record CreateCouponRequest(
         @NotNull(message = "minValue is mandatory")
         BigDecimal minValue) {
     public Coupon toCoupon() {
-        return Coupon.builder().id(null).name(name).status(Status.VALID).code(code).percentage(percentage).startTime(startTime)
-                .expirationTime(expirationTime)
-                .minValue(minValue)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+        return Coupon.builder().id(null).name(name).status(Status.VALID).
+                code(code).percentage(percentage).startTime(startTime)
+                .expirationTime(expirationTime).minValue(minValue)
+                .createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now())
                 .build();
     }
 }

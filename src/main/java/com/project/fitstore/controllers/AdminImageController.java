@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/image")
 public class AdminImageController {
-
     private final ImageService imageService;
     private final ProductService productService;
 

@@ -55,7 +55,8 @@ public class OrderService {
 
         customerService.checkIfCustomerExists(customerId);
 
-        return GetAllOrdersResponse.from(orderRepository.findOrdersByStatusAndCustomerIdOrderByCreatedAtDesc(status, customerId));
+        return GetAllOrdersResponse.from(orderRepository
+                .findOrdersByStatusAndCustomerIdOrderByCreatedAtDesc(status, customerId));
     }
 
     public GetOrderResponse getOrderFromCustomer(UUID orderId, UUID customerId) {

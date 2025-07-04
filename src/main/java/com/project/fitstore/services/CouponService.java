@@ -30,6 +30,7 @@ public class CouponService {
 
     public GetAllCouponsResponse getCouponsByStatus(String statusParam) {
         Status status;
+
         try {
             status = Status.valueOf(statusParam.toUpperCase());
         } catch (IllegalArgumentException ex) {
@@ -79,7 +80,8 @@ public class CouponService {
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void couponScheduler() {
-        List<Coupon> coupons = couponRepository.findCouponsByStatusAndExpirationTimeBefore(Status.VALID, LocalDateTime.now());
+        List<Coupon> coupons = couponRepository
+                .findCouponsByStatusAndExpirationTimeBefore(Status.VALID, LocalDateTime.now());
         for (Coupon coupon : coupons) {
             coupon.setStatus(Status.INVALID);
             coupon.setUpdatedAt(LocalDateTime.now());
@@ -121,11 +123,14 @@ public class CouponService {
             throw new CouponUnexpectedPercentageException("Discount cannot be greater than a hundred percent");
     }
 
-    public void checkIfCouponsAreValid(List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
+    public void checkIfCouponsAreValid(
+            List<CreatePaymentCouponRequest> couponsIds, List<Coupon> couponList, Order order) {
         double totalDiscount = 0;
         for (var couponId : couponsIds) {
 
-            Optional<Coupon> couponOptional = couponList.stream().filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
+            Optional<Coupon> couponOptional = couponList
+                    .stream()
+                    .filter(couponEntity -> couponEntity.getId().equals(couponId.id())).findFirst();
             if (couponOptional.isEmpty())
                 throw new CouponNotFoundException("One or more coupons were not found.");
 

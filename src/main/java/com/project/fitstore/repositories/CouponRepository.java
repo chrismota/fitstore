@@ -15,5 +15,4 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     List<Coupon> findCouponsByStatusOrderByCreatedAtDesc(Status status);
 
     List<Coupon> findCouponsByStatusAndExpirationTimeBefore(Status status, LocalDateTime dateNow);
-
 }

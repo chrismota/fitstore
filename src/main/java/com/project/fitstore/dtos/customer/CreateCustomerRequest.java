@@ -34,7 +34,6 @@ public record CreateCustomerRequest(
         String password,
         @NotNull(message = "role is mandatory")
         Role role) {
-
     public Customer toCustomer(String password) {
         return new Customer(null, name, phoneNumber, address, cpf, email, password, role, null, LocalDateTime.now(), LocalDateTime.now());
     }

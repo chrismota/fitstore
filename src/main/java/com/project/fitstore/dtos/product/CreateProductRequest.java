@@ -28,6 +28,8 @@ public record CreateProductRequest(
         @NotNull(message = "price is mandatory")
         BigDecimal price) {
     public Product toProduct() {
-        return new Product(null, name, description, brand, sku, category, subCategory, price, null, LocalDateTime.now(), LocalDateTime.now());
+        return new Product(null, name, description, brand,
+                sku, category, subCategory, price, null,
+                LocalDateTime.now(), LocalDateTime.now());
     }
 }

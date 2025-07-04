@@ -19,20 +19,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @Data
 public class Payment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
     @Enumerated(EnumType.STRING)
     private Method method;
-
     @Enumerated(EnumType.STRING)
     private Status status;
-
     @ManyToOne
     private Order order;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "payment_coupons",
             joinColumns = @JoinColumn(name = "payment_id"),

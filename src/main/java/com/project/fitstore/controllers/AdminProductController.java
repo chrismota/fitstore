@@ -23,12 +23,14 @@ public class AdminProductController {
 
 
     @PostMapping("/products")
-    public ResponseEntity<CreateProductResponse> createProduct(@RequestBody @Valid CreateProductRequest createProductRequest) {
+    public ResponseEntity<CreateProductResponse> createProduct(
+            @RequestBody @Valid CreateProductRequest createProductRequest) {
         return new ResponseEntity<>(productService.createProduct(createProductRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable("id") Long id, @RequestBody @Valid UpdateProductRequest updateProductRequest) {
+    public ResponseEntity<UpdateProductResponse> updateProduct(
+            @PathVariable("id") Long id, @RequestBody @Valid UpdateProductRequest updateProductRequest) {
         return ResponseEntity.ok(productService.updateProduct(id, updateProductRequest));
     }
 

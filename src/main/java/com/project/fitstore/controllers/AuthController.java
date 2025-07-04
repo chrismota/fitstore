@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
     final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtTokenResponse> authenticateCustomer(@Valid @RequestBody LoginCustomerRequest loginCustomerRequest) {
+    public ResponseEntity<JwtTokenResponse> authenticateCustomer(
+            @Valid @RequestBody LoginCustomerRequest loginCustomerRequest) {
         JwtTokenResponse token = authService.authenticateCustomer(loginCustomerRequest);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }

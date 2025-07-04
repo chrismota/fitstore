@@ -8,15 +8,15 @@ import com.project.fitstore.domain.payment.Status;
 import java.util.List;
 import java.util.UUID;
 
-public record CreatePaymentResponse(UUID id,
-                                    Method method, Status status,
-                                    CreatePaymentOrderResponse order,
-                                    List<CreatePaymentCouponResponse> coupons) {
-
+public record CreatePaymentResponse(
+        UUID id, Method method,
+        Status status, CreatePaymentOrderResponse order,
+        List<CreatePaymentCouponResponse> coupons) {
     public static CreatePaymentResponse from(Payment payment, Order order) {
         var coupons = payment.getCoupons();
-        return new CreatePaymentResponse(payment.getId(), payment.getMethod(), payment.getStatus(),
-                CreatePaymentOrderResponse.from(order),
+        return new CreatePaymentResponse(
+                payment.getId(), payment.getMethod(),
+                payment.getStatus(), CreatePaymentOrderResponse.from(order),
                 coupons != null ? coupons.stream().map(CreatePaymentCouponResponse::from).toList() : null);
     }
 }

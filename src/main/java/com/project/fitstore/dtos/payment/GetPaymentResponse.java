@@ -13,7 +13,8 @@ public record GetPaymentResponse
          GetPaymentOrderResponse order,
          List<GetPaymentCouponResponse> coupons) {
     public static GetPaymentResponse from(Payment payment) {
-        return new GetPaymentResponse(payment.getId(), payment.getMethod(), payment.getStatus(),
+        return new GetPaymentResponse(
+                payment.getId(), payment.getMethod(), payment.getStatus(),
                 GetPaymentOrderResponse.from(payment.getOrder()),
                 payment.getCoupons().stream().map(GetPaymentCouponResponse::from).toList());
     }

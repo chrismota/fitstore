@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/image")
 public class ImageController {
-
     private final CustomerService customerService;
     private final ImageService imageService;
 
@@ -33,7 +32,8 @@ public class ImageController {
     }
 
     @PostMapping("/customer/upload")
-    public ResponseEntity<UpdateCustomerResponse> uploadCustomerImage(@RequestParam("image") MultipartFile imageFile, Authentication auth) {
+    public ResponseEntity<UpdateCustomerResponse> uploadCustomerImage(
+            @RequestParam("image") MultipartFile imageFile, Authentication auth) {
         var customer = (Customer) auth.getPrincipal();
 
         return new ResponseEntity<>(customerService.uploadCustomerImage(imageFile, customer.getId()), HttpStatus.OK);

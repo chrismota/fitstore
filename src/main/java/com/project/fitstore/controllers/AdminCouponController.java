@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin")
@@ -28,7 +27,7 @@ public class AdminCouponController {
 
     @PutMapping("/coupons/status/{id}")
     public ResponseEntity<UpdateCouponResponse> updateCouponStatus(
-          @Valid  @RequestBody UpdateCouponStatusRequest updateCouponStatusRequest, @PathVariable("id") Long id) {
+            @Valid @RequestBody UpdateCouponStatusRequest updateCouponStatusRequest, @PathVariable("id") Long id) {
         return ResponseEntity.ok(couponService.updateCouponStatus(updateCouponStatusRequest, id));
     }
 }

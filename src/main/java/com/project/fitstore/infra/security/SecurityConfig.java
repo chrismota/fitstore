@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
     final UserDetailsServiceImpl userDetailsService;
     final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -52,9 +51,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception { return authenticationConfiguration.getAuthenticationManager(); }
 
     @Bean
     public PasswordEncoder passwordEncoder() {

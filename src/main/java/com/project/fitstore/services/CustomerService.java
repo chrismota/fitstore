@@ -35,10 +35,10 @@ public class CustomerService {
     public CreateCustomerResponse createCustomer(CreateCustomerRequest createCustomerRequest) {
         String encodedPassword = passwordEncoder.encode(createCustomerRequest.password());
         Customer customer;
-        try{
+        try {
             customer = customerRepository.save(createCustomerRequest.toCustomer(encodedPassword));
-        }catch (DataIntegrityViolationException e) {
-            throw new DuplicateFieldException("One or more fields are already in use. Please check your data and try again.");
+        } catch (DataIntegrityViolationException e) {
+            throw new DuplicateCustomerFieldException();
         }
 
         return CreateCustomerResponse.from(customer);
@@ -108,7 +108,8 @@ public class CustomerService {
             customer.setUpdatedAt(LocalDateTime.now());
             saveCustomer(customer);
         } else {
-            throw new CustomerImageNotFoundException("The image you are trying to delete is not your account current image.");
+            throw new CustomerImageNotFoundException(
+                    "The image you are trying to delete is not your account current image.");
         }
         return fileName + " successfully deleted.";
     }

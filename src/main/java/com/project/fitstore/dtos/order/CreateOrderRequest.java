@@ -14,7 +14,6 @@ public record CreateOrderRequest(
         @UniqueElements(message = "You cannot add the same product twice")
         @NotNull(message = "products are mandatory")
         List<CreateItemRequest> products) {
-
     public Order toOrder(UUID customerId, LocalDateTime expiresAt) {
         Customer customer = Customer.builder().id(customerId).build();
         return Order.builder().id(null).status(Status.PENDING).customer(customer)
