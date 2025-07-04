@@ -12,6 +12,7 @@ public record UpdateProductRequest(
         @NotBlank(message = "name cannot be blank")
         String name,
         @NotNull(message = "description is mandatory")
+        @NotBlank(message = "description cannot be blank")
         String description,
         @NotNull(message = "brand is mandatory")
         @NotBlank(message = "brand cannot be blank")
