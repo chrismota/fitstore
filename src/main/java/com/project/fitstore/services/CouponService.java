@@ -76,10 +76,6 @@ public class CouponService {
         return UpdateCouponResponse.from(couponRepository.save(coupon));
     }
 
-    public void deleteCoupon(Long id) {
-        couponRepository.delete(findCouponById(id));
-    }
-
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void couponScheduler() {

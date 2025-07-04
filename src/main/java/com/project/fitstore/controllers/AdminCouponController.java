@@ -31,12 +31,6 @@ public class AdminCouponController {
           @Valid  @RequestBody UpdateCouponStatusRequest updateCouponStatusRequest, @PathVariable("id") Long id) {
         return ResponseEntity.ok(couponService.updateCouponStatus(updateCouponStatusRequest, id));
     }
-
-    @DeleteMapping("/coupons/{id}")
-    public ResponseEntity<Void> deleteCoupon(@PathVariable("id") Long id) {
-        couponService.deleteCoupon(id);
-        return ResponseEntity.noContent().build();
-    }
 }
 
 
