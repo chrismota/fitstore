@@ -7,9 +7,14 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateOrderResponse(UUID id, BigDecimal discount, BigDecimal totalValue, BigDecimal finalValue,
-                                  Status status, List<CreateItemResponse> items) {
+public record CreateOrderResponse(
+        UUID id, BigDecimal totalValue,
+        BigDecimal discountValue, BigDecimal totalWithDiscount,
+        Status status, List<CreateItemResponse> items) {
     public static CreateOrderResponse from(Order order) {
-        return new CreateOrderResponse(order.getId(), order.getDiscount(), order.getFullValue(), order.getValueAfterDiscount(), order.getStatus(), order.getItems().stream().map(CreateItemResponse::from).toList());
+        return new CreateOrderResponse(
+                order.getId(), order.getTotalValue(), order.getDiscountValue(),
+                order.getTotalWithDiscount(), order.getStatus(),
+                order.getItems().stream().map(CreateItemResponse::from).toList());
     }
 }

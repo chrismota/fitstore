@@ -5,9 +5,12 @@ import com.project.fitstore.domain.order.Order;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record CreatePaymentOrderResponse(UUID id, BigDecimal totalValue, BigDecimal discount, BigDecimal finalValue) {
-
+public record CreatePaymentOrderResponse(
+        UUID id, BigDecimal totalValue,
+        BigDecimal discountValue, BigDecimal totalWithDiscount) {
     public static CreatePaymentOrderResponse from(Order order) {
-        return new CreatePaymentOrderResponse(order.getId(), order.getFullValue(), order.getDiscount(), order.getValueAfterDiscount());
+        return new CreatePaymentOrderResponse(
+                order.getId(), order.getTotalValue(),
+                order.getDiscountValue(), order.getTotalWithDiscount());
     }
 }

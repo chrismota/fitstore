@@ -75,8 +75,8 @@ public class PaymentService {
     private void payOrder(Order order, List<Coupon> couponList, Payment payment) {
         if (!couponList.isEmpty()) {
             var discountValue = getDiscountValue(couponList, order);
-            order.setDiscount(discountValue);
-            order.setValueAfterDiscount(order.getValueAfterDiscount().subtract(discountValue));
+            order.setDiscountValue(discountValue);
+            order.setTotalWithDiscount(order.getTotalWithDiscount().subtract(discountValue));
         }
 
         order.setStatus(Status.PAID);
@@ -92,7 +92,7 @@ public class PaymentService {
             totalDiscount += coupon.getPercentage();
         }
         var discountValue = new BigDecimal(totalDiscount).divide(new BigDecimal(100), 2, RoundingMode.CEILING);
-        return order.getFullValue().multiply(discountValue);
+        return order.getTotalValue().multiply(discountValue);
     }
 
 

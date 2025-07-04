@@ -23,13 +23,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    private BigDecimal fullValue;
-
-    private BigDecimal discount;
-
-    private BigDecimal valueAfterDiscount;
-
+    private BigDecimal totalValue;
+    private BigDecimal discountValue;
+    private BigDecimal totalWithDiscount;
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne

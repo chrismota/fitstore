@@ -75,9 +75,11 @@ public class OrderService {
 
         Order order = orderRepository.save(createOrderRequest.toOrder(customerId, getExpirationDate()));
         var orderItemList = createItemsList(createOrderRequest, order);
+        BigDecimal totalPrice = getTotalPrice(orderItemList);
+
         order.setItems(orderItemList);
-        order.setFullValue(getTotalPrice(orderItemList));
-        order.setValueAfterDiscount(getTotalPrice(orderItemList));
+        order.setTotalValue(totalPrice);
+        order.setTotalWithDiscount(totalPrice);
 
         return CreateOrderResponse.from(orderRepository.save(order));
     }

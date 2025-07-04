@@ -123,8 +123,8 @@ public class CouponService {
     }
 
     public void checkIfCouponAttendsMinValue(Coupon coupon, Order order) {
-        if (compareTo(order.getFullValue(), coupon.getMinValue()) < 0) {
-            throw new CouponNotAttendsMinValueException("One or more coupons does not attend the minimum value for this order.");
+        if (compareTo(order.getTotalValue(), coupon.getMinValue()) < 0) {
+            throw new CouponNotAttendsMinValueException();
         }
     }
 
