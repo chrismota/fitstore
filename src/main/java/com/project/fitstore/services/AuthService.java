@@ -6,7 +6,6 @@ import com.project.fitstore.dtos.token.LoginCustomerRequest;
 import com.project.fitstore.exceptions.auth.InvalidCredentialsException;
 import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
 import com.project.fitstore.infra.security.JwtService;
-import com.project.fitstore.infra.security.SecurityConfig;
 import com.project.fitstore.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     final AuthenticationManager authenticationManager;
     final JwtService jwtService;
-    final SecurityConfig securityConfig;
     final CustomerRepository customerRepository;
 
     public JwtTokenResponse authenticateCustomer(LoginCustomerRequest loginCustomerRequest) {

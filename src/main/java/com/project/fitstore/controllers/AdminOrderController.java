@@ -3,7 +3,6 @@ package com.project.fitstore.controllers;
 import com.project.fitstore.dtos.order.GetAllOrdersResponse;
 import com.project.fitstore.dtos.order.GetOrderResponse;
 import com.project.fitstore.services.OrderService;
-import com.project.fitstore.services.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import java.util.UUID;
 @RequestMapping("/admin")
 public class AdminOrderController {
     final OrderService orderService;
-    final PaymentService paymentService;
 
     @GetMapping("/orders")
     public ResponseEntity<GetAllOrdersResponse> getAllOrders() {

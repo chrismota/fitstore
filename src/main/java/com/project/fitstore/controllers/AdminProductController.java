@@ -4,8 +4,6 @@ import com.project.fitstore.dtos.product.CreateProductRequest;
 import com.project.fitstore.dtos.product.CreateProductResponse;
 import com.project.fitstore.dtos.product.UpdateProductRequest;
 import com.project.fitstore.dtos.product.UpdateProductResponse;
-import com.project.fitstore.repositories.ProductRepository;
-import com.project.fitstore.services.ImageService;
 import com.project.fitstore.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminProductController {
     final ProductService productService;
-    final ProductRepository productRepository;
-    final ImageService imageService;
-
 
     @PostMapping("/products")
     public ResponseEntity<CreateProductResponse> createProduct(
