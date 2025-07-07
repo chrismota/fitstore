@@ -73,25 +73,29 @@ public class OrderService {
         customerService.checkIfCustomerExists(customerId);
         productService.checkIfProductsExists(createOrderRequest);
 
-        Order order = orderRepository.save(createOrderRequest.toOrder(customerId, getExpirationDate()));
-        var orderItemList = createItemsList(createOrderRequest, order);
+        Order order = createOrderRequest.toOrder(customerId, getExpirationDate());
+
+        List<OrderItem> orderItemList = createItemsList(createOrderRequest, order);
         BigDecimal totalPrice = getTotalPrice(orderItemList);
 
         order.setItems(orderItemList);
         order.setTotalValue(totalPrice);
         order.setTotalWithDiscount(totalPrice);
 
-        return CreateOrderResponse.from(orderRepository.save(order));
+        order = orderRepository.save(order);
+        orderItemRepository.saveAll(orderItemList);
+
+        return CreateOrderResponse.from(order);
     }
 
     public List<OrderItem> createItemsList(CreateOrderRequest createOrderRequest, Order order) {
-        List<OrderItem> itemList = new ArrayList<>();
+        List<OrderItem> orderItemList = new ArrayList<>();
 
         for (var item : createOrderRequest.products()) {
-            var orderItem = createItem(item, order);
-            itemList.add(orderItemRepository.save(orderItem));
+            OrderItem orderItem = createItem(item, order);
+            orderItemList.add(orderItem);
         }
-        return itemList;
+        return orderItemList;
     }
 
     private OrderItem createItem(CreateItemRequest itemDto, Order order) {
