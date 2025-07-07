@@ -39,11 +39,11 @@ public class ControllerExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public List<MethodArgumentNotValidExceptionDto> threatMethodArgumentNotValidException
-            (MethodArgumentNotValidException expection) {
+            (MethodArgumentNotValidException exception) {
 
         List<MethodArgumentNotValidExceptionDto> errorList = new ArrayList<>();
 
-        List<FieldError> fieldErrors = expection.getBindingResult().getFieldErrors();
+        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 
         for (FieldError fieldError : fieldErrors) {
             String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
@@ -102,7 +102,6 @@ public class ControllerExceptionHandler {
                 exception.getMessage(), HttpStatus.CONFLICT, ErrorCode.DUPLICATE_FIELD.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
-
 
     @ExceptionHandler(PaymentNotFoundException.class)
     public ResponseEntity<ExceptionDto> threatPaymentNotFoundException(PaymentNotFoundException exception) {
