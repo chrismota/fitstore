@@ -2,7 +2,7 @@ package com.project.fitstore.exceptions.general;
 
 public class InvalidStatusException extends RuntimeException {
     public InvalidStatusException() {
-        super("Invalid field value for status.");
+        super("Invalid parameter value for status.");
     }
 
     public InvalidStatusException(String message) {

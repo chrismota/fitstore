@@ -2,7 +2,7 @@ package com.project.fitstore.exceptions.coupon;
 
 public class CouponExpiredException extends RuntimeException {
     public CouponExpiredException() {
-        super("Coupon is expired");
+        super("One or more coupons are expired.");
     }
 
     public CouponExpiredException(String message) {

@@ -2,7 +2,7 @@ package com.project.fitstore.exceptions.coupon;
 
 public class CouponUnexpectedPercentageException extends RuntimeException {
     public CouponUnexpectedPercentageException() {
-        super("Coupon have a unexpected percentage");
+        super("Discount cannot be greater than a hundred percent");
     }
 
     public CouponUnexpectedPercentageException(String message) {

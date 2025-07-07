@@ -107,7 +107,7 @@ public class ProductService {
         var product = findProductByImage(fileName);
 
         if (product == null) {
-            throw new ProductImageNotFoundException("Image does not belong to any product or does not exist.");
+            throw new ProductImageNotFoundException();
         }
 
         imageService.deleteImage(fileName);
