@@ -192,7 +192,6 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(CouponUnexpectedPercentageException.class)
     public ResponseEntity<ExceptionDto> threatCouponUnexpectedPercentageException(CouponUnexpectedPercentageException exception) {
-        ExceptionDto exceptionDTO = new ExceptionDto(exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_LIMIT_EXCEEDED.name());
         ExceptionDto exceptionDTO = new ExceptionDto(
                 exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.COUPON_LIMIT_EXCEEDED.name());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
