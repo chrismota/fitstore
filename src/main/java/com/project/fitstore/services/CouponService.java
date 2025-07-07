@@ -76,16 +76,9 @@ public class CouponService {
     }
 
     public UpdateCouponResponse updateCouponStatus(UpdateCouponStatusRequest updateCouponStatusRequest, Long id) {
-        Status status;
-        try {
-            status = Status.valueOf(updateCouponStatusRequest.status().toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            throw new InvalidStatusException("Invalid field value for status: " + updateCouponStatusRequest.status());
-        }
-
         Coupon coupon = findCouponById(id);
 
-        coupon.setStatus(status);
+        coupon.setStatus(updateCouponStatusRequest.status());
         coupon.setUpdatedAt(LocalDateTime.now());
 
         return UpdateCouponResponse.from(couponRepository.save(coupon));
