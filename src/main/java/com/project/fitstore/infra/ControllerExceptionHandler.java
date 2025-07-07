@@ -138,6 +138,13 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
     }
 
+    @ExceptionHandler(OrderHasPaymentRecordException.class)
+    public ResponseEntity<ExceptionDto> threatOrderHasPaymentRecordException(OrderHasPaymentRecordException exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(
+                exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.ORDER_HAS_PAYMENT_RECORD.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
+    }
+
     @ExceptionHandler(DuplicateCustomerFieldException.class)
     public ResponseEntity<ExceptionDto> threatDuplicateCustomerFieldException(DuplicateCustomerFieldException exception) {
         ExceptionDto exceptionDTO = new ExceptionDto(
