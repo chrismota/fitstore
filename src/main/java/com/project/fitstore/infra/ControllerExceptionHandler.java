@@ -7,7 +7,7 @@ import com.project.fitstore.exceptions.auth.InvalidCredentialsException;
 import com.project.fitstore.exceptions.coupon.*;
 import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
 import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
-import com.project.fitstore.exceptions.customer.DuplicateFieldException;
+import com.project.fitstore.exceptions.customer.DuplicateCustomerFieldException;
 import com.project.fitstore.exceptions.general.InvalidStatusException;
 import com.project.fitstore.exceptions.image.ImageConvertionException;
 import com.project.fitstore.exceptions.image.ImageDeleteException;

@@ -4,7 +4,7 @@ import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
 import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
 import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
-import com.project.fitstore.exceptions.customer.DuplicateFieldException;
+import com.project.fitstore.exceptions.customer.DuplicateCustomerFieldException;
 import com.project.fitstore.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class CustomerService {
         try {
             customerRepository.save(customer);
         } catch (DataIntegrityViolationException e) {
-            throw new DuplicateFieldException("One or more fields are already in use. Please check your data and try again.");
+            throw new DuplicateCustomerFieldException();
         }
         return UpdateCustomerResponse.from(customer);
     }
