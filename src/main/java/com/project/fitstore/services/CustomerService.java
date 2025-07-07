@@ -2,9 +2,7 @@ package com.project.fitstore.services;
 
 import com.project.fitstore.domain.customer.Customer;
 import com.project.fitstore.dtos.customer.*;
-import com.project.fitstore.exceptions.customer.CustomerImageNotFoundException;
-import com.project.fitstore.exceptions.customer.CustomerNotFoundException;
-import com.project.fitstore.exceptions.customer.DuplicateCustomerFieldException;
+import com.project.fitstore.exceptions.customer.*;
 import com.project.fitstore.repositories.CustomerRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,12 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.dtos.customer.*;
+import com.project.fitstore.dtos.customer.CreateCustomerRequest;
+import com.project.fitstore.dtos.customer.CreateCustomerResponse;
+import com.project.fitstore.dtos.customer.GetCustomerResponse;
+import com.project.fitstore.dtos.customer.UpdateCustomerInfoRequest;
+import com.project.fitstore.dtos.customer.UpdateCustomerPasswordRequest;
+import com.project.fitstore.dtos.customer.UpdateCustomerResponse;
 import com.project.fitstore.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

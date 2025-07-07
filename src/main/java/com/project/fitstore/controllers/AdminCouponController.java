@@ -1,6 +1,10 @@
 package com.project.fitstore.controllers;
 
-import com.project.fitstore.dtos.coupon.*;
+import com.project.fitstore.dtos.coupon.CreateCouponRequest;
+import com.project.fitstore.dtos.coupon.CreateCouponResponse;
+import com.project.fitstore.dtos.coupon.UpdateCouponRequest;
+import com.project.fitstore.dtos.coupon.UpdateCouponResponse;
+import com.project.fitstore.dtos.coupon.UpdateCouponStatusRequest;
 import com.project.fitstore.services.CouponService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

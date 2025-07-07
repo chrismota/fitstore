@@ -1,7 +1,10 @@
 package com.project.fitstore.controllers;
 
 import com.project.fitstore.domain.customer.Customer;
-import com.project.fitstore.dtos.order.*;
+import com.project.fitstore.dtos.order.CreateOrderRequest;
+import com.project.fitstore.dtos.order.CreateOrderResponse;
+import com.project.fitstore.dtos.order.GetAllOrdersResponse;
+import com.project.fitstore.dtos.order.GetOrderResponse;
 import com.project.fitstore.dtos.payment.GetAllPaymentsResponse;
 import com.project.fitstore.services.OrderService;
 import com.project.fitstore.services.PaymentService;
