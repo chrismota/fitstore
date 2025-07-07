@@ -1,9 +1,7 @@
 package com.project.fitstore.dtos.coupon;
 
-import jakarta.validation.constraints.NotBlank;
+import com.project.fitstore.domain.coupon.Status;
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateCouponStatusRequest(
-        @NotNull(message = "status is mandatory")
-        @NotBlank(message = "status cannot be blank") String status) {
+public record UpdateCouponStatusRequest(@NotNull Status status) {
 }
