@@ -111,7 +111,7 @@ public class CouponService {
     public void checkIfCouponIsExpired(Coupon coupon) {
         var now = LocalDateTime.now();
         if (coupon.getExpirationTime().isBefore(now) || coupon.getStartTime().isAfter(now)) {
-            throw new CouponExpiredException("One or more coupons are expired.");
+            throw new CouponExpiredException();
         }
     }
 
@@ -127,7 +127,7 @@ public class CouponService {
 
     public void checkIfCouponPercentageIsValid(double totalDiscount) {
         if (totalDiscount >= 100)
-            throw new CouponUnexpectedPercentageException("Discount cannot be greater than a hundred percent");
+            throw new CouponUnexpectedPercentageException();
     }
 
     public void checkIfCouponsAreValid(
