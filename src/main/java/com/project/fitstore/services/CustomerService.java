@@ -72,6 +72,9 @@ public class CustomerService {
 
         String encodedPassword = passwordEncoder.encode(updateCustomerPasswordRequest.password());
         customer.setPassword(encodedPassword);
+        String encodedNewPassword = passwordEncoder.encode(updateCustomerPasswordRequest.newPassword());
+
+        customer.setPassword(encodedNewPassword);
         customer.setUpdatedAt(LocalDateTime.now());
 
         return UpdateCustomerResponse.from(customerRepository.save(customer));
