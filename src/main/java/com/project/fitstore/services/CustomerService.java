@@ -70,8 +70,10 @@ public class CustomerService {
             updateCustomerPasswordRequest) {
         Customer customer = this.findCustomerById(id);
 
-        String encodedPassword = passwordEncoder.encode(updateCustomerPasswordRequest.password());
-        customer.setPassword(encodedPassword);
+        if (!passwordEncoder.matches(updateCustomerPasswordRequest.currentPassword(), customer.getPassword())) {
+            throw new IncorrectCurrentPassword();
+        }
+
         String encodedNewPassword = passwordEncoder.encode(updateCustomerPasswordRequest.newPassword());
 
         customer.setPassword(encodedNewPassword);

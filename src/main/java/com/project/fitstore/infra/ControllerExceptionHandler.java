@@ -159,6 +159,14 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDTO);
     }
 
+    @ExceptionHandler(IncorrectCurrentPassword.class)
+    public ResponseEntity<ExceptionDto> handleIncorrectCurrentPasswordException
+            (IncorrectCurrentPassword exception) {
+        ExceptionDto exceptionDTO = new ExceptionDto(
+                exception.getMessage(), HttpStatus.BAD_REQUEST, ErrorCode.INCORRECT_CURRENT_PASSWORD.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDTO);
+    }
+
     @ExceptionHandler(CustomerImageNotFoundException.class)
     public ResponseEntity<ExceptionDto> handleCustomerImageNotFoundException(CustomerImageNotFoundException exception) {
         ExceptionDto exceptionDTO = new ExceptionDto(
