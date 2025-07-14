@@ -14,7 +14,6 @@ public enum SubCategory {
     COLCHONETE(Category.ACESSORIOS),
     CANELEIRA(Category.ACESSORIOS),
     CORDA(Category.ACESSORIOS),
-    LUVA(Category.ACESSORIOS),
     HALTER(Category.PESOS),
     ANILHA(Category.PESOS),
     KETTLEBELL(Category.PESOS),
