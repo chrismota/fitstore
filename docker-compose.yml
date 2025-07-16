@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - s3mock
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - ACCESS_KEY=${ACCESS_KEY}
+      - SECRET_KEY=${SECRET_KEY}
   db:
     image: postgres
     restart: always
