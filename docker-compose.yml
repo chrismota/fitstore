@@ -8,8 +8,8 @@ services:
       - fitstore:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=fitstore
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
       - 5432:5432
   s3mock:
