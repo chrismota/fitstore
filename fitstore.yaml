@@ -1,0 +1,1282 @@
+type: collection.insomnia.rest/5.0
+name: Fitstore
+meta:
+  id: wrk_532b388838df44b39ff3b0fd57631f25
+  created: 1750855233470
+  modified: 1750856327439
+  description: ""
+collection:
+  - name: Customer
+    meta:
+      id: fld_56795d139bd24cabbc556b89537c5c56
+      created: 1750887486072
+      modified: 1753205977990
+      sortKey: -1750887486072
+      description: ""
+    children:
+      - name: Payment
+        meta:
+          id: fld_5614d167929141109aabbf586c31f09d
+          created: 1750887603686
+          modified: 1750887609020
+          sortKey: -1750887608877
+          description: ""
+        children:
+          - url: http://localhost:8080/payments
+            name: Create Payment
+            meta:
+              id: req_64ba4b90f2ce4e9fb51868aaa0ec544a
+              created: 1750861945615
+              modified: 1750976204830
+              isPrivate: false
+              description: ""
+              sortKey: -1750897992753
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"orderId": "a1903247-bd74-4bcf-b16d-7b5d09c41333",
+                	"coupons": [
+                		{
+                			"id": 7
+                		}
+                	],
+                	"method": "DEBIT_CARD"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Order
+        meta:
+          id: fld_479b7ba70570465d9fc22be104fa9912
+          created: 1750887622945
+          modified: 1750887629059
+          sortKey: -1750887608977
+          description: ""
+        children:
+          - url: http://localhost:8080/orders
+            name: Get All Orders From Customer
+            meta:
+              id: req_83c4e8b986864877b4dd60f9d7345441
+              created: 1750856420584
+              modified: 1750900143954
+              isPrivate: false
+              description: ""
+              sortKey: -1750897637524
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/orders/a8bcd96b-e81e-4f48-9917-c7b68d4f36e1
+            name: Get Order From Customer
+            meta:
+              id: req_115018c461184e428e4340f1da7d6666
+              created: 1750861222618
+              modified: 1750974076342
+              isPrivate: false
+              description: ""
+              sortKey: -1750897637449
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/orders/status?status=PENDING
+            name: Get Orders From Customer By Status
+            meta:
+              id: req_33a8f3747fc74f00995f944fc69542f0
+              created: 1750861246435
+              modified: 1750973912564
+              isPrivate: false
+              description: ""
+              sortKey: -1750897637474
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/orders/cbabdfe8-e48d-40c7-b10a-a06d7e2c420f/payments
+            name: Get Payment From Customer By Order
+            meta:
+              id: req_c94b755a7f054b40823d6bbe97bf4d0b
+              created: 1750861321940
+              modified: 1750974106727
+              isPrivate: false
+              description: ""
+              sortKey: -1750897637324
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/orders
+            name: Create Order
+            meta:
+              id: req_70144c8160684a4497bf7d6d2d450e36
+              created: 1750861472355
+              modified: 1750949509543
+              isPrivate: false
+              description: ""
+              sortKey: -1750897637424
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"products": [
+                		{
+                			"id": 2,
+                			"quantity": 1
+                		},
+                		{
+                			"id": 3,
+                			"quantity": 6
+                		}
+                	]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Product
+        meta:
+          id: fld_bc0892fd9eb944a1802caf87c80edb58
+          created: 1750887638463
+          modified: 1750887642804
+          sortKey: -1750887609077
+          description: ""
+        children:
+          - url: http://localhost:8080/products
+            name: Get All Products
+            meta:
+              id: req_cb1d6bdec51e442ea3dc2373259a1248
+              created: 1750862248794
+              modified: 1750973927062
+              isPrivate: false
+              description: ""
+              sortKey: -1750898000541
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/products/category?category=PESOS
+            name: Get Products By Category
+            meta:
+              id: req_43dfbf78653546bea894c8256fd263a9
+              created: 1750863104751
+              modified: 1750900507044
+              isPrivate: false
+              description: ""
+              sortKey: -1750898000141
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/products/subcategory?subcategory=KETTLEBELL
+            name: Get Products By Subcategory
+            meta:
+              id: req_86d628e74dff43ef9626b5789f4e153f
+              created: 1750863124331
+              modified: 1750900499409
+              isPrivate: false
+              description: ""
+              sortKey: -1750898000241
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/products/search?name=whey
+            name: Get Products By name
+            meta:
+              id: req_72420f32e77b4ac79e10af9e0a996577
+              created: 1750863210979
+              modified: 1751636819187
+              isPrivate: false
+              description: ""
+              sortKey: -1750898000341
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/products/2
+            name: Get Product
+            meta:
+              id: req_d89bc3c86b70498087f276d2cf32c18b
+              created: 1750863244566
+              modified: 1750900435003
+              isPrivate: false
+              description: ""
+              sortKey: -1750898000441
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Customer
+        meta:
+          id: fld_d604cda719c94d1abb56d999196792e1
+          created: 1750887652542
+          modified: 1750887655775
+          sortKey: -1750887609177
+          description: ""
+        children:
+          - url: http://localhost:8080/auth/login
+            name: Login Customer
+            meta:
+              id: req_0d6268a90b9047dea45a4a106a292d2f
+              created: 1750855233708
+              modified: 1752063469162
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557684
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"email": "chris@gmail.com",
+                	"password": "123456"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/customers
+            name: Get Customer
+            meta:
+              id: req_e8261fbfe01349b8852ea14ec718b714
+              created: 1750856411403
+              modified: 1750900156226
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557709
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/customers
+            name: Create Customer
+            meta:
+              id: req_1e7167109f154c8381081649f5dc24f1
+              created: 1750857307339
+              modified: 1751550553956
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557659
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Christian",
+                	"email": "chris@gmail.com",
+                	"phoneNumber": "00000000000",
+                	"street": "Rua Exemplo da Silva",
+                	"houseNumber": "123",
+                	"neighborhood": "São João",
+                	"city": "São José",
+                	"state": "São Paulo",
+                	"cep": "00000000",
+                	"cpf": "00000000000",
+                	"password": "123456",
+                	"role": "ADMIN"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/customers/info
+            name: Update Customer Info
+            meta:
+              id: req_cd589b3bf5834c338f333f03ee0fab3a
+              created: 1750857467032
+              modified: 1751411793415
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557634
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Ademir",
+                	"email": "admin@gmail.com",
+                	"phoneNumber": "12388358324",
+                	"street": "Rua calabouço da silva",
+                	"houseNumber": "123",
+                	"neighborhood": "São João",
+                	"city": "Larvinhas",
+                	"state": "São Paulo",
+                	"cep": "10000-000",
+                	"cpf": "1514654122"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/customers/password
+            name: Update Customer Password
+            meta:
+              id: req_f18aa553cbd347a4b0fbeaddc8f7ace5
+              created: 1750857605728
+              modified: 1751940254040
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557621.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"currentPassword": "123456",
+                	"newPassword": "marselha33"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/image/customer/upload
+            name: Upload Customer Image
+            meta:
+              id: req_9c7edbfe6f024fafb66e6c2f19a9820f
+              created: 1750858088787
+              modified: 1750975749156
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557615.25
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_bb60d5cba0b247629ee9d9c87195e907
+                  name: image
+                  value: ""
+                  description: ""
+                  disabled: false
+                  type: file
+                  fileName: C:\Users\Christian Mota\Pictures\Saved Pictures\gilson ferreira.jpg
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/image/customer/1750900318578_3.jpg/delete
+            name: Delete Customer Image
+            meta:
+              id: req_ef05a8fea463460fbffe0bc0f762d16e
+              created: 1750858161935
+              modified: 1750900330376
+              isPrivate: false
+              description: ""
+              sortKey: -1750897557609
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Coupon
+        meta:
+          id: fld_f0f141cdf89c4aa9b9fbc48366b69b79
+          created: 1750887678784
+          modified: 1750887682131
+          sortKey: -1750887609277
+          description: ""
+        children:
+          - url: http://localhost:8080/coupons
+            name: Get All Coupons
+            meta:
+              id: req_65764aca054c4330ab5c450ab6ec01b0
+              created: 1750856404973
+              modified: 1750974020930
+              isPrivate: false
+              description: ""
+              sortKey: -1750897561170
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+              prefix: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/coupons/status?status=VALID
+            name: Get All Coupons By Status
+            meta:
+              id: req_22c0dcdfd9d74e87851958d9894c4bf5
+              created: 1750856693874
+              modified: 1750974023218
+              isPrivate: false
+              description: ""
+              sortKey: -1750897561120
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/coupons/1
+            name: Get Coupon
+            meta:
+              id: req_4aa769b616574724bb583c16c4c24e4e
+              created: 1750856774835
+              modified: 1750973981790
+              isPrivate: false
+              description: ""
+              sortKey: -1750897561070
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Image
+        meta:
+          id: fld_67899ef7b2394c0bb2c3a99d021bd528
+          created: 1750897974491
+          modified: 1750897974491
+          sortKey: -1750897974491
+          description: ""
+        children:
+          - url: http://localhost:8080/image/download/1750975751439_gilson ferreira.jpg
+            name: Download Image
+            meta:
+              id: req_1c2b436393dc4562b7b4426ac88db4fc
+              created: 1750856413820
+              modified: 1750975883069
+              isPrivate: false
+              description: ""
+              sortKey: -1750897981814
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: Admin
+    meta:
+      id: fld_5d5b27cc71944b3fa41212f8ffad508f
+      created: 1750887492581
+      modified: 1753205983643
+      sortKey: -1750887492581
+      description: ""
+    children:
+      - name: Coupon
+        meta:
+          id: fld_42051790e5334a3a903ec7f3791f8bbd
+          created: 1750887506185
+          modified: 1750887506185
+          sortKey: -1750887506185
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/coupons
+            name: Create Coupon
+            meta:
+              id: req_cda0835862774a6eaa4a90d1e1d11798
+              created: 1750856847388
+              modified: 1753127630258
+              isPrivate: false
+              description: ""
+              sortKey: -1750887709192
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Independência 2025",
+                	"code": "IND25",
+                	"percentage": 5,
+                	"startTime": "2025-01-01T16:33:50.544Z",
+                	"expirationTime": "2025-09-07T23:59:59.544Z",
+                	"minValue": 80
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/coupons/7
+            name: Update Coupon
+            meta:
+              id: req_e9c079a44d0c4936b2e124ec8fd9f37f
+              created: 1750856995545
+              modified: 1750976318537
+              isPrivate: false
+              description: ""
+              sortKey: -1750887709142
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Natal 2025",
+                	"code": "NAT25",
+                	"percentage": 20,
+                	"startTime": "2025-06-25T16:33:50.544Z",
+                	"expirationTime": "2025-12-25T23:59:59.544Z",
+                	"minValue": 100
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/coupons/status/1
+            name: Update Coupon Status
+            meta:
+              id: req_d57f501067974776b7f30387f3e2ec7c
+              created: 1750857039602
+              modified: 1751896763155
+              isPrivate: false
+              description: ""
+              sortKey: -1750887709117
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"status": "VALID"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Customer
+        meta:
+          id: fld_5027575cf04746c5a32175026156e5e2
+          created: 1750887523929
+          modified: 1750887523929
+          sortKey: -1750887523929
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/customers
+            name: Get All Customers
+            meta:
+              id: req_1618e700fd034bcfa3b4885ff43c1cfb
+              created: 1750857701243
+              modified: 1750899141299
+              isPrivate: false
+              description: ""
+              sortKey: -1750887747822
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/customers/a956df5e-1291-46bb-a254-d0ed6629836e
+            name: Get Customer
+            meta:
+              id: req_bff0893a94b04a12888121c9d3451f88
+              created: 1750857731458
+              modified: 1750973845526
+              isPrivate: false
+              description: ""
+              sortKey: -1750887747722
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/customers/c59a164e-c500-4342-b7d8-c91eaf51e26e
+            name: Update Customer Info
+            meta:
+              id: req_74ce66fdd1c24d61ae81497b7a3594ac
+              created: 1750857759290
+              modified: 1750899252435
+              isPrivate: false
+              description: ""
+              sortKey: -1750887747622
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"name": "Ademir",
+                	"email": "ademir@gmail.com",
+                	"phoneNumber": "12388358324",
+                	"address": "Rua calabouço da silva",
+                	"cpf": "02120325120"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/customers/c59a164e-c500-4342-b7d8-c91eaf51e26e
+            name: Delete Customer
+            meta:
+              id: req_749d0c5158bf43f299a88c30a4646275
+              created: 1750857918380
+              modified: 1750899359740
+              isPrivate: false
+              description: ""
+              sortKey: -1750887747522
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Product
+        meta:
+          id: fld_f22cd1364a254ef6985888d6122ec9b1
+          created: 1750887541046
+          modified: 1750887541046
+          sortKey: -1750887541046
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/image/product/1002/upload
+            name: Upload Product Image
+            meta:
+              id: req_c642991169624dfb973ee67db327b505
+              created: 1750860526688
+              modified: 1752756160213
+              isPrivate: false
+              description: ""
+              sortKey: -1750887827348
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_e0b77733c68142659cf6cc3d2a3dbd40
+                  name: image
+                  value: ""
+                  description: ""
+                  disabled: false
+                  type: file
+                  fileName: C:\Users\Christian Mota\Downloads\fitstore imagens\Whey Protein 1000g
+                    NutriLab.png
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/image/product/1752063566668_Whey Protein 1000g
+              NutriLab.png/delete
+            name: Delete Product Image
+            meta:
+              id: req_c5d5e423d6e742d79ef5c7c18ab3020e
+              created: 1750860657854
+              modified: 1752702392971
+              isPrivate: false
+              description: ""
+              sortKey: -1750887827198
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/products
+            name: Create Product
+            meta:
+              id: req_7d4ca2d302f7446dab1172a602cb635e
+              created: 1750863692744
+              modified: 1752101199088
+              isPrivate: false
+              description: ""
+              sortKey: -1750887827598
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                    "name": "Kit de Bolas de Fisioterapia (3 densidades)",
+                    "description": "O Kit de Bolas de Fisioterapia da marca GripForce contém 3 bolas com diferentes densidades para massagem e liberação miofascial em diversas áreas do corpo.",
+                    "brand": "GripForce",
+                    "sku": "ACE-BOL-012",
+                    "category": "ACESSORIOS",
+                    "subCategory": "BOLA",
+                    "price": 99.90
+                  }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/products/5
+            name: Update Product
+            meta:
+              id: req_7fde4feb1e994f4d973cd7233963f9ea
+              created: 1750863844624
+              modified: 1752025129700
+              isPrivate: false
+              description: ""
+              sortKey: -1750887827548
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"name": "Suporte de Parede para Halteres Rouge",
+                	"description": "Suporte metálico com capacidade para até 5 pares de halteres.",
+                	"brand": "Rouge",
+                	"sku": "ACE-002",
+                	"category": "ACESSORIOS",
+                	"subCategory": "SUPORTE",
+                	"price": 239.00
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/products/23
+            name: Delete Product
+            meta:
+              id: req_0cc9ebc89c124d2daec4c0a658ddc651
+              created: 1750863898018
+              modified: 1752065361148
+              isPrivate: false
+              description: ""
+              sortKey: -1750887827498
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Order
+        meta:
+          id: fld_6f7c0c3666424b548890f340494aa884
+          created: 1750887560245
+          modified: 1750887560245
+          sortKey: -1750887560245
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/orders
+            name: Get All Orders
+            meta:
+              id: req_3bef9683dde3413aa5d313cd23d7adab
+              created: 1750861796005
+              modified: 1750978504301
+              isPrivate: false
+              description: ""
+              sortKey: -1750887860816
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/orders/a8bcd96b-e81e-4f48-9917-c7b68d4f36e1
+            name: Get Order
+            meta:
+              id: req_120732d4fd31483a83a0e707d10a0822
+              created: 1750861836031
+              modified: 1750978609052
+              isPrivate: false
+              description: ""
+              sortKey: -1750887860866
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/orders/1816c675-9200-4556-ada1-5159e14c2b50
+            name: Delete Order
+            meta:
+              id: req_dfc877c9238a4cac8b3f96237e0d810c
+              created: 1750861909652
+              modified: 1752026436820
+              isPrivate: false
+              description: ""
+              sortKey: -1750887860766
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Payment
+        meta:
+          id: fld_cd58284046a34ab4ae6b6b1439679c6e
+          created: 1750887584839
+          modified: 1750887584839
+          sortKey: -1750887584839
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/payments
+            name: Get All Payments
+            meta:
+              id: req_b67282f1ac6d4586aa8e1c100acd37c9
+              created: 1750862138371
+              modified: 1750978721422
+              isPrivate: false
+              description: ""
+              sortKey: -1750887879438
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/payments/eed19860-2263-4058-9011-e70c40bbaf32
+            name: Get Payment
+            meta:
+              id: req_66bda7f52b04421d9d607cfd4f96e34f
+              created: 1750862184588
+              modified: 1750979130670
+              isPrivate: false
+              description: ""
+              sortKey: -1750887879488
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://localhost:8080/admin/payments/c3422bf8-4fd0-442f-8b7d-e2e94f04adee
+            name: Delete Payment
+            meta:
+              id: req_18e17ff1b08842cb95b2e52f65d3946e
+              created: 1750862216827
+              modified: 1750979227389
+              isPrivate: false
+              description: ""
+              sortKey: -1750887879388
+            method: DELETE
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Image
+        meta:
+          id: fld_f865d6da10c846cfa604b343af9e8660
+          created: 1750888011710
+          modified: 1750888011710
+          sortKey: -1750888011710
+          description: ""
+        children:
+          - url: http://localhost:8080/admin/image/list
+            name: Get All Images
+            meta:
+              id: req_f331bd9c8a68407da8cbd517148a0e5b
+              created: 1750860449021
+              modified: 1753205940856
+              isPrivate: false
+              description: ""
+              sortKey: -1750897614932
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            authentication:
+              type: bearer
+              token: "{{ _.token.token }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_57d5824dc03b9e910bb329825d4d27876a8e5cb9
+    created: 1750855233504
+    modified: 1750855233504
+environments:
+  name: Base Environment
+  meta:
+    id: env_57d5824dc03b9e910bb329825d4d27876a8e5cb9
+    created: 1750855233484
+    modified: 1753123556118
+    isPrivate: false
+  data:
+    token:
+      token: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjaHJpc0BnbWFpbC5jb20iLCJpYXQiOjE3NTMxMjM1NDEsImV4cCI6MTc1MzIwOTk0MSwiaXNzIjoiZml0c3RvcmUifQ.75Cx-DpEoT1skP9eHOIxacu2LkXUTKfzBOPX20zeNGfot4t_6PvOmtdBKVf0w6FL
