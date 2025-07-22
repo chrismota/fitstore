@@ -5,7 +5,7 @@
 -- Dumped from database version 17.5 (Debian 17.5-1.pgdg120+1)
 -- Dumped by pg_dump version 17.0
 
--- Started on 2025-07-21 18:43:04
+-- Started on 2025-07-22 19:56:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,7 +24,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 227 (class 1259 OID 16467)
+-- TOC entry 217 (class 1259 OID 16385)
 -- Name: coupons; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -43,7 +43,7 @@ CREATE TABLE public.coupons (
 
 
 --
--- TOC entry 226 (class 1259 OID 16466)
+-- TOC entry 218 (class 1259 OID 16390)
 -- Name: coupons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -58,7 +58,7 @@ CREATE SEQUENCE public.coupons_id_seq
 
 --
 -- TOC entry 3448 (class 0 OID 0)
--- Dependencies: 226
+-- Dependencies: 218
 -- Name: coupons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -66,7 +66,7 @@ ALTER SEQUENCE public.coupons_id_seq OWNED BY public.coupons.id;
 
 
 --
--- TOC entry 228 (class 1259 OID 16477)
+-- TOC entry 219 (class 1259 OID 16391)
 -- Name: coupons_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -79,7 +79,7 @@ CREATE SEQUENCE public.coupons_seq
 
 
 --
--- TOC entry 218 (class 1259 OID 16397)
+-- TOC entry 220 (class 1259 OID 16392)
 -- Name: customers; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -106,7 +106,7 @@ CREATE TABLE public.customers (
 
 
 --
--- TOC entry 217 (class 1259 OID 16388)
+-- TOC entry 221 (class 1259 OID 16398)
 -- Name: flyway_schema_history; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -125,7 +125,7 @@ CREATE TABLE public.flyway_schema_history (
 
 
 --
--- TOC entry 224 (class 1259 OID 16449)
+-- TOC entry 222 (class 1259 OID 16404)
 -- Name: order_item; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -142,7 +142,7 @@ CREATE TABLE public.order_item (
 
 
 --
--- TOC entry 223 (class 1259 OID 16448)
+-- TOC entry 223 (class 1259 OID 16407)
 -- Name: order_item_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -165,7 +165,7 @@ ALTER SEQUENCE public.order_item_id_seq OWNED BY public.order_item.id;
 
 
 --
--- TOC entry 225 (class 1259 OID 16465)
+-- TOC entry 224 (class 1259 OID 16408)
 -- Name: order_item_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -178,7 +178,7 @@ CREATE SEQUENCE public.order_item_seq
 
 
 --
--- TOC entry 222 (class 1259 OID 16423)
+-- TOC entry 225 (class 1259 OID 16409)
 -- Name: orders; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -197,7 +197,7 @@ CREATE TABLE public.orders (
 
 
 --
--- TOC entry 230 (class 1259 OID 16479)
+-- TOC entry 226 (class 1259 OID 16413)
 -- Name: payment_coupons; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -208,7 +208,7 @@ CREATE TABLE public.payment_coupons (
 
 
 --
--- TOC entry 229 (class 1259 OID 16478)
+-- TOC entry 227 (class 1259 OID 16416)
 -- Name: payment_coupons_coupon_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -223,7 +223,7 @@ CREATE SEQUENCE public.payment_coupons_coupon_id_seq
 
 --
 -- TOC entry 3450 (class 0 OID 0)
--- Dependencies: 229
+-- Dependencies: 227
 -- Name: payment_coupons_coupon_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -231,7 +231,7 @@ ALTER SEQUENCE public.payment_coupons_coupon_id_seq OWNED BY public.payment_coup
 
 
 --
--- TOC entry 231 (class 1259 OID 24586)
+-- TOC entry 228 (class 1259 OID 16417)
 -- Name: payments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -248,7 +248,7 @@ CREATE TABLE public.payments (
 
 
 --
--- TOC entry 220 (class 1259 OID 16410)
+-- TOC entry 229 (class 1259 OID 16424)
 -- Name: products; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -270,7 +270,7 @@ CREATE TABLE public.products (
 
 
 --
--- TOC entry 219 (class 1259 OID 16409)
+-- TOC entry 230 (class 1259 OID 16431)
 -- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -285,7 +285,7 @@ CREATE SEQUENCE public.products_id_seq
 
 --
 -- TOC entry 3451 (class 0 OID 0)
--- Dependencies: 219
+-- Dependencies: 230
 -- Name: products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -293,7 +293,7 @@ ALTER SEQUENCE public.products_id_seq OWNED BY public.products.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 16422)
+-- TOC entry 231 (class 1259 OID 16432)
 -- Name: products_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -306,7 +306,7 @@ CREATE SEQUENCE public.products_seq
 
 
 --
--- TOC entry 3247 (class 2604 OID 16470)
+-- TOC entry 3244 (class 2604 OID 16433)
 -- Name: coupons id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -314,7 +314,7 @@ ALTER TABLE ONLY public.coupons ALTER COLUMN id SET DEFAULT nextval('public.coup
 
 
 --
--- TOC entry 3246 (class 2604 OID 16452)
+-- TOC entry 3246 (class 2604 OID 16434)
 -- Name: order_item id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -322,7 +322,7 @@ ALTER TABLE ONLY public.order_item ALTER COLUMN id SET DEFAULT nextval('public.o
 
 
 --
--- TOC entry 3248 (class 2604 OID 16482)
+-- TOC entry 3247 (class 2604 OID 16435)
 -- Name: payment_coupons coupon_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -330,7 +330,7 @@ ALTER TABLE ONLY public.payment_coupons ALTER COLUMN coupon_id SET DEFAULT nextv
 
 
 --
--- TOC entry 3245 (class 2604 OID 16413)
+-- TOC entry 3248 (class 2604 OID 16436)
 -- Name: products id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -338,8 +338,8 @@ ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.pro
 
 
 --
--- TOC entry 3438 (class 0 OID 16467)
--- Dependencies: 227
+-- TOC entry 3428 (class 0 OID 16385)
+-- Dependencies: 217
 -- Data for Name: coupons; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -348,16 +348,17 @@ INSERT INTO public.coupons VALUES (2, 'IND25', '2025-07-21 16:53:54.96478', '202
 
 
 --
--- TOC entry 3429 (class 0 OID 16397)
--- Dependencies: 218
+-- TOC entry 3431 (class 0 OID 16392)
+-- Dependencies: 220
 -- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.customers VALUES ('8e2bb746-4b63-482b-9275-64e981b028ad', 'Rua Fitstore', '123', NULL, 'São João', 'São José', 'São Paulo', '11111000', '11011011010', '2025-07-22 19:55:31.20825', 'admin@fitstore.com', 'Admin', '$2a$10$VAsWgzPebXoSsjH9vaXtoujJC4TYS1pvbYmr5S2Esu9Qges6O4Kky', '21003213212', 'ADMIN', NULL, '2025-07-22 19:55:31.209254');
 
 
 --
--- TOC entry 3428 (class 0 OID 16388)
--- Dependencies: 217
+-- TOC entry 3432 (class 0 OID 16398)
+-- Dependencies: 221
 -- Data for Name: flyway_schema_history; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -371,40 +372,40 @@ INSERT INTO public.flyway_schema_history VALUES (7, '7', 'create-table-payment-c
 
 
 --
--- TOC entry 3435 (class 0 OID 16449)
--- Dependencies: 224
+-- TOC entry 3433 (class 0 OID 16404)
+-- Dependencies: 222
 -- Data for Name: order_item; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- TOC entry 3433 (class 0 OID 16423)
--- Dependencies: 222
+-- TOC entry 3436 (class 0 OID 16409)
+-- Dependencies: 225
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- TOC entry 3441 (class 0 OID 16479)
--- Dependencies: 230
+-- TOC entry 3437 (class 0 OID 16413)
+-- Dependencies: 226
 -- Data for Name: payment_coupons; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- TOC entry 3442 (class 0 OID 24586)
--- Dependencies: 231
+-- TOC entry 3439 (class 0 OID 16417)
+-- Dependencies: 228
 -- Data for Name: payments; Type: TABLE DATA; Schema: public; Owner: -
 --
 
 
 
 --
--- TOC entry 3431 (class 0 OID 16410)
--- Dependencies: 220
+-- TOC entry 3440 (class 0 OID 16424)
+-- Dependencies: 229
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -463,6 +464,7 @@ INSERT INTO public.products VALUES (1052, 'StrideTech', 'AEROBICOS', '2025-07-09
 INSERT INTO public.products VALUES (1053, 'Cardionix', 'AEROBICOS', '2025-07-09 14:00:06.406263', 'O produto Eliptico Cardionix da marca Cardionix foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Elíptico Magnético com Painel Digital Cardionix', 3054.40, 'AER-ELI-008', '1752242179021_Elíptico Magnético com Painel Digital Cardionix.png', 'ELIPTICO', '2025-07-11 10:56:20.636071');
 INSERT INTO public.products VALUES (1054, 'PulseGo', 'AEROBICOS', '2025-07-09 14:00:11.827767', 'O produto Eliptico PulseGo da marca PulseGo foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Elíptico Magnético com Painel Digital PulseGo', 2754.68, 'AER-ELI-019', '1752242240175_Elíptico Magnético com Painel Digital PulseGo.png', 'ELIPTICO', '2025-07-11 10:57:20.463197');
 INSERT INTO public.products VALUES (1055, 'GripForce', 'ACESSORIOS', '2025-07-09 14:00:28.036366', 'O produto Barra GripForce da marca GripForce foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Barra Reta de Musculação 1,20m GripForce', 135.48, 'ACE-BAR-003', '1752242271694_Barra Reta de Musculação 1,20m GripForce.png', 'BARRA', '2025-07-11 10:57:52.179629');
+INSERT INTO public.products VALUES (1001, 'NutriLab', 'SUPLEMENTOS', '2025-07-03 19:15:59.009364', 'Whey Protein da marca NutriLab com 500g. Ideal para treinos intensos.', 'Whey Protein 500g NutriLab', 142.94, 'SUP-WHE-001', '1752063537073_Whey Protein 500g NutriLab.png', 'WHEY', '2025-07-09 09:18:58.657198');
 INSERT INTO public.products VALUES (1056, 'TrainWell', 'ACESSORIOS', '2025-07-09 14:00:34.688284', 'O produto Barra TrainWell da marca TrainWell foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Barra Reta de Musculação 1,20m TrainWell', 141.43, 'ACE-BAR-006', '1752242286760_Barra Reta de Musculação 1,20m TrainWell.png', 'BARRA', '2025-07-11 10:58:07.261076');
 INSERT INTO public.products VALUES (1058, 'MovePlus', 'ACESSORIOS', '2025-07-09 14:00:45.809521', 'O produto Barra MovePlus da marca MovePlus foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Barra Reta de Musculação 1,20m MovePlus', 127.08, 'ACE-BAR-012', '1752242318960_Barra Reta de Musculação 1,20m MovePlus.png', 'BARRA', '2025-07-11 10:58:39.391359');
 INSERT INTO public.products VALUES (1059, 'GymEdge', 'ACESSORIOS', '2025-07-09 14:01:02.561424', 'O produto Caneleira GymEdge da marca GymEdge foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Caneleira com Peso Regulável GymEdge', 69.34, 'ACE-CAN-004', '1752242355495_Caneleira com Peso Regulável GymEdge.png', 'CANELEIRA', '2025-07-11 10:59:15.944309');
@@ -578,7 +580,6 @@ INSERT INTO public.products VALUES (1203, 'GymEdge', 'ACESSORIOS', '2025-07-09 1
 INSERT INTO public.products VALUES (1209, 'GymEdge', 'ACESSORIOS', '2025-07-09 19:06:13.660813', 'O produto Kit Caneleiras (1kg a 5kg) da marca GymEdge foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Kit Caneleiras (1kg a 5kg)', 350.00, 'ACE-CAN-031', '1752245864070_Kit Caneleiras (1kg a 5kg) da marca GymEdge.png', 'CANELEIRA', '2025-07-11 11:57:44.63874');
 INSERT INTO public.products VALUES (1365, 'GripForce', 'ACESSORIOS', '2025-07-09 19:46:41.421766', 'O Kit de Bolas de Fisioterapia da marca GripForce contém 3 bolas com diferentes densidades para massagem e liberação miofascial em diversas áreas do corpo.', 'Kit de Bolas de Fisioterapia (3 densidades)', 99.90, 'ACE-BOL-012', '1752245883779_Kit de Bolas de Fisioterapia GripForce.png', 'BOLA', '2025-07-11 11:58:04.259255');
 INSERT INTO public.products VALUES (1134, 'GymApparel', 'ROUPAS', '2025-07-09 14:21:50.415242', 'O produto Camisa GymApparel da marca GymApparel foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Camisa Dry Fit Masculina GymApparel', 87.70, 'ROU-CAM-005', '1752245615680_Camisa Dry Fit Masculina GymApparel.png', 'CAMISA', '2025-07-11 11:53:36.068234');
-INSERT INTO public.products VALUES (1001, 'NutriLab', 'SUPLEMENTOS', '2025-07-03 19:15:59.009364', 'Whey Protein da marca NutriLab com 500g. Ideal para treinos intensos.', 'Whey Protein 500g NutriLab', 142.94, 'SUP-WHE-001', '1752063537073_Whey Protein 500g NutriLab.png', 'WHEY', '2025-07-09 09:18:58.657198');
 INSERT INTO public.products VALUES (1214, 'BodyTools', 'ACESSORIOS', '2025-07-09 19:06:48.590651', 'O produto Corda de Pular com Contador Digital da marca BodyTools foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Corda de Pular com Contador Digital', 65.00, 'ACE-COR-025', '1752246188721_Corda de Pular com Contador Digital BodyTools.jpg', 'CORDA', '2025-07-11 12:03:08.916238');
 INSERT INTO public.products VALUES (1215, 'MovePlus', 'ACESSORIOS', '2025-07-09 19:06:58.602562', 'O produto Corda de Pular de Couro da marca MovePlus foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Corda de Pular de Couro', 55.75, 'ACE-COR-026', '1752246211039_Corda de Pular de Couro MovePlus.jpg', 'CORDA', '2025-07-11 12:03:31.211978');
 INSERT INTO public.products VALUES (1216, 'GymEdge', 'ACESSORIOS', '2025-07-09 19:07:05.569071', 'O produto Corda Naval (Rope Training) da marca GymEdge foi desenvolvido para oferecer desempenho, durabilidade e conforto em seus treinos. Ideal para iniciantes e atletas experientes, possui design moderno e funcional.', 'Corda Naval (Rope Training)', 250.00, 'ACE-COR-027', '1752246224307_Corda Naval (Rope Training) GymEdge.jpg', 'CORDA', '2025-07-11 12:03:44.965121');
@@ -725,7 +726,7 @@ INSERT INTO public.products VALUES (1355, 'FlexiGear', 'ROUPAS', '2025-07-09 19:
 
 --
 -- TOC entry 3452 (class 0 OID 0)
--- Dependencies: 226
+-- Dependencies: 218
 -- Name: coupons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -734,7 +735,7 @@ SELECT pg_catalog.setval('public.coupons_id_seq', 1, false);
 
 --
 -- TOC entry 3453 (class 0 OID 0)
--- Dependencies: 228
+-- Dependencies: 219
 -- Name: coupons_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -752,7 +753,7 @@ SELECT pg_catalog.setval('public.order_item_id_seq', 1, false);
 
 --
 -- TOC entry 3455 (class 0 OID 0)
--- Dependencies: 225
+-- Dependencies: 224
 -- Name: order_item_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -761,7 +762,7 @@ SELECT pg_catalog.setval('public.order_item_seq', 7, true);
 
 --
 -- TOC entry 3456 (class 0 OID 0)
--- Dependencies: 229
+-- Dependencies: 227
 -- Name: payment_coupons_coupon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -770,7 +771,7 @@ SELECT pg_catalog.setval('public.payment_coupons_coupon_id_seq', 1, false);
 
 --
 -- TOC entry 3457 (class 0 OID 0)
--- Dependencies: 219
+-- Dependencies: 230
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -779,7 +780,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 48, true);
 
 --
 -- TOC entry 3458 (class 0 OID 0)
--- Dependencies: 221
+-- Dependencies: 231
 -- Name: products_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
@@ -787,7 +788,7 @@ SELECT pg_catalog.setval('public.products_seq', 365, true);
 
 
 --
--- TOC entry 3273 (class 2606 OID 16476)
+-- TOC entry 3256 (class 2606 OID 16438)
 -- Name: coupons coupons_code_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -796,7 +797,7 @@ ALTER TABLE ONLY public.coupons
 
 
 --
--- TOC entry 3275 (class 2606 OID 16474)
+-- TOC entry 3258 (class 2606 OID 16440)
 -- Name: coupons coupons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -805,7 +806,7 @@ ALTER TABLE ONLY public.coupons
 
 
 --
--- TOC entry 3259 (class 2606 OID 16406)
+-- TOC entry 3260 (class 2606 OID 16442)
 -- Name: customers customers_cpf_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -814,7 +815,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- TOC entry 3261 (class 2606 OID 16408)
+-- TOC entry 3262 (class 2606 OID 16444)
 -- Name: customers customers_email_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -823,7 +824,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- TOC entry 3263 (class 2606 OID 16404)
+-- TOC entry 3264 (class 2606 OID 16446)
 -- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -832,7 +833,7 @@ ALTER TABLE ONLY public.customers
 
 
 --
--- TOC entry 3256 (class 2606 OID 16395)
+-- TOC entry 3266 (class 2606 OID 16448)
 -- Name: flyway_schema_history flyway_schema_history_pk; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -841,7 +842,7 @@ ALTER TABLE ONLY public.flyway_schema_history
 
 
 --
--- TOC entry 3271 (class 2606 OID 16454)
+-- TOC entry 3269 (class 2606 OID 16450)
 -- Name: order_item order_item_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -850,7 +851,7 @@ ALTER TABLE ONLY public.order_item
 
 
 --
--- TOC entry 3269 (class 2606 OID 16428)
+-- TOC entry 3271 (class 2606 OID 16452)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -859,7 +860,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 3277 (class 2606 OID 24594)
+-- TOC entry 3273 (class 2606 OID 16454)
 -- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -868,7 +869,7 @@ ALTER TABLE ONLY public.payments
 
 
 --
--- TOC entry 3265 (class 2606 OID 16419)
+-- TOC entry 3275 (class 2606 OID 16456)
 -- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -877,7 +878,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 3267 (class 2606 OID 16421)
+-- TOC entry 3277 (class 2606 OID 16458)
 -- Name: products products_unique_sku; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -886,7 +887,7 @@ ALTER TABLE ONLY public.products
 
 
 --
--- TOC entry 3257 (class 1259 OID 16396)
+-- TOC entry 3267 (class 1259 OID 16459)
 -- Name: flyway_schema_history_s_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -894,7 +895,7 @@ CREATE INDEX flyway_schema_history_s_idx ON public.flyway_schema_history USING b
 
 
 --
--- TOC entry 3279 (class 2606 OID 16460)
+-- TOC entry 3278 (class 2606 OID 16460)
 -- Name: order_item order_item_orders_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -903,7 +904,7 @@ ALTER TABLE ONLY public.order_item
 
 
 --
--- TOC entry 3280 (class 2606 OID 16455)
+-- TOC entry 3279 (class 2606 OID 16465)
 -- Name: order_item order_item_products_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -912,7 +913,7 @@ ALTER TABLE ONLY public.order_item
 
 
 --
--- TOC entry 3278 (class 2606 OID 16429)
+-- TOC entry 3280 (class 2606 OID 16470)
 -- Name: orders orders_customers_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -921,7 +922,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 3281 (class 2606 OID 16488)
+-- TOC entry 3281 (class 2606 OID 16475)
 -- Name: payment_coupons payment_coupons_coupons_coupon_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -930,7 +931,7 @@ ALTER TABLE ONLY public.payment_coupons
 
 
 --
--- TOC entry 3282 (class 2606 OID 24595)
+-- TOC entry 3282 (class 2606 OID 16480)
 -- Name: payments payments_orders_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -938,7 +939,7 @@ ALTER TABLE ONLY public.payments
     ADD CONSTRAINT payments_orders_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders(id);
 
 
--- Completed on 2025-07-21 18:43:05
+-- Completed on 2025-07-22 19:56:49
 
 --
 -- PostgreSQL database dump complete
