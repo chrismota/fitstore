@@ -28,77 +28,62 @@
 ## 🚀 Como Rodar o Projeto
 
 ### 1. Pré-requisitos
-
-- [Git](https://git-scm.com/)
-- [Node.js (18+)](https://nodejs.org/)
-- [Angular CLI](https://angular.io/cli)
-- [Docker e Docker Compose](https://www.docker.com/)
+- Git
+- Node.js (18+)
+- Docker e Docker Compose
 
 ### 2. Clone o repositório do backend
 git clone https://github.com/chrismota/fitstore.git
 
 cd fitstore
 
-### 3. Renomeie o arquivo .env.example apenas para .env
-Isso carregará o arquivo contendo configurações do projeto.
+### 3. Renomeie o arquivo `.env.example` para `.env`
 
 ### 4. Suba os containers
-docker-compose up -d
+docker-compose up --build -d
 
-### 5. Execute a aplicação
-Backend disponível em: http://localhost:8080
+O backend estará disponível em: http://localhost:8080
 
-### 6. Clone o repositório do frontend
-git clone https://github.com/chrismota/fitstore-client
+### 5. Clone o repositório do frontend
+git clone https://github.com/chrismota/fitstore-client.git
 
 cd fitstore-client
 
-### 7. Instale as dependências do projeto
+### 6. Instale as dependências
 npm install
 
-### 8. Execute a aplicação
-ng serve
+### 7. Execute a aplicação
+npm start
 
 O frontend estará disponível em: http://localhost:4200
 
-
 ## 🗄 Banco de Dados e Imagens
-O banco de dados já vem populado automaticamente através de um arquivo fitstore_dump.sql.
-As imagens dos produtos estão na pasta s3mock-data, simulando um ambiente AWS S3 local.
+O banco de dados é populado automaticamente via `fitstore_dump.sql`.
+As imagens dos produtos estão em `s3mock-data`, simulando um ambiente AWS S3 local.
 
 
-## 🛠️ Testes com Insomnia
-O projeto inclui um arquivo de exportação do Insomnia com todas as rotas organizadas.
+## 🛠️ Rotas Backend com Insomnia
+O projeto inclui um arquivo de exportação do Insomnia (`fitstore.yaml`) com todas as rotas organizadas.
 
-Como usar:
-Abra o Insomnia.
+**Como usar:**
+1. Abra o Insomnia.
+2. Importe o arquivo `fitstore.yaml` (na raiz do projeto).
+3. Todas as rotas estarão disponíveis, incluindo:
 
-Importe o arquivo fitstore.yaml presente na raiz do projeto.
+### 🧑‍💼 Rotas de Administrador:
+- CRUD de produtos e imagens
+- Edição e remoção de usuários
+- Listagem de usuários, pedidos e pagamentos
+- Gerenciamento de cupons
 
-As rotas estarão prontas para uso, incluindo rotas de administrador como:
+### 🙋‍♂️ Rotas de Cliente:
+- Cadastro, login, pedidos, histórico e perfil
 
-- Adição, edição e remoção de produtos e de suas respectivas imagens.
-
-- Edição de informações de um usuário.
-
-- Remoção de usuário.
-
-- Listagem de todos os usuários.
-
-- Listagem de todos os pedidos dos usuários.
-
-- Listagem de todos os pagamentos dos usuários.
-
-- Adição e edição de cupons.
-
-Além das rotas padrão de usuário cliente.
-
-## 👤 Usuário Admin para Testes
+## 👤 Usuário Admin para Rotas Backend
 Um usuário administrador está disponível para testes com as seguintes credenciais:
 
-Email: admin@fitstore.com
-
-Senha: admin123
+- Email: `admin@fitstore.com`
+- Senha: `admin123`
 
 ## 👨‍💻 Autor
 Christian Mota
