@@ -10,6 +10,12 @@
 - Histórico de pedidos do cliente baseado por status (pago, pendente ou expirado)
 - Edição de dados e foto de perfil do cliente
 
+## 📽️ Demonstração do Projeto
+
+Veja a aplicação em funcionamento com todas as funcionalidades apresentadas:
+
+[![Assista ao vídeo](https://img.youtube.com/vi/clA91S5pGUU/maxresdefault.jpg)](https://youtu.be/clA91S5pGUU)
+
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
